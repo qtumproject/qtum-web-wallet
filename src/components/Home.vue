@@ -30,7 +30,6 @@ import CreateWallet from './wallet/Create'
 import RestoreWallet from './wallet/Restore'
 
 export default {
-  name: 'hello',
   data () {
     return {
     }
