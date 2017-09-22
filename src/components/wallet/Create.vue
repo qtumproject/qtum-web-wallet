@@ -1,55 +1,80 @@
 <template>
-  <v-card style="text-align: center" class="pb-5" v-if="step === 1">
+  <v-card style="text-align: center" class="pb-5">
     <h3 class="display-1 pa-5">Create New Wallet</h3>
-    <v-btn large error dark @click="createWallet">Create New Wallet</v-btn>
-  </v-card>
-  <v-card class="pa-5" v-else-if="step === 2">
-    <p>Please remember the following words.</p>
-    <div class="words">
-      <span class="mr-3" v-for="word in words">{{word}}</span>
-    </div>
-    <v-btn large success dark @click="repeatMnemonic">I have saved them</v-btn>
-  </v-card>
-  <v-card class="pa-5" v-else-if="step === 3">
-    <p class="title">Please repeat the words you saved</p>
-    <v-text-field v-model="wordsContent" multi-line placeholder="Enter your words..."></v-text-field>
-    <v-btn large success dark @click="validateMnemonic">Test</v-btn>
+    <template v-if="step === 1">
+      <v-btn large error dark @click="createWallet">Create New Wallet</v-btn>
+    </template>
+    <template v-else-if="step === 3">
+      <p>Please remember the following words</p>
+      <div>
+        <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
+      </div>
+      <v-btn large info dark @click="checkWallet">I have remembered all. Let's check</v-btn>
+    </template>
+    <template v-else-if="step === 5">
+      <mnemonic v-on:mnemonic="validateMnemonic"></mnemonic>
+    </template>
+    <password :open="passwordRequired" v-on:password="setPassword"></password>
   </v-card>
 </template>
 
 <script>
-import bip39 from 'bip39'
+import mnemonic from '../Mnemonic'
+import password from '../Password'
+import webWallet from '../../webWallet'
+
+var wallet = false
+var inputPassword = ''
 
 export default {
   data() {
     return {
       step: 1,
+      passwordRequired: false,
       words: [],
-      wordsContent: ''
+      wordsContent: '',
     }
   },
+  components: {
+    password,
+    mnemonic,
+  },
   methods: {
+    setPassword(password) {
+      if (password == '') {
+        notify.error('Password is required')
+        return false
+      }
+      if (this.step === 2) {
+        this.passwordRequired = false
+        this.step = 3
+        inputPassword = password
+        wallet = webWallet.generateWallet(password)
+        this.words = wallet.getMnemonic()
+      }
+      else if(this.step === 4) {
+        if (inputPassword != password) {
+          notify.error('This password is not same as the old one')
+          return false
+        }
+        this.passwordRequired = false
+        this.step = 5
+      }
+    },
     createWallet() {
-      var mnemonic = bip39.generateMnemonic()
-      this.words = mnemonic.split(' ')
       this.step = 2
+      this.passwordRequired = true
     },
-    repeatMnemonic() {
-      this.step = 3
+    checkWallet() {
+      this.step = 4
+      this.passwordRequired = true
     },
-    validateMnemonic() {
-      var mnemonic = this.wordsContent
-      if(bip39.validateMnemonic(mnemonic) == false) {
-        alert('the mnemonic is wrong')
-        return
+    validateMnemonic(mnemonic) {
+      if (!wallet.validateMnemonic(mnemonic)) {
+        notify.error('Those mnemonic are not same as the words you should remember')
+        return false
       }
-      var seedHex = bip39.mnemonicToSeedHex(this.words.join(' '))
-      if(bip39.mnemonicToSeedHex(this.wordsContent) != seedHex) {
-        alert('the mnemonic is wrong')
-        return
-      }
-      this.$emit('wallet', seedHex)
-      alert('u r success')
+      this.$emit('created')
     }
   }
 }

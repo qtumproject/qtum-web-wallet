@@ -5,16 +5,22 @@
       <v-container fluid>
         <router-view></router-view>
       </v-container>
+      <notify></notify>
     </main>
   </v-app>
 </template>
 
 <script>
+import notify from './components/Notify'
+
 export default {
   name: 'app',
   data () {
     return {
     }
+  },
+  components: {
+    notify
   }
 }
 </script>

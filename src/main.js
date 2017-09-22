@@ -4,16 +4,22 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import App from 'App'
 import router from 'router'
+import notify from 'notify'
 
 import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
+window.notify = notify
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  data: {
+    notify: notify
+  }
 })
