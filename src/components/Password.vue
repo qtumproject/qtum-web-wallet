@@ -27,8 +27,7 @@
 export default {
   data () {
     return {
-      password: '',
-      passwordTest: false
+      password: ''
     }
   },
   props: ['open', 'validate'],

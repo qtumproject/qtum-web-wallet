@@ -43,7 +43,7 @@
 import CreateWallet from './wallet/Create'
 import RestoreWallet from './wallet/Restore'
 import ViewWallet from './wallet/View'
-import webWallet from '../webWallet'
+import webWallet from '../web-wallet'
 
 export default {
   data () {

@@ -1,4 +1,4 @@
-import Wallet from './wallet'
+import Wallet from './Wallet'
 
 let wallet = false
 

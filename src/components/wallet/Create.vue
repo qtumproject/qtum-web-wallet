@@ -1,6 +1,6 @@
 <template>
   <v-card style="text-align: center" class="pb-5">
-    <h3 class="display-1 pa-5">Create New Wallet</h3>
+    <h3 class="pa-5">Create New Wallet</h3>
     <template v-if="step === 1">
       <v-btn large error dark @click="createWallet">Create New Wallet</v-btn>
     </template>
@@ -21,7 +21,7 @@
 <script>
 import mnemonic from '../Mnemonic'
 import password from '../Password'
-import webWallet from '../../webWallet'
+import webWallet from '../../web-wallet'
 
 var wallet = false
 var inputPassword = ''
