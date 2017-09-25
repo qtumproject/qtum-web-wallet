@@ -7,6 +7,7 @@ import router from 'router'
 import notify from 'notify'
 
 import 'vuetify/dist/vuetify.min.css'
+import './assets/less/qtum-icons.less'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
