@@ -23,11 +23,7 @@ export default {
   },
   computed: {
     notFinishInput: function() {
-      var finishCount = 0
-      for (var i = 0; i < this.mnemonic.length; i++) {
-        if(this.mnemonic[i]) finishCount++
-      }
-      return finishCount != 12
+      return this.mnemonic.filter((word) => !!word).length != 12
     }
   },
   methods: {

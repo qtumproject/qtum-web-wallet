@@ -1,23 +1,21 @@
 import Wallet from './wallet'
 
-var wallet = false
+let wallet = false
 
 function getWallet() {
   return wallet
 }
 
 function generateWallet(password) {
-  wallet = Wallet.generateNewWallet(password)
-  return wallet
+  return wallet = Wallet.generateNewWallet(password)
 }
 
 function restoreFromMnemonic(mnemonic, password) {
-  wallet = Wallet.restoreFromMnemonic(mnemonic, password)
-  return wallet
+  return wallet = Wallet.restoreFromMnemonic(mnemonic, password)
 }
 
 export default {
-  getWallet: getWallet,
-  generateWallet: generateWallet,
-  restoreFromMnemonic: restoreFromMnemonic,
+  getWallet,
+  generateWallet,
+  restoreFromMnemonic,
 }

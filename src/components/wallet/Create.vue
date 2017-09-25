@@ -12,9 +12,9 @@
       <v-btn large info dark @click="checkWallet">I have remembered all. Let's check</v-btn>
     </template>
     <template v-else-if="step === 5">
-      <mnemonic v-on:mnemonic="validateMnemonic"></mnemonic>
+      <mnemonic @mnemonic="validateMnemonic"></mnemonic>
     </template>
-    <password :open="passwordRequired" v-on:password="setPassword"></password>
+    <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
 

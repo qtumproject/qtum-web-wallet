@@ -1,16 +1,16 @@
 import Vue from 'vue'
 
-var notifyList = {}
-var id = 1
+let notifyList = {}
+let id = 1
 
 function addNotify(msg, type) {
-  var notifyId = id++
-  Vue.set(notifyList, notifyId, {msg: msg, type: type})
-  setTimeout(function() {Vue.delete(notifyList, notifyId)}, 10000)
+  let notifyId = id++
+  Vue.set(notifyList, notifyId, {msg, type})
+  setTimeout(() => {Vue.delete(notifyList, notifyId)}, 10000)
 }
 
 export default {
-  error: function(msg){
+  error(msg) {
     addNotify(msg, 'error')
   },
   list: notifyList

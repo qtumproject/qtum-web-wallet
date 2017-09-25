@@ -24,10 +24,10 @@
     <v-tabs-items>
       <template v-if="wallet == false">
         <v-tabs-content id="create">
-          <create-wallet v-on:created="setWallet"></create-wallet>
+          <create-wallet @created="setWallet"></create-wallet>
         </v-tabs-content>
         <v-tabs-content id="restore">
-          <restore-wallet v-on:restored="setWallet"></restore-wallet>
+          <restore-wallet @restored="setWallet"></restore-wallet>
         </v-tabs-content>
       </template>
       <template v-else>
@@ -57,7 +57,7 @@ export default {
     ViewWallet,
   },
   methods: {
-    setWallet: function() {
+    setWallet() {
       this.wallet = webWallet.getWallet()
     }
   }

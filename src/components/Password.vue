@@ -33,13 +33,13 @@ export default {
   },
   props: ['open', 'validate'],
   computed: {
-    'dialog': function() {
+    dialog() {
       return this.open
-    },
+    }
   },
   methods: {
-    confirmPassword: function() {
-      var password = this.password
+    confirmPassword() {
+      let password = this.password
       this.$emit('password', password)
       this.password = ''
       return true
