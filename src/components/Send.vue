@@ -1,0 +1,133 @@
+<template>
+  <v-card class="pb-5" style="text-align: center">
+    <h3 class="pa-5">Send tokens</h3>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+          label="Address"
+          v-model="address"
+          required
+          ></v-text-field>
+        <v-text-field
+          label="Amount"
+          v-model="amount"
+          required
+          ></v-text-field>
+        <v-text-field
+          label="Fee"
+          v-model="fee"
+          required
+          ></v-text-field>
+        <v-btn large success dark @click="send" :disabled="notValid">Send</v-btn>
+      </v-form>
+    </v-card-text>
+    <v-dialog v-model="confirmAddressDialog" persistent width="50%">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Please enter the address again (Double check)</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field label="Address" v-model="repeatAddress"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat @click="confirmAddress">Confirm</v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="confirmAddressDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="confirmSendDialog" persistent width="50%">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Are you going to send 
+            <v-chip label>{{this.amount}}QTUM(s)</v-chip>
+            to address 
+            <v-chip label>{{this.address}}</v-chip>
+            ?
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field label="Raw Tx" v-model="rawTx" multi-line disabled></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat @click="confirmSend" v-show="canSend && !sending">Confirm</v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="confirmSendDialog = false" :v-show="!sending">Cancel</v-btn>
+          <v-progress-circular indeterminate :size="50" v-show="sending" class="primary--text"></v-progress-circular>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-card>
+</template>
+
+<script>
+import webWallet from '../web-wallet'
+
+export default {
+  data () {
+    return {
+      address: '',
+      amount: '',
+      fee: '',
+      confirmAddressDialog: false,
+      repeatAddress: '',
+      confirmSendDialog: false,
+      rawTx: 'loading...',
+      canSend: false,
+      sending: false
+    }
+  },
+  computed: {
+    notValid: function() {
+      //@todo valid the address
+      let amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
+      let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      return !(amountCheck && feeCheck)
+    }
+  },
+  methods: {
+    send: function() {
+      this.confirmAddressDialog = true
+      this.canSend = false
+    },
+
+    confirmAddress: function() {
+      if(this.address != this.repeatAddress) {
+        notify.error('Please input the same address you are going to send')
+        return false
+      }
+      this.confirmAddressDialog = false
+      this.confirmSendDialog = true
+      let wallet = webWallet.getWallet()
+      wallet.generateTx(this.address, this.amount, this.fee, rawTx => {
+        this.rawTx = rawTx
+        this.canSend = true
+      })
+    },
+
+    confirmSend: function() {
+      let wallet = webWallet.getWallet()
+      this.sending = true
+      wallet.sendRawTx(this.rawTx, txId => {
+        this.confirmSendDialog = false
+        this.sending = false
+        notify.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
+        this.$emit('send')
+      })
+    }
+  }
+}
+</script>

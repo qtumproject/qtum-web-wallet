@@ -1,9 +1,22 @@
 import axios from 'axios'
 
-const host = 'https://qtum.info/insight-api'
+const domain = 'https://skynet.qtum.info'
+const apiPrefix = domain + '/insight-api'
+const webPrefix = domain
 
 let _getRequest = function(url, callback) {
-  axios.get(host + url)
+  axios.get(apiPrefix + url)
+    .then(function (response) {
+      if (typeof callback == 'function')
+        callback(response.data)
+    })
+  .catch(function (error) {
+    console.log(error)
+  })
+}
+
+let _postRequest = function(url, data, callback) {
+  axios.post(apiPrefix + url, data)
     .then(function (response) {
       if (typeof callback == 'function')
         callback(response.data)
@@ -16,6 +29,29 @@ let _getRequest = function(url, callback) {
 export default {
   getInfo(address, callback) {
     _getRequest('/addr/'+address, callback)
-  }
+  },
 
+  getTxList(address, callback) {
+    _getRequest('/txs/?address='+address, callback)
+  },
+
+  getUtxList(address, callback) {
+    _getRequest('/addr/'+address+'/utxo', function(response) {
+      if (typeof callback == 'function')
+        callback(response.map(item=>{return {address: item.address, txid: item.txid, confirmations: item.confirmations, amount: item.amount, value: item.satoshis, hash: item.txid, pos: item.vout}}))
+    })
+  },
+
+  sendRawTx(rawTx, callback) {
+    _postRequest('/tx/send', {
+      rawtx: rawTx
+    }, function(response) {
+      if (typeof callback == 'function')
+        callback(response.txid)
+    })
+  },
+
+  getTxExplorerUrl(tx) {
+    return domain + '/tx/' + tx 
+  }
 }

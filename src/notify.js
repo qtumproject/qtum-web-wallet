@@ -13,5 +13,8 @@ export default {
   error(msg) {
     addNotify(msg, 'error')
   },
+  success(msg) {
+    addNotify(msg, 'success')
+  },
   list: notifyList
 }

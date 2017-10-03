@@ -1,26 +1,74 @@
 <template>
   <v-card class="pb-5" style="text-align: center">
     <h3 class="pa-5">View Wallet Info</h3>
-    <v-list>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>Address</v-list-tile-title>
-          <v-list-tile-sub-title>{{wallet.info.address}}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>Balance</v-list-tile-title>
-          <v-list-tile-sub-title>{{wallet.info.balance}}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>Unconfirmed Balance</v-list-tile-title>
-          <v-list-tile-sub-title>{{wallet.info.unconfirmedBalance}}</v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
+    <v-container style="text-align:left">
+      <h5 class="pa-1">Recent 10 transactions</h5>
+      <div v-for="(tx, id) in txList.txs" :key="id">
+        <v-layout style="border-bottom: 1px dashed">
+          <v-flex xs10>
+            TX:
+            <v-chip label>
+              {{tx.txid}}
+            </v-chip>
+          </v-flex>
+          <v-flex xs2>
+            Mined at {{new Date(tx.time * 1000).toString()}}
+          </v-flex>
+        </v-layout>
+        <v-layout style="border-bottom: 1px dashed">
+          <v-flex xs3>
+            <p v-for="(vtx, vid) in tx.vin" :key="vid" :class="vtx.addr == wallet.info.address ? 'red--text' : ''">
+              {{vtx.addr}}
+            </p>
+          </v-flex>
+          <v-flex xs1 text-xs-right>
+            <p v-for="(vtx, vid) in tx.vin" :key="vid" :class="vtx.addr == wallet.info.address ? 'red--text' : ''">
+              {{vtx.value}}
+            </p>
+          </v-flex>
+          <v-flex xs1>
+            <p v-for="(vtx, vid) in tx.vin" :key="vid" :class="vtx.addr == wallet.info.address ? 'red--text' : ''">
+              &nbsp;QTUM
+            </p>
+          </v-flex>
+          <v-flex xs1>
+            =&gt;
+          </v-flex>
+          <v-flex xs3>
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+              {{vtx.scriptPubKey.addresses.join(' ')}}
+            </p>
+          </v-flex>
+          <v-flex xs2 text-xs-right>
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+              {{vtx.value}}
+            </p>
+          </v-flex>
+          <v-flex xs1>
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+              &nbsp;QTUM
+            </p>
+          </v-flex>
+        </v-layout>
+        <v-layout style="border-bottom: 1px solid">
+          <v-flex xs4>
+            <v-chip label outline>
+              TOTAL IN: {{tx.valueIn}}
+            </v-chip>
+          </v-flex>
+          <v-flex xs4>
+            <v-chip label outline>
+              FEE: {{tx.fees}}
+            </v-chip>
+          </v-flex>
+          <v-flex xs4>
+            <v-chip label outline>
+              TOTAL OUT: {{tx.valueOut}}
+            </v-chip>
+          </v-flex>
+        </v-layout>
+      </div>
+    </v-container>
   </v-card>
 </template>
 
@@ -30,8 +78,13 @@ import webWallet from '../../web-wallet'
 export default {
   data() {
     return {
-      wallet: webWallet.getWallet()
+      wallet: webWallet.getWallet(),
     }
   },
+  computed: {
+    txList: function() {
+      return this.wallet.txList
+    },
+  }
 }
 </script>
