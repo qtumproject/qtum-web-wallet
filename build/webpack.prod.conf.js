@@ -33,7 +33,10 @@ var webpackConfig = merge(baseWebpackConfig, {
       compress: {
         warnings: false
       },
-      sourceMap: true
+      sourceMap: true,
+      mangle: {
+        except: ['BigInteger', 'ECPair', 'Point']
+      }
     }),
     // extract css into its own file
     new ExtractTextPlugin({
