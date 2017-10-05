@@ -1,6 +1,6 @@
 <template>
   <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">Restore Wallet</h3>
+    <h3 class="pa-5">{{ $t('restore.title') }}</h3>
     <mnemonic @mnemonic="restore"></mnemonic>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>

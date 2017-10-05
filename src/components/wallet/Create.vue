@@ -1,15 +1,15 @@
 <template>
   <v-card style="text-align: center" class="pb-5">
-    <h3 class="pa-5">Create New Wallet</h3>
+    <h3 class="pa-5">{{ $t('create.title') }}</h3>
     <template v-if="step === 1">
-      <v-btn large error dark @click="createWallet">Create New Wallet</v-btn>
+      <v-btn large error dark @click="createWallet">{{ $t('create.title') }}</v-btn>
     </template>
     <template v-else-if="step === 3">
-      <p>Please remember the following words</p>
+      <p>{{ $t('create.remember') }}</p>
       <div>
         <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
       </div>
-      <v-btn large info dark @click="checkWallet">I have remembered all. Let's check</v-btn>
+      <v-btn large info dark @click="checkWallet">{{ $t('create.remembered') }}</v-btn>
     </template>
     <template v-else-if="step === 5">
       <mnemonic @mnemonic="validateMnemonic"></mnemonic>

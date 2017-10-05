@@ -1,6 +1,6 @@
 <template>
   <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">Send tokens</h3>
+    <h3 class="pa-5">{{ $('send.send_tokens') }}</h3>
     <v-card-text>
       <v-form>
         <v-text-field
@@ -18,13 +18,13 @@
           v-model="fee"
           required
           ></v-text-field>
-        <v-btn large success dark @click="send" :disabled="notValid">Send</v-btn>
+        <v-btn large success dark @click="send" :disabled="notValid">{{ $t('common.send') }}</v-btn>
       </v-form>
     </v-card-text>
     <v-dialog v-model="confirmAddressDialog" persistent width="50%">
       <v-card>
         <v-card-title>
-          <span class="headline">Please enter the address again (Double check)</span>
+          <span class="headline">{{ $t('enter_address') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -37,8 +37,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat @click="confirmAddress">Confirm</v-btn>
-          <v-btn class="red--text darken-1" flat @click.native="confirmAddressDialog = false">Cancel</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="confirmAddress">{{ $t('common.confirm') }}</v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="confirmAddressDialog = false">{{ $t('common.cancel') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -46,11 +46,11 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Are you going to send 
-            <v-chip label>{{this.amount}}QTUM(s)</v-chip>
-            to address 
+            {{ $t('send.going_to_send') }}
+            <v-chip label>{{this.amount}}QTUM</v-chip>
+            {{ $t('send.to_address') }}
             <v-chip label>{{this.address}}</v-chip>
-            ?
+            {{ $t('common.question_mark') }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -64,8 +64,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat @click="confirmSend" v-show="canSend && !sending">Confirm</v-btn>
-          <v-btn class="red--text darken-1" flat @click.native="confirmSendDialog = false" :v-show="!sending">Cancel</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="confirmSend" v-show="canSend && !sending">{{ $t('common.confirm') }}</v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="confirmSendDialog = false" :v-show="!sending">{{ $t('common.cancel') }}</v-btn>
           <v-progress-circular indeterminate :size="50" v-show="sending" class="primary--text"></v-progress-circular>
         </v-card-actions>
       </v-card>

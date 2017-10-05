@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent width="50%">
       <v-card>
         <v-card-title>
-          <span class="headline">Please enter your Password</span>
+          <span class="headline">{{ $t('password.enter') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -16,7 +16,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat @click="confirmPassword">Confirm</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="confirmPassword">{{ $t('common.confirm') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

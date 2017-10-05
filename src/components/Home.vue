@@ -10,19 +10,19 @@
           <v-list dark>
             <v-list-tile style="float:left">
               <v-list-tile-content>
-                <v-list-tile-title>Address</v-list-tile-title>
+                <v-list-tile-title>{{ $t('home.info.address') }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{wallet.info.address}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile style="float:left">
               <v-list-tile-content>
-                <v-list-tile-title>Balance</v-list-tile-title>
+                <v-list-tile-title>{{ $t('home.info.balance') }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{wallet.info.balance}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile style="float:left">
               <v-list-tile-content>
-                <v-list-tile-title>Unconfirmed Balance</v-list-tile-title>
+                <v-list-tile-title>{{ $t('home.info.unconfirmed_balance') }}</v-list-tile-title>
                 <v-list-tile-sub-title>{{wallet.info.unconfirmedBalance}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -34,18 +34,18 @@
       <v-tabs-slider class="yellow"></v-tabs-slider>
       <template v-if="wallet == false">
         <v-tabs-item href="create">
-          Create
+          {{ $t('common.create') }}
         </v-tabs-item>
         <v-tabs-item href="restore">
-          Restore
+          {{ $t('common.restore') }}
         </v-tabs-item>
       </template>
       <template v-else>
         <v-tabs-item href="view">
-          View
+          {{ $t('common.view') }}
         </v-tabs-item>
         <v-tabs-item href="send">
-          Send
+          {{ $t('common.send') }}
         </v-tabs-item>
       </template>
     </v-tabs-bar>

@@ -1,18 +1,18 @@
 <template>
   <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">View Wallet Info</h3>
+    <h3 class="pa-5">{{ $t('view.title') }}</h3>
     <v-container style="text-align:left">
-      <h5 class="pa-1">Recent 10 transactions</h5>
+      <h5 class="pa-1">{{ $t('view.recent') }}</h5>
       <div v-for="(tx, id) in txList.txs" :key="id">
         <v-layout style="border-bottom: 1px dashed">
           <v-flex xs10>
-            TX:
+            {{ $t('view.tx') }}
             <v-chip label>
               {{tx.txid}}
             </v-chip>
           </v-flex>
           <v-flex xs2>
-            Mined at {{new Date(tx.time * 1000).toString()}}
+            {{ $t('view.mined_at') }}{{new Date(tx.time * 1000).toString()}}
           </v-flex>
         </v-layout>
         <v-layout style="border-bottom: 1px dashed">
@@ -53,17 +53,17 @@
         <v-layout style="border-bottom: 1px solid">
           <v-flex xs4>
             <v-chip label outline>
-              TOTAL IN: {{tx.valueIn}}
+              {{ $t('view.total_in') }}{{tx.valueIn}}
             </v-chip>
           </v-flex>
           <v-flex xs4>
             <v-chip label outline>
-              FEE: {{tx.fees}}
+              {{ $t('view.fee') }}{{tx.fees}}
             </v-chip>
           </v-flex>
           <v-flex xs4>
             <v-chip label outline>
-              TOTAL OUT: {{tx.valueOut}}
+              {{ $t('view.total_out') }}{{tx.valueOut}}
             </v-chip>
           </v-flex>
         </v-layout>
