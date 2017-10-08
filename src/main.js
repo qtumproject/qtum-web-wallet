@@ -9,6 +9,7 @@ import locales from 'locales'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/less/qtum-icons.less'
+import './assets/css/material-icons.css'
 
 Vue.use(Vuetify)
 Vue.use(VueI18n)

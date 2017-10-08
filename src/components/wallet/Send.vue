@@ -1,6 +1,8 @@
 <template>
-  <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">{{ $t('send.send_tokens') }}</h3>
+  <v-card>
+    <v-card-title>
+      <span class="headline">{{ $t('send.send_tokens') }}</span>
+    </v-card-title>
     <v-card-text>
       <v-form>
         <v-text-field
@@ -18,13 +20,16 @@
           v-model="fee"
           required
           ></v-text-field>
-        <v-btn large success dark @click="send" :disabled="notValid">{{ $t('common.send') }}</v-btn>
       </v-form>
     </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+        <v-btn success dark @click="send" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
+    </v-card-actions>
     <v-dialog v-model="confirmAddressDialog" persistent width="50%">
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t('enter_address') }}</span>
+          <span class="headline">{{ $t('send.enter_address') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -74,7 +79,7 @@
 </template>
 
 <script>
-import webWallet from '../web-wallet'
+import webWallet from '../../web-wallet'
 
 export default {
   data () {
@@ -106,7 +111,7 @@ export default {
 
     confirmAddress: function() {
       if(this.address != this.repeatAddress) {
-        notify.error('Please input the same address you are going to send')
+        notify.error('address_is_not_same_as_the_old_one')
         return false
       }
       this.confirmAddressDialog = false

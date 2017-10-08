@@ -5,18 +5,21 @@
       <v-container grid-list-md>
         <v-layout wrap>
           <v-flex xs2 v-for="i in 12" :key="i">
-            <v-text-field :label="'Mnemonic'+i" type="text" v-model="mnemonic[i-1]"></v-text-field>
+            <v-text-field :label="$t('mnemonic.label')+i" type="text" v-model="mnemonic[i-1]"></v-text-field>
           </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
-    <v-btn large success dark @click="inputMnemonicWords" :disabled="notFinishInput">{{ $t('common.confirm') }}</v-btn>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn success dark @click="inputMnemonicWords" :disabled="notFinishInput">{{ $t('common.confirm') }}</v-btn>
+    </v-card-actions>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       mnemonic: [],
     }

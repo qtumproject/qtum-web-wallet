@@ -1,23 +1,28 @@
 <template>
-  <v-card style="text-align: center" class="pb-5">
-    <h3 class="pa-5">{{ $t('create.title') }}</h3>
-    <template v-if="step === 1">
-      <v-btn large error dark @click="createWallet">{{ $t('create.title') }}</v-btn>
-    </template>
-    <template v-else-if="step === 3">
-      <p>{{ $t('create.remember') }}</p>
-      <div>
-        <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
-      </div>
-      <v-btn large info dark @click="checkWallet">{{ $t('create.remembered') }}</v-btn>
-    </template>
-    <template v-else-if="step === 5">
-      <mnemonic @mnemonic="validateMnemonic"></mnemonic>
-    </template>
+  <v-card>
+    <v-card-title>
+      <span class="headline">{{ $t('create.title') }}</span>
+    </v-card-title>
+    <v-card-text v-if="[3, 5].includes(step)">
+      <template v-if="step === 3">
+        <p>{{ $t('create.remember') }}</p>
+        <div>
+          <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
+        </div>
+      </template>
+      <template v-else-if="step === 5">
+        <mnemonic @mnemonic="validateMnemonic"></mnemonic>
+      </template>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn error dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
+      <v-btn info dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
+    </v-card-actions>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
-
+ 
 <script>
 import mnemonic from '../Mnemonic'
 import password from '../Password'
@@ -35,6 +40,12 @@ export default {
       wordsContent: '',
     }
   },
+  props: ['view'],
+  watch: {
+    view: function() {
+      this.step = 1
+    }
+  },
   components: {
     password,
     mnemonic,
@@ -42,7 +53,7 @@ export default {
   methods: {
     setPassword(password) {
       if (password == '') {
-        notify.error('Password is required')
+        notify.error('password is_required')
         return false
       }
       if (this.step === 2) {
@@ -52,9 +63,9 @@ export default {
         wallet = webWallet.generateWallet(password)
         this.words = wallet.getMnemonic()
       }
-      else if(this.step === 4) {
+      else if (this.step === 4) {
         if (inputPassword != password) {
-          notify.error('This password is not same as the old one')
+          notify.error('password_is_not_same_as_the_old_one')
           return false
         }
         this.passwordRequired = false
@@ -71,7 +82,7 @@ export default {
     },
     validateMnemonic(mnemonic) {
       if (!wallet.validateMnemonic(mnemonic)) {
-        notify.error('Those mnemonic are not same as the words you should remember')
+        notify.error('mnemonics_are_not_same_as_the_words_should_remember')
         return false
       }
       this.$emit('created')

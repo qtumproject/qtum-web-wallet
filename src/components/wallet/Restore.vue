@@ -1,7 +1,11 @@
 <template>
-  <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">{{ $t('restore.title') }}</h3>
-    <mnemonic @mnemonic="restore"></mnemonic>
+  <v-card>
+    <v-card-title>
+      <span class="headline">{{ $t('restore.title') }}</span>
+    </v-card-title>
+    <v-card-text>
+      <mnemonic @mnemonic="restore"></mnemonic>
+    </v-card-text>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
@@ -31,7 +35,7 @@ export default {
     setPassword(password) {
       this.passwordRequired = false
       if (webWallet.restoreFromMnemonic(inputMnemonic, password) == false) {
-        notify.error('The mnemonic can not restore a wallet, please check and input again')
+        notify.error('mnemonics_can_not_restore')
         return false
       }
       this.$emit('restored')

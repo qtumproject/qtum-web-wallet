@@ -1,8 +1,10 @@
 <template>
-  <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">{{ $t('view.title') }}</h3>
-    <v-container style="text-align:left">
-      <h5 class="pa-1">{{ $t('view.recent') }}</h5>
+  <v-card>
+    <v-card-title>
+      <span class="headline">{{ $t('view.title') }}</span>
+    </v-card-title>
+    <v-card-text>
+      <p>{{ $t('view.recent') }}</p>
       <div v-for="(tx, id) in txList.txs" :key="id">
         <v-layout style="border-bottom: 1px dashed">
           <v-flex xs10>
@@ -17,7 +19,7 @@
         </v-layout>
         <v-layout style="border-bottom: 1px dashed">
           <v-flex xs3>
-            <p v-for="(vtx, vid) in tx.vin" :key="vid" :class="vtx.addr == wallet.info.address ? 'red--text' : ''">
+            <p v-for="(vtx, vid) in tx.vin" :key="vid" :class="vtx.addr == wallet.info.address ? 'red--text' : ''" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
               {{vtx.addr}}
             </p>
           </v-flex>
@@ -35,7 +37,7 @@
             =&gt;
           </v-flex>
           <v-flex xs3>
-            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
               {{vtx.scriptPubKey.addresses.join(' ')}}
             </p>
           </v-flex>
@@ -68,7 +70,7 @@
           </v-flex>
         </v-layout>
       </div>
-    </v-container>
+    </v-card-text>
   </v-card>
 </template>
 
