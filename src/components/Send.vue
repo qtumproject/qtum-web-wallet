@@ -1,6 +1,6 @@
 <template>
   <v-card class="pb-5" style="text-align: center">
-    <h3 class="pa-5">{{ $('send.send_tokens') }}</h3>
+    <h3 class="pa-5">{{ $t('send.send_tokens') }}</h3>
     <v-card-text>
       <v-form>
         <v-text-field
