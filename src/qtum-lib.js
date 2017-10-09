@@ -1,7 +1,16 @@
 import bitcoin from 'bitcoinjs-lib'
+import config from 'config'
 
-bitcoin.networks.bitcoin.pubKeyHash = 0x3a
-//for sky net
-bitcoin.networks.bitcoin.pubKeyHash = 0x78
+let pubKeyHash = ''
+switch (config.get('network', 'skynet'))
+{
+  case 'skynet':
+    pubKeyHash = 0x78
+    break
+  case 'mainnet':
+    pubKeyHash = 0x3a
+    break
+}
+bitcoin.networks.bitcoin.pubKeyHash = pubKeyHash
 
 export default bitcoin

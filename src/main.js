@@ -6,6 +6,7 @@ import VueI18n from 'vue-i18n'
 import App from 'App'
 import notify from 'notify'
 import locales from 'locales'
+import config from 'config'
 
 import 'vuetify/dist/vuetify.min.css'
 import './assets/less/qtum-icons.less'
@@ -17,14 +18,8 @@ Vue.config.productionTip = false
 
 window.notify = notify
 
-let locale
-navigator.languages.forEach(language => {
-  if (locale === undefined && locales.locales.indexOf(language) !== -1) {
-    locale = language
-  }
-})
 const i18n = new VueI18n({
-  locale: locale,
+  locale: config.getLan(),
   fallbackLocale: 'en',
   messages: locales.messages,
 })

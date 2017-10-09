@@ -3,10 +3,13 @@ export default {
     confirm: '确认',
     cancel: '取消',
     question_mark: '？',
+    skynet: 'Skynet-测试网络',
+    mainnet: 'Ignition-主网',
     menu: {
       create: '创建新钱包',
       restore_from_mnemonic: '从密语恢复钱包',
       restore_from_wif: '从私钥恢复钱包',
+      view: '查看钱包信息',
       transactions: '查看交易记录',
       send: '转账',
       settings: '设置',
@@ -49,6 +52,9 @@ export default {
   },
   view: {
     title: '查看钱包信息',
+  },
+  view_tx: {
+    title: '查看钱包交易',
     recent: '最近10笔交易',
     tx: '交易：',
     mined_at: 'Mined at ',
@@ -56,4 +62,9 @@ export default {
     fee: '手续费：',
     total_out: '总计输出：',
   },
+  config: {
+    title: '设置',
+    lan: '语言',
+    network: '网络选择',
+  }
 }

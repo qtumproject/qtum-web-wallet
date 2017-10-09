@@ -1,6 +1,15 @@
 import axios from 'axios'
+import config from '../config'
 
-const domain = 'https://skynet.qtum.info'
+let domain = ''
+switch(config.get('network', 'skynet')) {
+  case 'skynet':
+    domain = 'https://skynet.qtum.info'
+    break
+  case 'mainnet':
+    domain = 'https://qtum.info'
+    break
+}
 const apiPrefix = domain + '/insight-api'
 const webPrefix = domain
 
