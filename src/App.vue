@@ -17,7 +17,7 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="cyan" app absolute clipped-left>
+    <v-toolbar class="cyan" app fixed clipped-left>
       <span class="title">
         <i class="qtum-icon qtum-icon-logo"></i>
         <span class="text">QTUM</span>
@@ -27,18 +27,21 @@
       </span>
     </v-toolbar>
     <main>
-      <v-container fluid fill-height justify-center>
-        <v-layout row wrap>
-          <v-flex xs10 offset-xs1>
-            <create-wallet :view="isCurrent['create']" @created="setWallet" v-show="isCurrent['create']"></create-wallet>
-            <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
-            <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
-            <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
-            <send @send="setWallet" v-if="isCurrent['send']"></send>
-            <config v-if="isCurrent['settings']"></config>
-          </v-flex>
-        </v-layout>
-      </v-container>
+      <v-content>
+        <v-container fluid fill-height justify-center>
+          <v-layout row wrap>
+            <v-flex xs10 offset-xs1>
+              <create-wallet :view="isCurrent['create']" @created="setWallet" v-show="isCurrent['create']"></create-wallet>
+              <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
+              <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
+              <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
+              <send @send="setWallet" v-if="isCurrent['send']"></send>
+              <request-payment v-if="isCurrent['request_payment']"></request-payment>
+              <config v-if="isCurrent['settings']"></config>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-content>
     </main>
     <notify></notify>
   </v-app>
@@ -51,6 +54,7 @@ import RestoreWallet from 'components/wallet/Restore'
 import ViewWallet from 'components/wallet/View'
 import ViewTx from 'components/wallet/ViewTx'
 import Send from 'components/wallet/Send'
+import RequestPayment from 'components/wallet/RequestPayment'
 import Config from 'components/Config'
 import config from 'config'
 import webWallet from 'web-wallet'
@@ -70,6 +74,7 @@ export default {
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
         { icon: 'repeat', name: 'send' },
+        { icon: 'undo', name: 'request_payment' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
@@ -79,13 +84,13 @@ export default {
     isCurrent() {
       return { [this.current]: true }
     },
-
     notShow() {
       return {
         wallet: this.wallet == false,
         view: this.wallet == false,
         transactions: this.wallet == false,
         send: this.wallet == false,
+        request_payment: this.wallet == false,
       }
     }
   },
@@ -96,6 +101,7 @@ export default {
     ViewWallet,
     ViewTx,
     Send,
+    RequestPayment,
     Config,
   },
   methods: {

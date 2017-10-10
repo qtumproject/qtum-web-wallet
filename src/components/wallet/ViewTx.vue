@@ -9,9 +9,9 @@
         <v-layout style="border-bottom: 1px dashed">
           <v-flex xs10>
             {{ $t('view_tx.tx') }}
-            <v-chip label>
+            <v-btn small light :href="node.getTxExplorerUrl(tx.txid)" target="_blank">
               {{tx.txid}}
-            </v-chip>
+            </v-btn>
           </v-flex>
           <v-flex xs2>
             {{ $t('view_tx.mined_at') }}{{new Date(tx.time * 1000).toString()}}
@@ -54,17 +54,17 @@
         </v-layout>
         <v-layout style="border-bottom: 1px solid">
           <v-flex xs4>
-            <v-chip label outline>
+            <v-chip label outline class="white--text">
               {{ $t('view_tx.total_in') }}{{tx.valueIn}}
             </v-chip>
           </v-flex>
           <v-flex xs4>
-            <v-chip label outline>
+            <v-chip label outline class="white--text">
               {{ $t('view_tx.fee') }}{{tx.fees}}
             </v-chip>
           </v-flex>
           <v-flex xs4>
-            <v-chip label outline>
+            <v-chip label outline class="white--text">
               {{ $t('view_tx.total_out') }}{{tx.valueOut}}
             </v-chip>
           </v-flex>
@@ -76,11 +76,13 @@
 
 <script>
 import webWallet from 'web-wallet'
+import server from 'server'
 
 export default {
   data() {
     return {
       wallet: webWallet.getWallet(),
+      node: server.currentNode()
     }
   },
   props: ['view'],
