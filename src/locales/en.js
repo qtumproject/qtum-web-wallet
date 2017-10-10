@@ -21,6 +21,9 @@ export default {
       unconfirmed_balance: 'Unconfirmed Balance',
     },
     notify: {
+      success: 'Success',
+      fail: 'Failed',
+      copy: 'Copy',
       password: 'Password',
       is_required: 'is required',
       password_is_not_same_as_the_old_one: 'Password is not same as the old one',

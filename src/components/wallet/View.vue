@@ -13,7 +13,7 @@
         <v-flex xs6>
           <v-chip label>
             {{ info[item.name] }}
-            <v-btn flat light v-clipboard:copy="info[item.name]" v-if="item.copy">
+            <v-btn flat light v-clipboard:copy="info[item.name]" v-clipboard:success="onCopySucc" v-clipboard:error="onCopyError" v-if="item.copy">
               {{ $t('common.copy') }}
             </v-btn>
           </v-chip>
@@ -46,10 +46,15 @@ export default {
   computed: {
     info: function() {
       return this.wallet.info
-    },
-    copy: function() {
-      return this.wallet.info.address
     }
   },
+  methods: {
+    onCopySucc: function() {
+      notify.success('copy success')
+    },
+    onCopyError: function() {
+      notify.success('copy fail')
+    }
+  }
 }
 </script>

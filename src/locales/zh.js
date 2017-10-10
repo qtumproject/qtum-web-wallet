@@ -21,6 +21,9 @@ export default {
       unconfirmed_balance: '未确认余额',
     },
     notify: {
+      success: '成功',
+      fail: '失败',
+      copy: '复制',
       password: '密码',
       is_required: '是必须的',
       password_is_not_same_as_the_old_one: '两次输入的密码不一样',
