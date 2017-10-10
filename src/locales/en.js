@@ -13,6 +13,7 @@ export default {
       view: 'View Wallet Info',
       transactions: 'View Wallet Txs',
       send: 'Send',
+      request_payment: 'Request Payment',
       settings: 'Settings',
     },
     info: {
@@ -45,6 +46,9 @@ export default {
     enter_address: 'Please enter address again (Double check)',
     going_to_send: 'You are going to send ',
     to_address: 'to address ',
+  },
+  request_payment: {
+    title: 'Request Payment',
   },
   create: {
     title: 'Generate new Wallet',

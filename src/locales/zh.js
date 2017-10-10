@@ -13,6 +13,7 @@ export default {
       view: '查看钱包信息',
       transactions: '查看交易记录',
       send: '转账',
+      request_payment: '收款码',
       settings: '设置',
     },
     info: {
@@ -45,6 +46,9 @@ export default {
     enter_address: '请再次输入地址（二次检查）',
     going_to_send: '你确定要发送',
     to_address: '到地址',
+  },
+  request_payment: {
+    title: '收款码',
   },
   create: {
     title: '创建新钱包',

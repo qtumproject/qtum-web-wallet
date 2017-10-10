@@ -47,7 +47,17 @@ export default {
   getUtxList(address, callback) {
     _getRequest('/addr/'+address+'/utxo', function(response) {
       if (typeof callback == 'function')
-        callback(response.map(item=>{return {address: item.address, txid: item.txid, confirmations: item.confirmations, amount: item.amount, value: item.satoshis, hash: item.txid, pos: item.vout}}))
+        callback(response.map(item=>{
+          return {
+            address: item.address,
+            txid: item.txid,
+            confirmations: item.confirmations,
+            amount: item.amount,
+            value: item.satoshis,
+            hash: item.txid,
+            pos: item.vout
+          }
+        }))
     })
   },
 
@@ -62,5 +72,9 @@ export default {
 
   getTxExplorerUrl(tx) {
     return domain + '/tx/' + tx 
+  },
+
+  getAddrExplorerUrl(addr) {
+    return domain + '/address/' + addr
   }
 }
