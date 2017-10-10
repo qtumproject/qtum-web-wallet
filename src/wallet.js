@@ -1,8 +1,8 @@
-import qtum from './qtum-lib'
+import qtum from 'qtum-lib'
 import bip32 from 'bip32-utils'
 import bip39 from 'bip39'
 import bigNumber from 'bignumber.js'
-import server from './server'
+import server from 'server'
 
 const unit = 'QTUM'
 

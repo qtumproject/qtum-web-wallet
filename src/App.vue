@@ -45,15 +45,15 @@
 </template>
 
 <script>
-import notify from './components/Notify'
-import CreateWallet from './components/wallet/Create'
-import RestoreWallet from './components/wallet/Restore'
-import ViewWallet from './components/wallet/View'
-import ViewTx from './components/wallet/ViewTx'
-import Send from './components/wallet/Send'
-import Config from './components/Config'
-import config from './config'
-import webWallet from './web-wallet'
+import notify from 'components/Notify'
+import CreateWallet from 'components/wallet/Create'
+import RestoreWallet from 'components/wallet/Restore'
+import ViewWallet from 'components/wallet/View'
+import ViewTx from 'components/wallet/ViewTx'
+import Send from 'components/wallet/Send'
+import Config from 'components/Config'
+import config from 'config'
+import webWallet from 'web-wallet'
 
 export default {
   name: 'app',

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import config from '../config'
+import config from 'config'
 
 let loadConfig = {
   lan: config.getLan(),

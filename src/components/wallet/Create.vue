@@ -24,9 +24,9 @@
 </template>
  
 <script>
-import mnemonic from '../Mnemonic'
-import password from '../Password'
-import webWallet from '../../web-wallet'
+import mnemonic from 'components/Mnemonic'
+import password from 'components/Password'
+import webWallet from 'web-wallet'
 
 var wallet = false
 var inputPassword = ''

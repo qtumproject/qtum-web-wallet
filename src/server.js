@@ -1,4 +1,4 @@
-import insight from './nodes/insight'
+import insight from 'nodes/insight'
 
 let nodeConfigs = {
   insight: insight

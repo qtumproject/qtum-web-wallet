@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import webWallet from '../../web-wallet'
+import webWallet from 'web-wallet'
 
 export default {
   data() {
