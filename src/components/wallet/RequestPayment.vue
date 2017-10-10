@@ -36,12 +36,10 @@
 import webWallet from '../../web-wallet'
 import qrcode from 'qrcode'
 
-let wallet = webWallet.getWallet()
-
 export default {
   data () {
     return {
-      address: wallet.getAddress(),
+      address: webWallet.getWallet().getAddress(),
       amount: '0.0',
       message: '',
       qr: '',
