@@ -2,6 +2,7 @@ export default {
   common: {
     confirm: 'Confirm',
     cancel: 'Cancel',
+    copy: 'COPY',
     question_mark: '? ',
     skynet: 'Skynet-Testnet',
     mainnet: 'Ignition-Mainnet',
