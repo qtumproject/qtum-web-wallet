@@ -33,6 +33,7 @@
             <v-flex xs10 offset-xs1>
               <create-wallet :view="isCurrent['create']" @created="setWallet" v-show="isCurrent['create']"></create-wallet>
               <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
+              <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
@@ -51,6 +52,7 @@
 import notify from 'components/Notify'
 import CreateWallet from 'components/wallet/Create'
 import RestoreWallet from 'components/wallet/Restore'
+import RestoreWif from 'components/wallet/RestoreWif'
 import ViewWallet from 'components/wallet/View'
 import ViewTx from 'components/wallet/ViewTx'
 import Send from 'components/wallet/Send'
@@ -69,7 +71,7 @@ export default {
       menu: [
         { icon: 'add', name: 'create' },
         { icon: 'sms', name: 'restore_from_mnemonic' },
-        //@todo { icon: 'create', name: 'restore_from_wif' },
+        { icon: 'create', name: 'restore_from_wif' },
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
@@ -98,6 +100,7 @@ export default {
     notify,
     CreateWallet,
     RestoreWallet,
+    RestoreWif,
     ViewWallet,
     ViewTx,
     Send,
@@ -107,7 +110,9 @@ export default {
   methods: {
     setWallet() {
       this.wallet = webWallet.getWallet()
-      this.current = 'view'
+      if (this.wallet) {
+        this.current = 'view'
+      }
     },
     changeView(name) {
       this.current = name

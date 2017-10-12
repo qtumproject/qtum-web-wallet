@@ -20,6 +20,7 @@ export default {
       address: '地址',
       balance: '余额',
       unconfirmed_balance: '未确认余额',
+      priv_key: '私钥',
     },
     notify: {
       success: '成功',
@@ -57,6 +58,10 @@ export default {
   },
   restore: {
     title: '恢复钱包',
+  },
+  restore_wif: {
+    title: '恢复钱包',
+    priv_key: '私钥',
   },
   view: {
     title: '查看钱包信息',

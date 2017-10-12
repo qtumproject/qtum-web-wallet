@@ -20,6 +20,7 @@ export default {
       address: 'Address',
       balance: 'Balance',
       unconfirmed_balance: 'Unconfirmed Balance',
+      prvi_key: 'Private Key',
     },
     notify: {
       success: 'Success',
@@ -57,6 +58,10 @@ export default {
   },
   restore: {
     title: 'Restore Wallet',
+  },
+  restore_wif: {
+    title: 'Restore Wallet From WIF',
+    priv_key: 'WIF',
   },
   view: {
     title: 'View Wallet Info',
