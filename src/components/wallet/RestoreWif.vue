@@ -35,7 +35,13 @@ export default {
   },
   methods: {
     restore() {
-      webWallet.restoreFromWif(this.wif)
+      try {
+        webWallet.restoreFromWif(this.wif)
+      }
+      catch (error) {
+        notify.error('restore_wif_fail')
+        return false
+      }
       this.$emit('restored')
     }
   }

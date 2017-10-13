@@ -5,12 +5,12 @@
     </v-card-title>
     <v-card-text>
       <v-layout v-for="(item, i) in infoLabel" :key="i">
-        <v-flex xs5>
+        <v-flex xs3>
           <v-subheader>
             {{ $t('common.info.' + item.label) }}
           </v-subheader>
         </v-flex>
-        <v-flex xs5>
+        <v-flex xs7>
           <v-text-field
             v-model="info[item.name]"
             disabled
@@ -23,12 +23,12 @@
         </v-flex>
       </v-layout>
       <v-layout>
-        <v-flex xs5>
+        <v-flex xs3>
           <v-subheader>
             {{ $t('common.info.priv_key') }}
           </v-subheader>
         </v-flex>
-        <v-flex xs5>
+        <v-flex xs7>
           <v-text-field
             v-model="privKey"
             disabled

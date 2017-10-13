@@ -17,12 +17,7 @@ export default class Wallet {
       this.keyPair = this.account.keyPair
     } else {
       this.wif = data
-      var rng = function () {
-        return Buffer(data, 'hex')
-      }
-      this.keyPair = qtum.ECPair.makeRandom({
-        rng: rng
-      })
+      this.keyPair = qtum.ECPair.fromWIF(data)
     }
     this.info = {
       address: this.getAddress(),

@@ -32,6 +32,7 @@ export default {
       mnemonics_are_not_same_as_the_words_should_remember: 'The mnemoincs are not same as the words you should remember',
       mnemonics_can_not_restore: 'Those mnemonics can not restore a wallet, please check and try again',
       address_is_not_same_as_the_old_one: 'This address is not same as the old one',
+      restore_wif_fail: 'Cannot restore a wallet from this WIF',
     }
   },
   mnemonic: {

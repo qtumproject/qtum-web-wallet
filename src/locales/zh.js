@@ -32,6 +32,7 @@ export default {
       mnemonics_are_not_same_as_the_words_should_remember: '这组密语跟应该记住的密语不一样',
       mnemonics_can_not_restore: '密语不能恢复钱包，请检查输入',
       address_is_not_same_as_the_old_one: '两次输入的地址不一样',
+      restore_wif_fail: '从此密钥不能恢复钱包，请再次确认',
     }
   },
   mnemonic: {

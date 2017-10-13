@@ -13,7 +13,7 @@
             <v-select
               :items="lanSelect" 
               v-model="lan"
-              :v-label="$t('config.lan')"
+              :label="$t('config.lan')"
               single-line
               bottom
             ></v-select>
@@ -25,7 +25,7 @@
             <v-select
               :items="networkSelect" 
               v-model="network"
-              :v-label="$t('config.network')"
+              :label="$t('config.network')"
               single-line
               bottom
             ></v-select>
