@@ -20,7 +20,7 @@ export default {
       address: 'Address',
       balance: 'Balance',
       unconfirmed_balance: 'Unconfirmed Balance',
-      prvi_key: 'Private Key',
+      priv_key: 'Private Key',
     },
     notify: {
       success: 'Success',
