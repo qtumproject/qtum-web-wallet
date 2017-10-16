@@ -114,7 +114,7 @@ export default class Wallet {
   }
 
   static restoreFromMnemonic(mnemonic, password) {
-    if (bip39.validateMnemonic(mnemonic.join(' ')) == false) return false
+    //if (bip39.validateMnemonic(mnemonic.join(' ')) == false) return false
     return new Wallet('mnemonic', {
       mnemonic: mnemonic,
       password: password
