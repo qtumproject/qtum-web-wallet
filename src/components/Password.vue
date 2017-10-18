@@ -9,7 +9,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field :label="$t('password.password')" type="password" v-model="password"></v-text-field>
+                <v-text-field :label="$t('password.password')" type="password" v-model="password" ref="passwordInput" @keydown.enter="confirmPassword"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
   data() {
     return {
@@ -42,6 +44,13 @@ export default {
       this.$emit('password', password)
       this.password = ''
       return true
+    }
+  },
+  watch: {
+    open(open) {
+      if (open) {
+        Vue.nextTick(()=>this.$refs.passwordInput.focus())
+      }
     }
   }
 }
