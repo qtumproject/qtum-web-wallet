@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" persistent width="50%">
+    <v-dialog v-model="dialog" persistent max-width="50%">
       <v-card>
         <v-card-title>
           <span class="headline">{{ $t('password.enter') }}</span>

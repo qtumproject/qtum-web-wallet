@@ -24,7 +24,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-        <v-btn success dark @click="send" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
+      <v-btn class="success" dark @click="send" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
     </v-card-actions>
     <v-dialog v-model="confirmAddressDialog" persistent width="50%">
       <v-card>

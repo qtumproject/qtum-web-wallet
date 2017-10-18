@@ -16,13 +16,13 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn error dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
-      <v-btn info dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
+      <v-btn color="error" dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
+      <v-btn color="info" dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
     </v-card-actions>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
- 
+
 <script>
 import mnemonic from 'components/Mnemonic'
 import password from 'components/Password'

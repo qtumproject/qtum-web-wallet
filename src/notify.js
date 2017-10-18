@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 let notifyList = {}
-let id = 1
 
 function addNotify(msg, type) {
   let notifyId = [msg, type].join('_')

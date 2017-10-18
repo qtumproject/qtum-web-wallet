@@ -11,7 +11,7 @@
           </v-flex>
           <v-flex xs6>
             <v-select
-              :items="lanSelect" 
+              :items="lanSelect"
               v-model="lan"
               :label="$t('config.lan')"
               single-line
@@ -23,7 +23,7 @@
           </v-flex>
           <v-flex xs6>
             <v-select
-              :items="networkSelect" 
+              :items="networkSelect"
               v-model="network"
               :label="$t('config.network')"
               single-line
@@ -35,7 +35,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn warning @click="save">{{ $t('common.confirm') }}</v-btn>
+      <v-btn class="warning" @click="save">{{ $t('common.confirm') }}</v-btn>
     </v-card-actions>
   </v-card>
 </template>
