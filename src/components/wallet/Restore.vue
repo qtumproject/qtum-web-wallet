@@ -35,7 +35,7 @@ export default {
     setPassword(password) {
       this.passwordRequired = false
       if (webWallet.restoreFromMnemonic(inputMnemonic, password) == false) {
-        notify.error('mnemonics_can_not_restore')
+        this.$root.error('mnemonics_can_not_restore')
         return false
       }
       this.$emit('restored')

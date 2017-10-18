@@ -53,7 +53,7 @@ export default {
   methods: {
     setPassword(password) {
       if (password == '') {
-        notify.error('password is_required')
+        this.$root.error('password is_required')
         return false
       }
       if (this.step === 2) {
@@ -65,7 +65,7 @@ export default {
       }
       else if (this.step === 4) {
         if (inputPassword != password) {
-          notify.error('password_is_not_same_as_the_old_one')
+          this.$root.error('password_is_not_same_as_the_old_one')
           return false
         }
         this.passwordRequired = false
@@ -82,7 +82,7 @@ export default {
     },
     validateMnemonic(mnemonic) {
       if (!wallet.validateMnemonic(mnemonic)) {
-        notify.error('mnemonics_are_not_same_as_the_words_should_remember')
+        this.$root.error('mnemonics_are_not_same_as_the_words_should_remember')
         return false
       }
       this.$emit('created')

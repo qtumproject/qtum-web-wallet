@@ -78,10 +78,10 @@ export default {
   },
   methods: {
     onCopySucc: function() {
-      notify.success('copy success')
+      this.$root.success('copy success')
     },
     onCopyError: function() {
-      notify.success('copy fail')
+      this.$root.error('copy fail')
     }
   }
 }

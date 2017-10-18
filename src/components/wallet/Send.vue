@@ -111,7 +111,7 @@ export default {
 
     confirmAddress: function() {
       if(this.address != this.repeatAddress) {
-        notify.error('address_is_not_same_as_the_old_one')
+        this.$root.error('address_is_not_same_as_the_old_one')
         return false
       }
       this.confirmAddressDialog = false
@@ -129,7 +129,7 @@ export default {
       wallet.sendRawTx(this.rawTx, txId => {
         this.confirmSendDialog = false
         this.sending = false
-        notify.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
+        this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         this.$emit('send')
       })
     }

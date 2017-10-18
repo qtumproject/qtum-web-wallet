@@ -39,7 +39,7 @@ export default {
         webWallet.restoreFromWif(this.wif)
       }
       catch (error) {
-        notify.error('restore_wif_fail')
+        this.$root.error('restore_wif_fail')
         return false
       }
       this.$emit('restored')
