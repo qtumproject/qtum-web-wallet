@@ -36,6 +36,7 @@
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
+              <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
               <request-payment v-if="isCurrent['request_payment']"></request-payment>
               <config v-if="isCurrent['settings']"></config>
@@ -55,6 +56,7 @@ import RestoreWallet from 'components/wallet/Restore'
 import RestoreWif from 'components/wallet/RestoreWif'
 import ViewWallet from 'components/wallet/View'
 import ViewTx from 'components/wallet/ViewTx'
+import SafeSend from 'components/wallet/SafeSend'
 import Send from 'components/wallet/Send'
 import RequestPayment from 'components/wallet/RequestPayment'
 import Config from 'components/Config'
@@ -75,6 +77,7 @@ export default {
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
+        { icon: 'security', name: 'safe_send' },
         { icon: 'repeat', name: 'send' },
         { icon: 'undo', name: 'request_payment' },
         { divider: true, name: 'disc' },
@@ -88,7 +91,6 @@ export default {
     },
     notShow() {
       return {
-        wallet: this.wallet == false,
         view: this.wallet == false,
         transactions: this.wallet == false,
         send: this.wallet == false,
@@ -103,6 +105,7 @@ export default {
     RestoreWif,
     ViewWallet,
     ViewTx,
+    SafeSend,
     Send,
     RequestPayment,
     Config,
