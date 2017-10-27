@@ -19,7 +19,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn success @click="restore">{{ $t('common.confirm') }}</v-btn>
+      <v-btn color="success" @click="restore">{{ $t('common.confirm') }}</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -39,7 +39,7 @@ export default {
         webWallet.restoreFromWif(this.wif)
       }
       catch (error) {
-        notify.error('restore_wif_fail')
+        this.$root.error('restore_wif_fail')
         return false
       }
       this.$emit('restored')

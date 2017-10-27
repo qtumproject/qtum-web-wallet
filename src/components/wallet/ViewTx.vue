@@ -37,18 +37,24 @@
             =&gt;
           </v-flex>
           <v-flex xs3>
-            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
-              {{vtx.scriptPubKey.addresses.join(' ')}}
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses && vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''" style='overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
+              <template v-if="vtx.scriptPubKey.addresses">
+                {{vtx.scriptPubKey.addresses.join(' ')}}
+              </template>
             </p>
           </v-flex>
           <v-flex xs2 text-xs-right>
-            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
-              {{vtx.value}}
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses && vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+              <template v-if="vtx.scriptPubKey.addresses">
+                {{vtx.value}}
+              </template>
             </p>
           </v-flex>
           <v-flex xs1>
-            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
-              &nbsp;QTUM
+            <p v-for="(vtx, vid) in tx.vout" :key="vid" :class="vtx.scriptPubKey.addresses && vtx.scriptPubKey.addresses[0] == wallet.info.address ? 'green--text' : ''">
+              <template v-if="vtx.scriptPubKey.addresses">
+                QTUM
+              </template>
             </p>
           </v-flex>
         </v-layout>

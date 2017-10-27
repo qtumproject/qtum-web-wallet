@@ -4,15 +4,22 @@
     <v-card-text>
       <v-container grid-list-md>
         <v-layout wrap>
-          <v-flex xs2 v-for="i in 12" :key="i">
-            <v-text-field :label="$t('mnemonic.label')+i" type="text" v-model="mnemonic[i-1]"></v-text-field>
+          <v-flex xs2 v-for="i in length" :key="i">
+            <v-text-field
+              :label="$t('mnemonic.label') + i"
+              type="text"
+              v-model="mnemonic[i - 1]"
+              ref="mnemonicInput"
+              @keydown.enter="tryInputMnemonicWords"
+              @focus="focus(i - 1)"
+            ></v-text-field>
           </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn success dark @click="inputMnemonicWords" :disabled="notFinishInput">{{ $t('common.confirm') }}</v-btn>
+      <v-btn color="success" dark @click="inputMnemonicWords" :disabled="notFinishInput">{{ $t('common.confirm') }}</v-btn>
     </v-card-actions>
   </div>
 </template>
@@ -21,17 +28,31 @@
 export default {
   data() {
     return {
+      currentIndex: 0,
+      length: 12,
       mnemonic: [],
     }
   },
   computed: {
-    notFinishInput: function() {
-      return this.mnemonic.filter((word) => !!word).length != 12
+    notFinishInput() {
+      return this.mnemonic.filter((word) => !!word).length != this.length
     }
   },
   methods: {
-    inputMnemonicWords: function() {
+    inputMnemonicWords() {
       this.$emit('mnemonic', this.mnemonic)
+    },
+    tryInputMnemonicWords() {
+      if (this.notFinishInput) {
+        if (this.mnemonic[this.currentIndex]) {
+          this.$refs.mnemonicInput[this.currentIndex + 1].focus()
+        }
+        return
+      }
+      this.inputMnemonicWords()
+    },
+    focus(index) {
+      this.currentIndex = index
     }
   }
 }

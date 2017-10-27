@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     list: function() {
-      return this.$root.notify.list
+      return this.$root.notifyList
     }
   }
 }

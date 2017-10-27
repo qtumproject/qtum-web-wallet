@@ -4,9 +4,9 @@ import config from 'config'
 let pubKeyHash = ''
 let wif = ''
 let scriptHash = ''
-switch (config.get('network', 'skynet'))
+switch (config.get('network', 'testnet'))
 {
-  case 'skynet':
+  case 'testnet':
     pubKeyHash = 0x78
     scriptHash = 0x6e
     wif = 0xef

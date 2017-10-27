@@ -2,12 +2,12 @@ import axios from 'axios'
 import config from 'config'
 
 let domain = ''
-switch(config.get('network', 'skynet')) {
-  case 'skynet':
-    domain = 'https://skynet.qtum.info'
+switch(config.get('network', 'testnet')) {
+  case 'testnet':
+    domain = 'https://testnet.qtum.org'
     break
   case 'mainnet':
-    domain = 'https://qtum.info'
+    domain = 'https://explorer.qtum.org'
     break
 }
 const apiPrefix = domain + '/insight-api'
@@ -71,7 +71,7 @@ export default {
   },
 
   getTxExplorerUrl(tx) {
-    return domain + '/tx/' + tx 
+    return domain + '/tx/' + tx
   },
 
   getAddrExplorerUrl(addr) {

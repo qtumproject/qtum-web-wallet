@@ -50,7 +50,10 @@
 </template>
 
 <script>
-import notify from 'components/Notify'
+import Vue from 'vue'
+
+//Components
+import Notify from 'components/Notify'
 import CreateWallet from 'components/wallet/Create'
 import RestoreWallet from 'components/wallet/Restore'
 import RestoreWif from 'components/wallet/RestoreWif'
@@ -60,11 +63,14 @@ import SafeSend from 'components/wallet/SafeSend'
 import Send from 'components/wallet/Send'
 import RequestPayment from 'components/wallet/RequestPayment'
 import Config from 'components/Config'
+
 import config from 'config'
 import webWallet from 'web-wallet'
+import i18n from 'i18n'
 
 export default {
   name: 'app',
+  i18n,
   data() {
     return {
       wallet: false,
@@ -83,6 +89,7 @@ export default {
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
+      notifyList: {}
     }
   },
   computed: {
@@ -99,7 +106,7 @@ export default {
     }
   },
   components: {
-    notify,
+    Notify,
     CreateWallet,
     RestoreWallet,
     RestoreWif,
@@ -119,6 +126,21 @@ export default {
     },
     changeView(name) {
       this.current = name
+    },
+    error(msg) {
+      this.addNotify(msg, 'error')
+    },
+    success(msg) {
+      this.addNotify(msg, 'success')
+    },
+    addNotify(msg, type) {
+      let notifyId = [msg, type].join('_')
+      let notify = {msg, type}
+      if (this.notifyList[notifyId]) {
+        clearTimeout(this.notifyList[notifyId].timer)
+      }
+      Vue.set(this.notifyList, notifyId, notify)
+      this.notifyList[notifyId].timer = setTimeout(() => {Vue.delete(this.notifyList, notifyId)}, 10000)
     }
   }
 }

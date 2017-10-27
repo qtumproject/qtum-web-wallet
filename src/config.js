@@ -27,7 +27,7 @@ export default {
   getNetwork() {
     let network = cookie.get('network')
     if (network === undefined) {
-      network = 'skynet'
+      network = 'testnet'
     }
     return network
   }

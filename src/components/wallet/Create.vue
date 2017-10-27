@@ -16,13 +16,13 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn error dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
-      <v-btn info dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
+      <v-btn color="error" dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
+      <v-btn color="info" dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
     </v-card-actions>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
- 
+
 <script>
 import mnemonic from 'components/Mnemonic'
 import password from 'components/Password'
@@ -53,7 +53,7 @@ export default {
   methods: {
     setPassword(password) {
       if (password == '') {
-        notify.error('password is_required')
+        this.$root.error('password is_required')
         return false
       }
       if (this.step === 2) {
@@ -65,7 +65,7 @@ export default {
       }
       else if (this.step === 4) {
         if (inputPassword != password) {
-          notify.error('password_is_not_same_as_the_old_one')
+          this.$root.error('password_is_not_same_as_the_old_one')
           return false
         }
         this.passwordRequired = false
@@ -82,7 +82,7 @@ export default {
     },
     validateMnemonic(mnemonic) {
       if (!wallet.validateMnemonic(mnemonic)) {
-        notify.error('mnemonics_are_not_same_as_the_words_should_remember')
+        this.$root.error('mnemonics_are_not_same_as_the_words_should_remember')
         return false
       }
       this.$emit('created')
