@@ -4,8 +4,8 @@ export default {
     cancel: '取消',
     copy: '复制',
     question_mark: '？',
-    skynet: 'Skynet-测试网络',
-    mainnet: 'Ignition-主网',
+    testnet: '测试网络',
+    mainnet: '主网',
     menu: {
       create: '创建新钱包',
       restore_from_mnemonic: '从密语恢复钱包',

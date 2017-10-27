@@ -58,7 +58,7 @@ export default {
       ],
       network: loadConfig.network,
       networkSelect: [
-        { value: 'skynet', text: this.$t('common.skynet')},
+        { value: 'testnet', text: this.$t('common.testnet')},
         { value: 'mainnet', text: this.$t('common.mainnet')},
       ]
     }

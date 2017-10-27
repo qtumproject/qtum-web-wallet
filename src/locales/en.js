@@ -4,7 +4,7 @@ export default {
     cancel: 'Cancel',
     copy: 'COPY',
     question_mark: '? ',
-    skynet: 'Skynet-Testnet',
+    testnet: 'Testnet',
     mainnet: 'Ignition-Mainnet',
     menu: {
       create: 'Generate new Wallet',
