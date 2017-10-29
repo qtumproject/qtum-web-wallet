@@ -13,7 +13,7 @@
         </v-stepper-content>
         <v-stepper-step step="2" editable>Generate Tx (At offline computer)</v-stepper-step>
         <v-stepper-content step="2">
-          <file-reader @file="handleFile"></file-reader>
+          <file-reader @upload="handleFile" color="info"></file-reader>
         </v-stepper-content>
         <v-stepper-step step="3" editable>Broadcast Tx (At online computer)</v-stepper-step>
         <v-stepper-content step="3">

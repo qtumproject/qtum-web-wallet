@@ -1,6 +1,6 @@
 <template>
-  <v-btn @click="clickBtn">
-    {{ btnName }}
+  <v-btn @click="clickBtn" :color="color">
+    <slot>{{ $t('file_reader.upload') }}</slot>
     <input type="file" style="display: none;" @change="handleFiles" ref="input"/>
   </v-btn>
 </template>
@@ -11,12 +11,7 @@ export default {
     return {
     }
   },
-  props: ['name'],
-  computed: {
-    btnName() {
-      return this.name || this.$t('file_reader.upload')
-    }
-  },
+  props: ['color'],
   methods: {
     clickBtn() {
       this.$refs.input.click()
@@ -26,7 +21,7 @@ export default {
       let reader = new FileReader()
       let vue = this
       reader.onload = function() {
-        vue.$emit('file', {
+        vue.$emit('upload', {
           content: this.result
         })
       }
