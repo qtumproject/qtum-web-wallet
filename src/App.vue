@@ -17,12 +17,15 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="cyan" app fixed clipped-left>
+    <v-toolbar :class="headerClass" app fixed clipped-left>
       <span class="title">
         <i class="qtum-icon qtum-icon-logo"></i>
         <span class="text">QTUM</span>
-        <v-btn flat @click="changeView('settings')">
-          ( {{ $t('common.' + network) }} )
+        <span @click="changeView('settings')">
+          --{{ $t('common.' + network) }}
+        </span>
+        <v-btn flat @click="changeView('settings')" v-if="mode != 'normal'">
+          {{ $t('common.mode.' + mode) }}
         </v-btn>
       </span>
     </v-toolbar>
@@ -76,6 +79,7 @@ export default {
       wallet: false,
       current: 'create',
       network: config.getNetwork(),
+      mode: config.getMode(),
       menu: [
         { icon: 'add', name: 'create' },
         { icon: 'sms', name: 'restore_from_mnemonic' },
@@ -98,11 +102,16 @@ export default {
     },
     notShow() {
       return {
-        view: this.wallet == false,
-        transactions: this.wallet == false,
-        send: this.wallet == false,
+        view: this.mode == 'offline' || this.wallet == false,
+        transactions: this.mode == 'offline' || this.wallet == false,
+        wallet: this.mode == 'offline' && this.wallet == false,
+        safe_send: this.mode == 'offline' && this.wallet == false,
+        send: this.mode == 'offline' || this.wallet == false,
         request_payment: this.wallet == false,
       }
+    },
+    headerClass() {
+      return this.mode == 'normal' ? 'cyan' : 'orange'
     }
   },
   components: {
@@ -121,7 +130,12 @@ export default {
     setWallet() {
       this.wallet = webWallet.getWallet()
       if (this.wallet) {
-        this.current = 'view'
+        if (this.mode == 'offline') {
+          this.current = 'request_payment'
+        }
+        else {
+          this.current = 'view'
+        }
       }
     },
     changeView(name) {

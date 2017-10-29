@@ -3,6 +3,7 @@ export default {
     confirm: '确认',
     cancel: '取消',
     copy: '复制',
+    next: '下一步',
     question_mark: '？',
     testnet: '测试网络',
     mainnet: '主网',
@@ -29,11 +30,18 @@ export default {
       copy: '复制',
       password: '密码',
       is_required: '是必须的',
+      parse: '解析',
+      file: '文件',
       password_is_not_same_as_the_old_one: '两次输入的密码不一样',
       mnemonics_are_not_same_as_the_words_should_remember: '这组密语跟应该记住的密语不一样',
       mnemonics_can_not_restore: '密语不能恢复钱包，请检查输入',
       address_is_not_same_as_the_old_one: '两次输入的地址不一样',
+      from_address_is_not_same_as_the_wallet: '发送地址跟钱包地址不一样',
       restore_wif_fail: '从此密钥不能恢复钱包，请再次确认',
+    },
+    mode: {
+      normal: '正常模式',
+      offline: '离线模式',
     }
   },
   mnemonic: {
@@ -49,10 +57,17 @@ export default {
   },
   safe_send: {
     title: '安全转账',
-    info: '欢迎使用安全转账模式，您需要两台电脑和一个移动存储设备来完成一次安全转账操作。如果您完全遵循下面的操作指导，那么您将不会有泄露私钥的风险。',
-    enter_address: '请再次输入地址（二次检查）',
-    going_to_send: '你确定要发送',
-    to_address: '到地址',
+    from_address: '源地址',
+    to_address: '目的地址',
+    amount: '金额',
+    fee: '手续费',
+    info: '欢迎使用安全转账模式，您需要两台电脑（一台联网，一台不联网）和一个移动存储设备来完成一次安全转账操作。如果您完全遵循下面的操作指导，那么您将不会有泄露私钥的风险。对于不联网的电脑，请在"设置"-"模式"里面设置为"离线模式"，然后恢复您的钱包',
+    info1_online: '请填写下列参数，确认后请保存生成的文件，并把文件拷贝到不联网的电脑上，并在那台电脑上进行第二步操作',
+    info1_offline: '请在联网电脑上完成第一步操作，然后把生成的文件设备拷贝过来，然后进行第二步操作',
+    info2_online: '请在不联网电脑上完成此步操作，然后把生成的文件拷贝过来，然后进行第三步操作',
+    info2_offline: '请上传拷贝过来的文件，完成签名后，把生成的文件再拷贝回联网电脑，然后进行第三步操作',
+    info3_online: '请上传拷贝过来的文件，验证后将完成转账操作',
+    info3_offline: '请在联网电脑上继续操作',
   },
   send: {
     send_tokens: '转账',
@@ -91,5 +106,6 @@ export default {
     title: '设置',
     lan: '语言',
     network: '网络选择',
+    mode: '模式',
   }
 }

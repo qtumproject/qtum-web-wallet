@@ -25,10 +25,9 @@ export default {
     return locale
   },
   getNetwork() {
-    let network = cookie.get('network')
-    if (network === undefined) {
-      network = 'testnet'
-    }
-    return network
+    return this.get('network', 'testnet')
+  },
+  getMode() {
+    return this.get('mode', 'normal')
   }
 }
