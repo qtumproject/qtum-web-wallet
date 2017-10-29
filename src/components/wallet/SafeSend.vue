@@ -10,11 +10,10 @@
         <v-stepper-content step="1">
           <v-text-field label="From Address" v-model="fromAddress" required></v-text-field>
           <v-btn color="success" @click="fetchUtxo">{{ $t('common.confirm') }}</v-btn>
-          <v-text-field v-model="fetchedUtxo" multiline></v-text-field>
         </v-stepper-content>
         <v-stepper-step step="2" editable>Generate Tx (At offline computer)</v-stepper-step>
         <v-stepper-content step="2">
-          <v-text-field label="To Address" v-model="fromAddress" required></v-text-field>
+          <file-reader @file="handleFile"></file-reader>
         </v-stepper-content>
         <v-stepper-step step="3" editable>Broadcast Tx (At online computer)</v-stepper-step>
         <v-stepper-content step="3">
@@ -75,14 +74,16 @@
 </template>
 
 <script>
+import fileSaver from 'file-saver'
 import wallet from 'wallet'
 import server from 'server'
+
+import FileReader from 'components/FileReader'
 
 export default {
   data() {
     return {
       fromAddress: '',
-      fetchedUtxo: false,
       address: '',
       amount: '',
       fee: '',
@@ -102,19 +103,28 @@ export default {
       return !(amountCheck && feeCheck)
     }
   },
+  components: {
+    FileReader,
+  },
   methods: {
-    fetchUtxo: function() {
+    fetchUtxo() {
       server.currentNode().getUtxList(this.fromAddress, (data) => {
-        this.fetchedUtxo = btoa(JSON.stringify(data))
+        let fetchedUtxo = JSON.stringify(data)
+        let blob = new Blob([fetchedUtxo], {type: 'text/plain;charset=utf-8'});
+        fileSaver.saveAs(blob, this.fromAddress + '_' + (new Date().getTime()) + '.uxto');
       })
     },
 
-    send: function() {
+    handleFile(file) {
+      console.log(file)
+    },
+
+    send() {
       this.confirmAddressDialog = true
       this.canSend = false
     },
 
-    confirmAddress: function() {
+    confirmAddress() {
       if (this.address != this.repeatAddress) {
         notify.error('address_is_not_same_as_the_old_one')
         return false
@@ -128,7 +138,7 @@ export default {
       })
     },
 
-    confirmSend: function() {
+    confirmSend() {
       let wallet = webWallet.getWallet()
       this.sending = true
       wallet.sendRawTx(this.rawTx, txId => {

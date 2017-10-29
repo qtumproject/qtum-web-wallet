@@ -44,6 +44,9 @@ export default {
     enter: '请输入你的密码',
     password: '密码',
   },
+  file_reader: {
+    upload: '上传',
+  },
   safe_send: {
     title: '安全转账',
     info: '欢迎使用安全转账模式，您需要两台电脑和一个移动存储设备来完成一次安全转账操作。如果您完全遵循下面的操作指导，那么您将不会有泄露私钥的风险。',

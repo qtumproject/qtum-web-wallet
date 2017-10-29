@@ -104,12 +104,12 @@ export default {
     }
   },
   methods: {
-    send: function() {
+    send() {
       this.confirmAddressDialog = true
       this.canSend = false
     },
 
-    confirmAddress: function() {
+    confirmAddress() {
       if(this.address != this.repeatAddress) {
         this.$root.error('address_is_not_same_as_the_old_one')
         return false
@@ -123,7 +123,7 @@ export default {
       })
     },
 
-    confirmSend: function() {
+    confirmSend() {
       let wallet = webWallet.getWallet()
       this.sending = true
       wallet.sendRawTx(this.rawTx, txId => {
