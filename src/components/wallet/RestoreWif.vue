@@ -13,6 +13,7 @@
         <v-flex xs10>
           <v-text-field
             v-model="wif"
+            @keydown.enter="restore"
           ></v-text-field>
         </v-flex>
       </v-layout>

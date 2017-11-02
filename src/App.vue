@@ -132,7 +132,10 @@ export default {
     },
     addNotify(msg, type) {
       let notifyId = [msg, type].join('_')
-      let notify = {msg, type}
+      let notify = {
+        msg: msg.split(' ').reduce((msg, current) => {return msg + this.$t('common.notify.' + current)}, ''),
+        type
+      }
       if (this.notifyList[notifyId]) {
         clearTimeout(this.notifyList[notifyId].timer)
       }
