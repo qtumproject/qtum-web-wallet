@@ -7,42 +7,19 @@ import server from 'server'
 const unit = 'QTUM'
 
 export default class Wallet {
-  constructor(type, data) {
-    this.type = type
-    if (this.getIsMnemonic()) {
-      this.mnemonic = data.mnemonic
-      this.seedHex = bip39.mnemonicToSeedHex(this.mnemonic.join(' '), data.password)
-      this.hdNode = qtum.HDNode.fromSeedHex(this.seedHex)
-      this.account = this.hdNode.deriveHardened(88).deriveHardened(0).deriveHardened(0)
-      this.keyPair = this.account.keyPair
-    } else {
-      this.wif = data
-      this.keyPair = qtum.ECPair.fromWIF(data)
-    }
+  constructor(keyPair, setInfo) {
+    this.keyPair = keyPair
     this.info = {
       address: this.getAddress(),
       balance: 'loading',
       unconfirmedBalance: 'loading',
     }
-    this.setInfo()
     this.txList = []
-    this.setTxList()
   }
 
-  getIsMnemonic() {
-    return this.type == 'mnemonic'
-  }
-
-  getMnemonic() {
-    return this.mnemonic
-  }
-
-  validateMnemonic(mnemonic) {
-    mnemonic = mnemonic.join(' ')
-    if (bip39.validateMnemonic(mnemonic) == false) {
-      return false
-    }
-    return mnemonic == this.mnemonic.join(' ')
+  validateMnemonic(mnemonic, password) {
+    let tempWallet = Wallet.restoreFromMnemonic(mnemonic, password)
+    return this.keyPair.toWIF() == tempWallet.keyPair.toWIF()
   }
 
   getAddress() {
@@ -51,6 +28,11 @@ export default class Wallet {
 
   getPrivKey() {
     return this.keyPair.toWIF()
+  }
+
+  init() {
+    this.setInfo()
+    this.setTxList()
   }
 
   setInfo() {
@@ -78,7 +60,7 @@ export default class Wallet {
         find[find.length] = tx
         if (findTotal.greaterThanOrEqualTo(value)) break
       }
-      if (value.greaterThanOrEqualTo(findTotal)) {
+      if (value.greaterThan(findTotal)) {
         throw new Error('You do not have enough qtum for send')
       }
       return find
@@ -106,26 +88,44 @@ export default class Wallet {
 
   sendRawTx(tx, callback) {
     server.currentNode().sendRawTx(tx, res => {
-      this.setInfo()
-      this.setTxList()
+      this.init()
       if (typeof callback == 'function') callback(res)
     })
     return false
   }
 
   static restoreFromMnemonic(mnemonic, password) {
-    //if (bip39.validateMnemonic(mnemonic.join(' ')) == false) return false
-    return new Wallet('mnemonic', {
-      mnemonic: mnemonic,
-      password: password
-    })
+    //if (bip39.validateMnemonic(mnemonic) == false) return false
+    let seedHex = bip39.mnemonicToSeedHex(mnemonic, password)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let account = hdNode.deriveHardened(88).deriveHardened(0).deriveHardened(0)
+    let keyPair = account.keyPair
+    return new Wallet(keyPair)
+  }
+
+  static restoreFromMobile(mnemonic) {
+    let seedHex = bip39.mnemonicToSeedHex(mnemonic)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let account = hdNode.deriveHardened(88).deriveHardened(0)
+    let walletList = []
+    for (let i = 0; i < 10; i++) {
+      let wallet = account.deriveHardened(i)
+      wallet = new Wallet(wallet.keyPair)
+      wallet.setInfo()
+      walletList[i] = {
+        wallet: wallet,
+        path: i
+      }
+    }
+    return walletList
   }
 
   static restoreFromWif(wif) {
-    return new Wallet('wif', wif)
+    let keyPair = qtum.ECPair.fromWIF(wif)
+    return new Wallet(keyPair)
   }
 
-  static generateNewWallet(password) {
-    return Wallet.restoreFromMnemonic(bip39.generateMnemonic().split(' '), password)
+  static generateMnemonic() {
+    return bip39.generateMnemonic()
   }
 }

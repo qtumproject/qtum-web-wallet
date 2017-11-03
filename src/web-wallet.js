@@ -6,12 +6,20 @@ function getWallet() {
   return wallet
 }
 
-function generateWallet(password) {
-  return wallet = Wallet.generateNewWallet(password)
+function generateMnemonic() {
+  return Wallet.generateMnemonic()
 }
 
 function restoreFromMnemonic(mnemonic, password) {
   return wallet = Wallet.restoreFromMnemonic(mnemonic, password)
+}
+
+function restoreFromMobile(mnemonic) {
+  return Wallet.restoreFromMobile(mnemonic)
+}
+
+function chooseMobileWallet(walletList, path) {
+  return wallet = walletList[path].wallet
 }
 
 function restoreFromWif(wif) {
@@ -20,7 +28,9 @@ function restoreFromWif(wif) {
 
 export default {
   getWallet,
-  generateWallet,
+  generateMnemonic,
   restoreFromMnemonic,
+  restoreFromMobile,
   restoreFromWif,
+  chooseMobileWallet
 }

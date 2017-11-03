@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     inputMnemonicWords() {
-      this.$emit('mnemonic', this.mnemonic)
+      this.$emit('mnemonic', this.mnemonic.join(' '))
     },
     tryInputMnemonicWords() {
       if (this.notFinishInput) {
