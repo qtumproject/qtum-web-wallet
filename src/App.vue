@@ -58,20 +58,20 @@ import Vue from 'vue'
 
 //Components
 import Notify from 'components/Notify'
-import CreateWallet from 'components/wallet/Create'
-import RestoreWallet from 'components/wallet/Restore'
-import RestoreWif from 'components/wallet/RestoreWif'
-import RestoreMobile from 'components/wallet/RestoreMobile'
-import ViewWallet from 'components/wallet/View'
-import ViewTx from 'components/wallet/ViewTx'
-import SafeSend from 'components/wallet/SafeSend'
-import Send from 'components/wallet/Send'
-import RequestPayment from 'components/wallet/RequestPayment'
-import Config from 'components/Config'
+import CreateWallet from 'controllers/Create'
+import RestoreWallet from 'controllers/Restore'
+import RestoreWif from 'controllers/RestoreWif'
+import RestoreMobile from 'controllers/RestoreMobile'
+import ViewWallet from 'controllers/View'
+import ViewTx from 'controllers/ViewTx'
+import SafeSend from 'controllers/SafeSend'
+import Send from 'controllers/Send'
+import RequestPayment from 'controllers/RequestPayment'
+import Config from 'controllers/Config'
 
-import config from 'config'
-import webWallet from 'web-wallet'
-import i18n from 'i18n'
+import config from 'libs/config'
+import webWallet from 'libs/web-wallet'
+import i18n from 'libs/i18n'
 
 export default {
   name: 'app',
