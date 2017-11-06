@@ -3,6 +3,7 @@ import bip32 from 'bip32-utils'
 import bip39 from 'bip39'
 import bigNumber from 'bignumber.js'
 import server from 'server'
+import config from 'config'
 
 const unit = 'QTUM'
 
@@ -31,8 +32,10 @@ export default class Wallet {
   }
 
   init() {
-    this.setInfo()
-    this.setTxList()
+    if (config.getMode() != 'offline') {
+      this.setInfo()
+      this.setTxList()
+    }
   }
 
   setInfo() {
@@ -50,7 +53,37 @@ export default class Wallet {
 
   generateTx(to, amount, fee, callback) {
     let from = this.getAddress()
+    server.currentNode().getUtxList(from, list => {
+      let tx = Wallet.generateTx(this, to, amount, fee, list)
+      if (typeof callback == 'function') callback(tx)
+    })
+  }
+
+  sendRawTx(tx, callback) {
+    Wallet.sendRawTx(tx, res => {
+      this.setInfo()
+      this.setTxList()
+      if (typeof callback == 'function') callback(res)
+    })
+  }
+
+  static generateTx(wallet, to, amount, fee, utxoList) {
     let selectTxs = function (unspentTransactions) {
+      //sort the utxo
+      let matureList = []
+      let immatureList = []
+      for(let i = 0; i < unspentTransactions.length; i++) {
+        if(unspentTransactions[i].confirmations >= 500) {
+          matureList[matureList.length] = unspentTransactions[i]
+        }
+        else {
+          immatureList[matureList.length] = unspentTransactions[i]
+        }
+      }
+      matureList.sort((a, b) => {return a.value - b.value})
+      immatureList.sort((a, b) => {return b.confirmations - a.confirmations})
+      unspentTransactions = matureList.concat(immatureList)
+
       let value = new bigNumber(amount).plus(fee).times(1e8)
       let find = []
       let findTotal = new bigNumber(0)
@@ -64,26 +97,25 @@ export default class Wallet {
         throw new Error('You do not have enough qtum for send')
       }
       return find
-    };
-    server.currentNode().getUtxList(from, list => {
-      let inputs = selectTxs(list)
-      let tx = new qtum.TransactionBuilder()
-      let totalValue = new bigNumber(0)
-      let value = new bigNumber(amount).times(1e8)
-      let sendFee = new bigNumber(fee).times(1e8)
-      for (let i = 0; i < inputs.length; i++) {
-        tx.addInput(inputs[i].hash, inputs[i].pos)
-        totalValue = totalValue.plus(inputs[i].value)
-      }
-      tx.addOutput(to, new bigNumber(value).toNumber())
-      if (totalValue.minus(value).minus(sendFee).toNumber() > 0) {
-        tx.addOutput(from, totalValue.minus(value).minus(sendFee).toNumber())
-      }
-      for (var i = 0; i < inputs.length; i++) {
-        tx.sign(i, this.account.keyPair)
-      }
-      if (typeof callback == 'function') callback(tx.build().toHex())
-    });
+    }
+    let from = wallet.getAddress()
+    let inputs = selectTxs(utxoList)
+    let tx = new qtum.TransactionBuilder()
+    let totalValue = new bigNumber(0)
+    let value = new bigNumber(amount).times(1e8)
+    let sendFee = new bigNumber(fee).times(1e8)
+    for (let i = 0; i < inputs.length; i++) {
+      tx.addInput(inputs[i].hash, inputs[i].pos)
+      totalValue = totalValue.plus(inputs[i].value)
+    }
+    tx.addOutput(to, new bigNumber(value).toNumber())
+    if (totalValue.minus(value).minus(sendFee).toNumber() > 0) {
+      tx.addOutput(from, totalValue.minus(value).minus(sendFee).toNumber())
+    }
+    for (var i = 0; i < inputs.length; i++) {
+      tx.sign(i, wallet.keyPair)
+    }
+    return tx.build().toHex()
   }
 
   sendRawTx(tx, callback) {
@@ -91,7 +123,6 @@ export default class Wallet {
       this.init()
       if (typeof callback == 'function') callback(res)
     })
-    return false
   }
 
   static restoreFromMnemonic(mnemonic, password) {

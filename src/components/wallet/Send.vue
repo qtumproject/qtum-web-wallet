@@ -26,7 +26,7 @@
       <v-spacer></v-spacer>
       <v-btn class="success" dark @click="send" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
     </v-card-actions>
-    <v-dialog v-model="confirmAddressDialog" persistent width="50%">
+    <v-dialog v-model="confirmAddressDialog" persistent max-width="50%">
       <v-card>
         <v-card-title>
           <span class="headline">{{ $t('send.enter_address') }}</span>
@@ -47,7 +47,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="confirmSendDialog" persistent width="50%">
+    <v-dialog v-model="confirmSendDialog" persistent max-width="50%">
       <v-card>
         <v-card-title>
           <span class="headline">
@@ -104,12 +104,12 @@ export default {
     }
   },
   methods: {
-    send: function() {
+    send() {
       this.confirmAddressDialog = true
       this.canSend = false
     },
 
-    confirmAddress: function() {
+    confirmAddress() {
       if(this.address != this.repeatAddress) {
         this.$root.error('address_is_not_same_as_the_old_one')
         return false
@@ -123,7 +123,7 @@ export default {
       })
     },
 
-    confirmSend: function() {
+    confirmSend() {
       let wallet = webWallet.getWallet()
       this.sending = true
       wallet.sendRawTx(this.rawTx, txId => {

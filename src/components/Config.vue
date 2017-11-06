@@ -30,6 +30,18 @@
               bottom
             ></v-select>
           </v-flex>
+          <v-flex xs6>
+            <v-subheader>{{ $t('config.mode') }}</v-subheader>
+          </v-flex>
+          <v-flex xs6>
+            <v-select
+              :items="modeSelect"
+              v-model="mode"
+              :label="$t('config.mode')"
+              single-line
+              bottom
+            ></v-select>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
@@ -45,7 +57,8 @@ import config from 'config'
 
 let loadConfig = {
   lan: config.getLan(),
-  network: config.getNetwork()
+  network: config.getNetwork(),
+  mode: config.getMode()
 }
 
 export default {
@@ -60,6 +73,11 @@ export default {
       networkSelect: [
         { value: 'testnet', text: this.$t('common.testnet')},
         { value: 'mainnet', text: this.$t('common.mainnet')},
+      ],
+      mode: loadConfig.mode,
+      modeSelect: [
+        { value: 'normal', text: this.$t('common.mode.normal')},
+        { value: 'offline', text: this.$t('common.mode.offline')},
       ]
     }
   },
@@ -67,6 +85,7 @@ export default {
     save: function() {
       config.set('lan', this.lan)
       config.set('network', this.network)
+      config.set('mode', this.mode)
       window.location.reload()
     }
   }

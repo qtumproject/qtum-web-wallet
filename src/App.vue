@@ -17,12 +17,15 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar class="cyan" app fixed clipped-left>
+    <v-toolbar :class="headerClass" app fixed clipped-left>
       <span class="title">
         <i class="qtum-icon qtum-icon-logo"></i>
         <span class="text">QTUM</span>
-        <v-btn flat @click="changeView('settings')">
-          ( {{ $t('common.' + network) }} )
+        <span @click="changeView('settings')">
+          --{{ $t('common.' + network) }}
+        </span>
+        <v-btn flat @click="changeView('settings')" v-if="mode != 'normal'">
+          {{ $t('common.mode.' + mode) }}
         </v-btn>
       </span>
     </v-toolbar>
@@ -37,6 +40,7 @@
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
+              <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
               <request-payment v-if="isCurrent['request_payment']"></request-payment>
               <config v-if="isCurrent['settings']"></config>
@@ -60,6 +64,7 @@ import RestoreWif from 'components/wallet/RestoreWif'
 import RestoreMobile from 'components/wallet/RestoreMobile'
 import ViewWallet from 'components/wallet/View'
 import ViewTx from 'components/wallet/ViewTx'
+import SafeSend from 'components/wallet/SafeSend'
 import Send from 'components/wallet/Send'
 import RequestPayment from 'components/wallet/RequestPayment'
 import Config from 'components/Config'
@@ -76,6 +81,7 @@ export default {
       wallet: false,
       current: 'create',
       network: config.getNetwork(),
+      mode: config.getMode(),
       menu: [
         { icon: 'add', name: 'create' },
         { icon: 'sms', name: 'restore_from_mnemonic' },
@@ -84,6 +90,7 @@ export default {
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
+        { icon: 'security', name: 'safe_send' },
         { icon: 'repeat', name: 'send' },
         { icon: 'undo', name: 'request_payment' },
         { divider: true, name: 'disc' },
@@ -98,12 +105,16 @@ export default {
     },
     notShow() {
       return {
-        wallet: this.wallet == false,
-        view: this.wallet == false,
-        transactions: this.wallet == false,
-        send: this.wallet == false,
+        view: this.mode == 'offline' || this.wallet == false,
+        transactions: this.mode == 'offline' || this.wallet == false,
+        wallet: this.mode == 'offline' && this.wallet == false,
+        safe_send: this.mode == 'offline' && this.wallet == false,
+        send: this.mode == 'offline' || this.wallet == false,
         request_payment: this.wallet == false,
       }
+    },
+    headerClass() {
+      return this.mode == 'normal' ? 'cyan' : 'orange'
     }
   },
   components: {
@@ -114,6 +125,7 @@ export default {
     RestoreMobile,
     ViewWallet,
     ViewTx,
+    SafeSend,
     Send,
     RequestPayment,
     Config,
@@ -123,7 +135,12 @@ export default {
       this.wallet = webWallet.getWallet()
       this.wallet.init()
       if (this.wallet) {
-        this.current = 'view'
+        if (this.mode == 'offline') {
+          this.current = 'request_payment'
+        }
+        else {
+          this.current = 'view'
+        }
       }
     },
     changeView(name) {
