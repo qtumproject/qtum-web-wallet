@@ -28,8 +28,8 @@ import mnemonic from 'components/Mnemonic'
 import password from 'components/Password'
 import webWallet from 'web-wallet'
 
-var wallet = false
-var inputPassword = ''
+let wallet = false
+let inputPassword = ''
 
 export default {
   data() {
@@ -37,7 +37,6 @@ export default {
       step: 1,
       passwordRequired: false,
       words: [],
-      wordsContent: '',
     }
   },
   props: ['view'],
@@ -52,16 +51,13 @@ export default {
   },
   methods: {
     setPassword(password) {
-      if (password == '') {
-        this.$root.error('password is_required')
-        return false
-      }
       if (this.step === 2) {
         this.passwordRequired = false
         this.step = 3
         inputPassword = password
-        wallet = webWallet.generateWallet(password)
-        this.words = wallet.getMnemonic()
+        let mnemonic = webWallet.generateMnemonic()
+        wallet = webWallet.restoreFromMnemonic(mnemonic, password)
+        this.words = mnemonic.split(' ')
       }
       else if (this.step === 4) {
         if (inputPassword != password) {
@@ -81,7 +77,7 @@ export default {
       this.passwordRequired = true
     },
     validateMnemonic(mnemonic) {
-      if (!wallet.validateMnemonic(mnemonic)) {
+      if (!wallet.validateMnemonic(mnemonic, inputPassword)) {
         this.$root.error('mnemonics_are_not_same_as_the_words_should_remember')
         return false
       }

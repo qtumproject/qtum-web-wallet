@@ -10,6 +10,7 @@ export default {
       create: '创建新钱包',
       restore_from_mnemonic: '从密语恢复钱包',
       restore_from_wif: '从私钥恢复钱包',
+      restore_from_mobile: '从手机钱包恢复',
       view: '查看钱包信息',
       transactions: '查看交易记录',
       send: '转账',
@@ -63,6 +64,9 @@ export default {
   restore_wif: {
     title: '恢复钱包',
     priv_key: '私钥',
+  },
+  restore_mobile: {
+    title: '从手机钱包恢复',
   },
   view: {
     title: '查看钱包信息',

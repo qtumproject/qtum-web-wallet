@@ -10,6 +10,7 @@ export default {
       create: 'Generate new Wallet',
       restore_from_mnemonic: 'Restore From Mnemonic',
       restore_from_wif: 'Restore From WIF',
+      restore_from_mobile: 'Restore From Mobile Wallet',
       view: 'View Wallet Info',
       transactions: 'View Wallet Txs',
       send: 'Send',
@@ -63,6 +64,9 @@ export default {
   restore_wif: {
     title: 'Restore Wallet From WIF',
     priv_key: 'WIF',
+  },
+  restore_mobile: {
+    title: 'Restore From Mobile Wallet',
   },
   view: {
     title: 'View Wallet Info',
