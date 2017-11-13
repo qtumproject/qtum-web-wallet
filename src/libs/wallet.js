@@ -1,10 +1,20 @@
-import qtum from 'libs/qtum-lib'
+import qtum from 'qtumjs-lib'
 import bip39 from 'bip39'
 import bigNumber from 'bignumber.js'
 import server from 'libs/server'
 import config from 'libs/config'
 
 const unit = 'QTUM'
+let network = {}
+switch (config.get('network', 'testnet'))
+{
+  case 'testnet':
+    network = qtum.networks.qtum_testnet
+    break
+  case 'mainnet':
+    network = qtum.networks.qtum
+    break
+}
 
 export default class Wallet {
   constructor(keyPair, setInfo) {
@@ -99,7 +109,7 @@ export default class Wallet {
     }
     let from = wallet.getAddress()
     let inputs = selectTxs(utxoList)
-    let tx = new qtum.TransactionBuilder()
+    let tx = new qtum.TransactionBuilder(network)
     let totalValue = new bigNumber(0)
     let value = new bigNumber(amount).times(1e8)
     let sendFee = new bigNumber(fee).times(1e8)
@@ -127,7 +137,7 @@ export default class Wallet {
   static restoreFromMnemonic(mnemonic, password) {
     //if (bip39.validateMnemonic(mnemonic) == false) return false
     let seedHex = bip39.mnemonicToSeedHex(mnemonic, password)
-    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex, network)
     let account = hdNode.deriveHardened(88).deriveHardened(0).deriveHardened(0)
     let keyPair = account.keyPair
     return new Wallet(keyPair)
@@ -135,7 +145,7 @@ export default class Wallet {
 
   static restoreFromMobile(mnemonic) {
     let seedHex = bip39.mnemonicToSeedHex(mnemonic)
-    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex, network)
     let account = hdNode.deriveHardened(88).deriveHardened(0)
     let walletList = []
     for (let i = 0; i < 10; i++) {
@@ -151,7 +161,7 @@ export default class Wallet {
   }
 
   static restoreFromWif(wif) {
-    let keyPair = qtum.ECPair.fromWIF(wif)
+    let keyPair = qtum.ECPair.fromWIF(wif, network)
     return new Wallet(keyPair)
   }
 
