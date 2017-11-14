@@ -76,7 +76,7 @@ export default class Wallet {
           matureList[matureList.length] = unspentTransactions[i]
         }
         else {
-          immatureList[matureList.length] = unspentTransactions[i]
+          immatureList[immatureList.length] = unspentTransactions[i]
         }
       }
       matureList.sort((a, b) => {return a.value - b.value})
