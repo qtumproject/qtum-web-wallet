@@ -30,7 +30,8 @@ export default {
     return {
       currentIndex: 0,
       length: 12,
-      mnemonic: [],
+      //mnemonic: [],
+      mnemonic: 'wild copper right cruel inside orange pear expand trade inflict session whisper'.split(' '),
     }
   },
   computed: {
