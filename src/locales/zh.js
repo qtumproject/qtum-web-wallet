@@ -91,6 +91,10 @@ export default {
     title: '向智能合约发送数据',
     confirm: '确定发送吗?',
   },
+  call_contract: {
+    title: '调用智能合约',
+    result: '执行结果',
+  },
   create: {
     title: '创建新钱包',
     remember: '请记住如下助记词',

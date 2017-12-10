@@ -12,7 +12,7 @@
         v-if="this.restored"
         hide-actions
       >
-        <template slot="items" scope="props">
+        <template slot="items" slot-scope="props">
           <td>{{ props.item.wallet.getAddress() }}</td>
           <td class="text-xs-right">{{ props.item.wallet.info.balance }}</td>
           <td class="text-xs-right">

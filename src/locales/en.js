@@ -17,6 +17,9 @@ export default {
       safe_send: 'Safe Send',
       send: 'Send',
       request_payment: 'Request Payment',
+      create_contract: 'Create Contract',
+      send_to_contract: 'Send To Contract',
+      call_contract: 'Call Contract',
       settings: 'Settings',
     },
     info: {
@@ -78,6 +81,19 @@ export default {
   },
   request_payment: {
     title: 'Request Payment',
+  },
+  create_contract: {
+    title: 'Create Contract',
+    confirm: 'Do you confirm to publish this contract?',
+    compiler: 'Compiler',
+  },
+  send_to_contract: {
+    title: 'Send To Contract',
+    confirm: 'Do you confirm?',
+  },
+  call_contract: {
+    title: 'Call Contract',
+    result: 'Result',
   },
   create: {
     title: 'Generate new Wallet',

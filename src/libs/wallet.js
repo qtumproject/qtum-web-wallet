@@ -91,6 +91,10 @@ export default class Wallet {
     })
   }
 
+  callContract(address, encodedData, callback) {
+    Wallet.callContract(address, encodedData, callback)
+  }
+
   static generateCreateContractTx(wallet, code, gasLimit, gasPrice, fee, utxoList) {
     return qtum.utils.buildCreateContractTransaction(wallet.keyPair, code, gasLimit, gasPrice, fee, utxoList)
   }
@@ -107,6 +111,10 @@ export default class Wallet {
     server.currentNode().sendRawTx(tx, res => {
       if (typeof callback == 'function') callback(res)
     })
+  }
+
+  static callContract(address, encodedData, callback) {
+    server.currentNode().callContract(address, encodedData, callback)
   }
 
   static restoreFromMnemonic(mnemonic, password) {

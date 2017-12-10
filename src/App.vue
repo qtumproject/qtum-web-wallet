@@ -102,7 +102,7 @@ export default {
         { divider: true, name: 'contract' },
         { icon: 'gavel', name: 'create_contract' },
         { icon: 'publish', name: 'send_to_contract' },
-        { icon: 'publish', name: 'call_contract' },
+        { icon: 'play_circle_filled', name: 'call_contract' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],

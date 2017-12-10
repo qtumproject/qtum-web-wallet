@@ -29,6 +29,7 @@
           <v-text-field
             v-for="(param, index) in params"
             :label="param.name"
+            :key="index"
             v-model="inputParams[index]"
           ></v-text-field>
         </template>
@@ -57,7 +58,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t('create_contract.confirm') }}
+            {{ $t('send_to_contract.confirm') }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -83,6 +84,7 @@
 <script>
 import webWallet from 'libs/web-wallet'
 import abi from 'ethjs-abi'
+import server from 'libs/server'
 
 export default {
   data () {
@@ -94,7 +96,7 @@ export default {
       method: null,
       inputParams: [],
       gasPrice: '40',
-      gasLimit: '25000',
+      gasLimit: '2500000',
       fee: '0.01',
       confirmSendDialog: false,
       rawTx: 'loading...',
@@ -118,7 +120,12 @@ export default {
       let gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
       let gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
       let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
-      return !(gasPriceCheck && gasLimitCheck && feeCheck)
+      return !(gasPriceCheck && gasLimitCheck && feeCheck && this.method !== null)
+    }
+  },
+  watch: {
+    method: function() {
+      this.inputParams = []
     }
   },
   methods: {
@@ -136,10 +143,17 @@ export default {
       }
     },
     send() {
-      return false
+      let encodedData = ''
+      try {
+        encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
+      }
+      catch (e) {
+        this.$root.error('Params error')
+        return false
+      }
       this.confirmSendDialog = true
       let wallet = webWallet.getWallet()
-      wallet.generateSendToContractTx(this.contractAddress, this.encodedData, this.gasLimit, this.gasPrice, this.fee, rawTx => {
+      wallet.generateSendToContractTx(this.contractAddress, encodedData, this.gasLimit, this.gasPrice, this.fee, rawTx => {
         this.rawTx = rawTx
         this.canSend = true
       })
