@@ -89,9 +89,8 @@ import server from 'libs/server'
 export default {
   data () {
     return {
-      contractAddress: '127714c70005b0e1c5a5e1f2769b64818a5d73c7',
-      //encodedData: 'c04a87d10000000000000000000000000000000000000000000000000000000000000005',
-      abi: '[{"constant":false,"inputs":[{"name":"_x","type":"uint8"}],"name":"setA","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"getA","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"nonpayable","type":"function"}]',
+      contractAddress: '',
+      abi: '',
       parsedAbi: null,
       method: null,
       inputParams: [],
