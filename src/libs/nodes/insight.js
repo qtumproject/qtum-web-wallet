@@ -76,5 +76,12 @@ export default {
 
   getAddrExplorerUrl(addr) {
     return domain + '/address/' + addr
+  },
+
+  callContract(address, encodedData, callback) {
+    _getRequest('/contracts/'+address+'/hash/'+encodedData+'/call', function(response) {
+      if (typeof callback == 'function')
+        callback(response["executionResult"]["output"])
+    })
   }
 }

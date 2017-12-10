@@ -1,10 +1,20 @@
-import qtum from 'libs/qtum-lib'
+import qtum from 'qtumjs-lib'
 import bip39 from 'bip39'
 import bigNumber from 'bignumber.js'
 import server from 'libs/server'
 import config from 'libs/config'
 
 const unit = 'QTUM'
+let network = {}
+switch (config.get('network', 'testnet'))
+{
+  case 'testnet':
+    network = qtum.networks.qtum_testnet
+    break
+  case 'mainnet':
+    network = qtum.networks.qtum
+    break
+}
 
 export default class Wallet {
   constructor(keyPair, setInfo) {
@@ -50,6 +60,22 @@ export default class Wallet {
     })
   }
 
+  generateCreateContractTx(code, gasLimit, gasPrice, fee, callback) {
+    let from = this.getAddress()
+    server.currentNode().getUtxList(from, list => {
+      let tx = Wallet.generateCreateContractTx(this, code, gasLimit, gasPrice, fee, list)
+      if (typeof callback == 'function') callback(tx)
+    })
+  }
+
+  generateSendToContractTx(contractAddress, encodedData, gasLimit, gasPrice, fee, callback) {
+    let from = this.getAddress()
+    server.currentNode().getUtxList(from, list => {
+      let tx = Wallet.generateSendToContractTx(this, contractAddress, encodedData, gasLimit, gasPrice, fee, list)
+      if (typeof callback == 'function') callback(tx)
+    })
+  }
+
   generateTx(to, amount, fee, callback) {
     let from = this.getAddress()
     server.currentNode().getUtxList(from, list => {
@@ -60,74 +86,41 @@ export default class Wallet {
 
   sendRawTx(tx, callback) {
     Wallet.sendRawTx(tx, res => {
-      this.setInfo()
-      this.setTxList()
-      if (typeof callback == 'function') callback(res)
-    })
-  }
-
-  static generateTx(wallet, to, amount, fee, utxoList) {
-    let selectTxs = function (unspentTransactions) {
-      //sort the utxo
-      let matureList = []
-      let immatureList = []
-      for(let i = 0; i < unspentTransactions.length; i++) {
-        if(unspentTransactions[i].confirmations >= 500) {
-          matureList[matureList.length] = unspentTransactions[i]
-        }
-        else {
-          immatureList[immatureList.length] = unspentTransactions[i]
-        }
-      }
-      matureList.sort((a, b) => {return a.value - b.value})
-      immatureList.sort((a, b) => {return b.confirmations - a.confirmations})
-      unspentTransactions = matureList.concat(immatureList)
-
-      let value = new bigNumber(amount).plus(fee).times(1e8)
-      let find = []
-      let findTotal = new bigNumber(0)
-      for (let i = 0; i < unspentTransactions.length; i++) {
-        let tx = unspentTransactions[i]
-        findTotal = findTotal.plus(tx.value)
-        find[find.length] = tx
-        if (findTotal.greaterThanOrEqualTo(value)) break
-      }
-      if (value.greaterThan(findTotal)) {
-        throw new Error('You do not have enough qtum for send')
-      }
-      return find
-    }
-    let from = wallet.getAddress()
-    let inputs = selectTxs(utxoList)
-    let tx = new qtum.TransactionBuilder()
-    let totalValue = new bigNumber(0)
-    let value = new bigNumber(amount).times(1e8)
-    let sendFee = new bigNumber(fee).times(1e8)
-    for (let i = 0; i < inputs.length; i++) {
-      tx.addInput(inputs[i].hash, inputs[i].pos)
-      totalValue = totalValue.plus(inputs[i].value)
-    }
-    tx.addOutput(to, new bigNumber(value).toNumber())
-    if (totalValue.minus(value).minus(sendFee).toNumber() > 0) {
-      tx.addOutput(from, totalValue.minus(value).minus(sendFee).toNumber())
-    }
-    for (var i = 0; i < inputs.length; i++) {
-      tx.sign(i, wallet.keyPair)
-    }
-    return tx.build().toHex()
-  }
-
-  sendRawTx(tx, callback) {
-    server.currentNode().sendRawTx(tx, res => {
       this.init()
       if (typeof callback == 'function') callback(res)
     })
   }
 
+  callContract(address, encodedData, callback) {
+    Wallet.callContract(address, encodedData, callback)
+  }
+
+  static generateCreateContractTx(wallet, code, gasLimit, gasPrice, fee, utxoList) {
+    return qtum.utils.buildCreateContractTransaction(wallet.keyPair, code, gasLimit, gasPrice, fee, utxoList)
+  }
+
+  static generateSendToContractTx(wallet, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList) {
+    return qtum.utils.buildSendToContractTransaction(wallet.keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList)
+  }
+
+  static generateTx(wallet, to, amount, fee, utxoList) {
+    return qtum.utils.buildPubKeyHashTransaction(wallet.keyPair, to, amount, fee, utxoList)
+  }
+
+  static sendRawTx(tx, callback) {
+    server.currentNode().sendRawTx(tx, res => {
+      if (typeof callback == 'function') callback(res)
+    })
+  }
+
+  static callContract(address, encodedData, callback) {
+    server.currentNode().callContract(address, encodedData, callback)
+  }
+
   static restoreFromMnemonic(mnemonic, password) {
     //if (bip39.validateMnemonic(mnemonic) == false) return false
     let seedHex = bip39.mnemonicToSeedHex(mnemonic, password)
-    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex, network)
     let account = hdNode.deriveHardened(88).deriveHardened(0).deriveHardened(0)
     let keyPair = account.keyPair
     return new Wallet(keyPair)
@@ -135,7 +128,7 @@ export default class Wallet {
 
   static restoreFromMobile(mnemonic) {
     let seedHex = bip39.mnemonicToSeedHex(mnemonic)
-    let hdNode = qtum.HDNode.fromSeedHex(seedHex)
+    let hdNode = qtum.HDNode.fromSeedHex(seedHex, network)
     let account = hdNode.deriveHardened(88).deriveHardened(0)
     let walletList = []
     for (let i = 0; i < 10; i++) {
@@ -151,7 +144,7 @@ export default class Wallet {
   }
 
   static restoreFromWif(wif) {
-    let keyPair = qtum.ECPair.fromWIF(wif)
+    let keyPair = qtum.ECPair.fromWIF(wif, network)
     return new Wallet(keyPair)
   }
 

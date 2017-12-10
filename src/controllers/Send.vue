@@ -86,7 +86,7 @@ export default {
     return {
       address: '',
       amount: '',
-      fee: '',
+      fee: '0.01',
       confirmAddressDialog: false,
       repeatAddress: '',
       confirmSendDialog: false,

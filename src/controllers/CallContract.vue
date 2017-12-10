@@ -1,0 +1,136 @@
+<template>
+  <v-card>
+    <v-card-title>
+      <span class="headline">{{ $t('call_contract.title') }}</span>
+    </v-card-title>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+          label="Contract Address"
+          v-model="contractAddress"
+          required
+        ></v-text-field>
+        <v-text-field
+          label="ABI"
+          v-model="abi"
+          required
+          multiLine
+          @input="decodeAbi"
+        ></v-text-field>
+        <v-select
+          v-if="parsedAbi"
+          :items="parsedAbi"
+          label="Method"
+          v-model="method"
+          single-line
+          bottom
+        ></v-select>
+        <template v-if="params">
+          <v-text-field
+            v-for="(param, index) in params"
+            :label="param.name"
+            :key="index"
+            v-model="inputParams[index]"
+          ></v-text-field>
+        </template>
+      </v-form>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn class="success" dark @click="callTo" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
+    </v-card-actions>
+    <v-dialog v-model="execResultDialog" persistent max-width="50%">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            {{ $t('call_contract.result') }}
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field label="Result" v-model="result" multi-line disabled></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat @click.native="execResultDialog = false">{{ $t('common.confirm') }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-card>
+</template>
+
+<script>
+import webWallet from 'libs/web-wallet'
+import abi from 'ethjs-abi'
+import server from 'libs/server'
+
+export default {
+  data () {
+    return {
+      contractAddress: '',
+      abi: '',
+      parsedAbi: null,
+      method: null,
+      inputParams: [],
+      execResultDialog: false,
+      result: 'loading...',
+    }
+  },
+  computed: {
+    params: function() {
+      if (this.method === null) {
+        return null
+      }
+      let inputs = this.parsedAbi[this.method].info.inputs
+      if (inputs.length > 0) {
+        return inputs
+      }
+      return null
+    },
+    notValid: function() {
+      //@todo valid the address
+      return !(this.method !== null)
+    }
+  },
+  watch: {
+    method: function() {
+      this.inputParams = []
+    }
+  },
+  methods: {
+    decodeAbi() {
+      let abiJson = {}
+      try {
+        abiJson = JSON.parse(this.abi)
+      }
+      catch (e) {
+        return true
+      }
+      this.parsedAbi = []
+      for (let i = 0; i < abiJson.length; i++) {
+        this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
+      }
+    },
+    callTo() {
+      let encodedData = ''
+      try {
+        encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
+      }
+      catch (e) {
+        this.$root.error('Params error')
+        return false
+      }
+      this.execResultDialog = true
+      let wallet = webWallet.getWallet()
+      wallet.callContract(this.contractAddress, encodedData, result => {
+        this.result = result
+      })
+    }
+  }
+}
+</script>

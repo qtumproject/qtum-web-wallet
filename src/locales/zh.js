@@ -17,6 +17,9 @@ export default {
       safe_send: '安全转账',
       send: '转账',
       request_payment: '收款码',
+      create_contract: '创建智能合约',
+      send_to_contract: '向智能合约发送数据',
+      call_contract: '调用智能合约',
       settings: '设置',
     },
     info: {
@@ -78,6 +81,19 @@ export default {
   },
   request_payment: {
     title: '收款码',
+  },
+  create_contract: {
+    title: '创建智能合约',
+    confirm: '确定发布此智能合约吗?',
+    compiler: '编译器',
+  },
+  send_to_contract: {
+    title: '向智能合约发送数据',
+    confirm: '确定发送吗?',
+  },
+  call_contract: {
+    title: '调用智能合约',
+    result: '执行结果',
   },
   create: {
     title: '创建新钱包',

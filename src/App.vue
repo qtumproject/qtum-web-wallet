@@ -43,6 +43,9 @@
               <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
               <request-payment v-if="isCurrent['request_payment']"></request-payment>
+              <create-contract v-if="isCurrent['create_contract']"></create-contract>
+              <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
+              <call-contract v-if="isCurrent['call_contract']"></call-contract>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>
@@ -67,6 +70,9 @@ import ViewTx from 'controllers/ViewTx'
 import SafeSend from 'controllers/SafeSend'
 import Send from 'controllers/Send'
 import RequestPayment from 'controllers/RequestPayment'
+import CreateContract from 'controllers/CreateContract'
+import SendToContract from 'controllers/SendToContract.vue'
+import CallContract from 'controllers/CallContract.vue'
 import Config from 'controllers/Config'
 
 import config from 'libs/config'
@@ -93,6 +99,10 @@ export default {
         { icon: 'security', name: 'safe_send' },
         { icon: 'repeat', name: 'send' },
         { icon: 'undo', name: 'request_payment' },
+        { divider: true, name: 'contract' },
+        { icon: 'gavel', name: 'create_contract' },
+        { icon: 'publish', name: 'send_to_contract' },
+        { icon: 'play_circle_filled', name: 'call_contract' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
@@ -111,6 +121,10 @@ export default {
         safe_send: this.mode == 'offline' && this.wallet == false,
         send: this.mode == 'offline' || this.wallet == false,
         request_payment: this.wallet == false,
+        contract: this.mode == 'offline' || this.wallet == false,
+        create_contract: this.mode == 'offline' || this.wallet == false,
+        send_to_contract: this.mode == 'offline' || this.wallet == false,
+        call_contract: this.mode == 'offline' || this.wallet == false,
       }
     },
     headerClass() {
@@ -128,6 +142,9 @@ export default {
     SafeSend,
     Send,
     RequestPayment,
+    CreateContract,
+    SendToContract,
+    CallContract,
     Config,
   },
   methods: {
