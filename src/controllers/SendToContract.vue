@@ -34,7 +34,7 @@
           ></v-text-field>
         </template>
         <v-text-field
-          label="Gas Price"
+          label="Gas Price (1e-8 QTUM/gas)"
           v-model="gasPrice"
           required
         ></v-text-field>

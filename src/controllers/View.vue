@@ -43,6 +43,21 @@
           </v-btn>
         </v-flex>
       </v-layout>
+      <v-layout v-if="wallet.info.qrc20.length > 0">
+        <v-flex xs3>
+          <v-subheader>
+            QRC20
+          </v-subheader>
+        </v-flex>
+        <v-flex xs7>
+          <v-card flat tile :color="'grey darken-'+(i%2+1)" style="border-bottom: 2px solid #000;padding: 15px 10px;" v-for="(token, i) in wallet.info.qrc20" :key="i">
+            <v-layout>
+              <v-flex xs5>{{ token.contract.name }}</v-flex>
+              <v-flex xs7>{{ token.amount / Math.pow(10, token.contract.decimals) }} {{ token.contract.symbol }}</v-flex>
+            </v-layout>
+          </v-card>
+        </v-flex>
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>

@@ -10,11 +10,32 @@
           v-model="address"
           required
           ></v-text-field>
+        <v-layout>
+          <v-flex xs9>
+            <v-text-field
+              label="Amount"
+              v-model="amount"
+              required
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs3>
+            <v-select
+              :items="tokens"
+              v-model="symbol"
+              single-line
+              bottom
+            ></v-select>
+          </v-flex>
+        </v-layout>
         <v-text-field
-          label="Amount"
-          v-model="amount"
-          required
-          ></v-text-field>
+          v-if="symbol != 'QTUM'"
+          label="Gas Price (1e-8 QTUM/gas)"
+          v-model="gasPrice"
+        ></v-text-field>
+        <v-text-field
+          label="Gas Limit"
+          v-model="gasLimit"
+        ></v-text-field>
         <v-text-field
           label="Fee"
           v-model="fee"
@@ -52,7 +73,7 @@
         <v-card-title>
           <span class="headline">
             {{ $t('send.going_to_send') }}
-            <v-chip label>{{this.amount}}QTUM</v-chip>
+            <v-chip label>{{this.amount}}{{this.symbol}}</v-chip>
             {{ $t('send.to_address') }}
             <v-chip label>{{this.address}}</v-chip>
             {{ $t('common.question_mark') }}
@@ -80,12 +101,17 @@
 
 <script>
 import webWallet from 'libs/web-wallet'
+import qrc20 from 'libs/qrc20'
+import server from 'libs/server'
 
 export default {
   data () {
     return {
       address: '',
       amount: '',
+      symbol: 'QTUM',
+      gasPrice: '40',
+      gasLimit: '2500000',
       fee: '0.01',
       confirmAddressDialog: false,
       repeatAddress: '',
@@ -96,6 +122,11 @@ export default {
     }
   },
   computed: {
+    tokens: function() {
+      let tokenList = [{text: 'QTUM', value: 'QTUM'}]
+      qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
+      return tokenList
+    },
     notValid: function() {
       //@todo valid the address
       let amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
@@ -117,10 +148,20 @@ export default {
       this.confirmAddressDialog = false
       this.confirmSendDialog = true
       let wallet = webWallet.getWallet()
-      wallet.generateTx(this.address, this.amount, this.fee, rawTx => {
-        this.rawTx = rawTx
-        this.canSend = true
-      })
+      if (this.symbol == 'QTUM') {
+        wallet.generateTx(this.address, this.amount, this.fee, rawTx => {
+          this.rawTx = rawTx
+          this.canSend = true
+        })
+      }
+      else if (qrc20.checkSymbol(this.symbol)) {
+        let token = qrc20.getTokenBySymbol(this.symbol)
+        let encodedData = qrc20.encodeSendData(token, this.address, this.amount)
+        wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee, rawTx => {
+          this.rawTx = rawTx
+          this.canSend = true
+        })
+      }
     },
 
     confirmSend() {

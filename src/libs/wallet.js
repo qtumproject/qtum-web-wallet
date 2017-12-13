@@ -1,6 +1,5 @@
 import qtum from 'qtumjs-lib'
 import bip39 from 'bip39'
-import bigNumber from 'bignumber.js'
 import server from 'libs/server'
 import config from 'libs/config'
 
@@ -23,6 +22,7 @@ export default class Wallet {
       address: this.getAddress(),
       balance: 'loading',
       unconfirmedBalance: 'loading',
+      qrc20: [],
     }
     this.txList = []
   }
@@ -43,6 +43,7 @@ export default class Wallet {
   init() {
     if (config.getMode() != 'offline') {
       this.setInfo()
+      this.setQrc20()
       this.setTxList()
     }
   }
@@ -51,6 +52,12 @@ export default class Wallet {
     server.currentNode().getInfo(this.getAddress(), info => {
       this.info.balance = info.balance + unit
       this.info.unconfirmedBalance = info.unconfirmedBalance + unit
+    })
+  }
+
+  setQrc20() {
+    server.currentNode().getQrc20(this.getAddress(), info => {
+      this.info.qrc20 = info
     })
   }
 

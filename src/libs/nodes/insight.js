@@ -40,6 +40,10 @@ export default {
     _getRequest('/addr/'+address, callback)
   },
 
+  getQrc20(address, callback) {
+    _getRequest('/erc20/balances?balanceAddress='+address, callback)
+  },
+
   getTxList(address, callback) {
     _getRequest('/txs/?address='+address, callback)
   },
