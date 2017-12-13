@@ -33,6 +33,7 @@
           v-model="gasPrice"
         ></v-text-field>
         <v-text-field
+          v-if="symbol != 'QTUM'"
           label="Gas Limit"
           v-model="gasLimit"
         ></v-text-field>
