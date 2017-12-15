@@ -12,7 +12,7 @@
         v-if="this.restored"
         hide-actions
       >
-        <template slot="items" slot-scope="props">
+        <template slot="items" scope="props">
           <td>{{ props.item.wallet.getAddress() }}</td>
           <td class="text-xs-right">{{ props.item.wallet.info.balance }}</td>
           <td class="text-xs-right">
@@ -20,7 +20,7 @@
               Choose
             </v-btn>
           </td>
-      </template>
+        </template>
       </v-data-table>
     </v-card-text>
   </v-card>
