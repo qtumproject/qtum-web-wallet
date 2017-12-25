@@ -172,7 +172,11 @@ export default {
     addNotify(msg, type) {
       let notifyId = [msg, type].join('_')
       let notify = {
-        msg: msg.split(' ').reduce((msg, current) => {return msg + this.$t('common.notify.' + current)}, ''),
+        msg: msg.split(' ').reduce((msg, current) => {
+          let tmsg = this.$t('common.notify.' + current)
+          tmsg = (tmsg == 'common.notify.' + current) ? ' ' + current : tmsg
+          return msg + tmsg
+        }, ''),
         type
       }
       if (this.notifyList[notifyId]) {
