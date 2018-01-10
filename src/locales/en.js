@@ -127,5 +127,15 @@ export default {
     lan: 'Language',
     network: 'Network',
     mode: 'Mode',
+  },
+  warning: {
+    title: 'Warning',
+    list: [
+      'We cannot recover your funds if you visit a phishing site or lose your backup. Please make sure to keep backups of your private keys/seed words.',
+      'We do not store your private keys and/or seed words on this web wallet.',
+      'You as a user, are entirely responsible for your funds and your own security.',
+      'Please make sure to keep an updated antivirus and operating system.',
+      'Please keep your private keys PRIVATE, do not give them to anyone.',
+    ]
   }
 }

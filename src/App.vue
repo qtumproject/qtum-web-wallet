@@ -53,6 +53,7 @@
       </v-content>
     </main>
     <notify></notify>
+    <warning></warning>
   </v-app>
 </template>
 
@@ -61,6 +62,7 @@ import Vue from 'vue'
 
 //Components
 import Notify from 'components/Notify'
+import Warning from 'components/Warning'
 import CreateWallet from 'controllers/Create'
 import RestoreWallet from 'controllers/Restore'
 import RestoreWif from 'controllers/RestoreWif'
@@ -133,6 +135,7 @@ export default {
   },
   components: {
     Notify,
+    Warning,
     CreateWallet,
     RestoreWallet,
     RestoreWif,
