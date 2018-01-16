@@ -5,7 +5,7 @@ import config from 'libs/config'
 
 const unit = 'QTUM'
 let network = {}
-switch (config.get('network', 'testnet'))
+switch (config.getNetwork())
 {
   case 'testnet':
     network = qtum.networks.qtum_testnet

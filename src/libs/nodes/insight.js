@@ -2,7 +2,7 @@ import axios from 'axios'
 import config from 'libs/config'
 
 let domain = ''
-switch(config.get('network', 'testnet')) {
+switch(config.getNetwork()) {
   case 'testnet':
     domain = 'https://testnet.qtum.org'
     break

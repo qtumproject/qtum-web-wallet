@@ -3,7 +3,7 @@ import config from 'libs/config'
 import abi from 'ethjs-abi'
 import qtum from 'qtumjs-lib'
 
-let tokenList = tokens[config.get('network', 'testnet')]
+let tokenList = tokens[config.getNetwork()]
 
 export default {
   getTokenList() {
