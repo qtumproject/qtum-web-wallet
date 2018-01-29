@@ -13,7 +13,7 @@
 
 <script>
 import password from 'components/Password'
-import fileCreator from 'components/fileCreator'
+import fileCreator from 'components/FileCreator'
 import keyfile from 'libs/keyfile'
 import webWallet from 'libs/web-wallet'
 
