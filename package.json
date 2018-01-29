@@ -18,6 +18,7 @@
     "vuetify": "^0.16.5"
   },
   "devDependencies": {
+    "aes256": "^1.0.3",
     "autoprefixer": "^7.1.5",
     "axios": "^0.16.2",
     "babel-core": "^6.22.1",

@@ -38,11 +38,13 @@
               <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
+              <restore-key-file @restored="setWallet" v-show="isCurrent['restore_from_key_file']"></restore-key-file>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
               <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
               <request-payment v-if="isCurrent['request_payment']"></request-payment>
+              <dump-key-file v-if="isCurrent['dump_as_key_file']"></dump-key-file>
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
@@ -67,11 +69,13 @@ import CreateWallet from 'controllers/Create'
 import RestoreWallet from 'controllers/Restore'
 import RestoreWif from 'controllers/RestoreWif'
 import RestoreMobile from 'controllers/RestoreMobile'
+import RestoreKeyFile from 'controllers/RestoreKeyFile'
 import ViewWallet from 'controllers/View'
 import ViewTx from 'controllers/ViewTx'
 import SafeSend from 'controllers/SafeSend'
 import Send from 'controllers/Send'
 import RequestPayment from 'controllers/RequestPayment'
+import DumpKeyFile from 'controllers/DumpKeyFile'
 import CreateContract from 'controllers/CreateContract'
 import SendToContract from 'controllers/SendToContract.vue'
 import CallContract from 'controllers/CallContract.vue'
@@ -95,12 +99,14 @@ export default {
         { icon: 'sms', name: 'restore_from_mnemonic' },
         { icon: 'create', name: 'restore_from_wif' },
         { icon: 'phonelink_lock', name: 'restore_from_mobile' },
+        { icon: 'cloud_upload', name: 'restore_from_key_file' },
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
         { icon: 'security', name: 'safe_send' },
         { icon: 'repeat', name: 'send' },
         { icon: 'undo', name: 'request_payment' },
+        { icon: 'cloud_download', name: 'dump_as_key_file' },
         { divider: true, name: 'contract' },
         { icon: 'gavel', name: 'create_contract' },
         { icon: 'publish', name: 'send_to_contract' },
@@ -123,6 +129,7 @@ export default {
         safe_send: this.mode == 'offline' && this.wallet == false,
         send: this.mode == 'offline' || this.wallet == false,
         request_payment: this.wallet == false,
+        dump_as_key_file: this.wallet == false,
         contract: this.mode == 'offline' || this.wallet == false,
         create_contract: this.mode == 'offline' || this.wallet == false,
         send_to_contract: this.mode == 'offline' || this.wallet == false,
@@ -140,11 +147,13 @@ export default {
     RestoreWallet,
     RestoreWif,
     RestoreMobile,
+    RestoreKeyFile,
     ViewWallet,
     ViewTx,
     SafeSend,
     Send,
     RequestPayment,
+    DumpKeyFile,
     CreateContract,
     SendToContract,
     CallContract,

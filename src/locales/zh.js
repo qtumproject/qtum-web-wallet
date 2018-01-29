@@ -12,7 +12,9 @@ export default {
       restore_from_mnemonic: '从密语恢复钱包',
       restore_from_wif: '从私钥恢复钱包',
       restore_from_mobile: '从手机钱包恢复',
+      restore_from_key_file: '从加密文件恢复',
       view: '查看钱包信息',
+      dump_as_key_file: '备份为加密文件',
       transactions: '查看交易记录',
       safe_send: '安全转账',
       send: '转账',
@@ -42,6 +44,8 @@ export default {
       address_is_not_same_as_the_old_one: '两次输入的地址不一样',
       from_address_is_not_same_as_the_wallet: '发送地址跟钱包地址不一样',
       restore_wif_fail: '从此密钥不能恢复钱包，请再次确认',
+      the_key_file_is_not_a_valid_format: '加密文件格式不对',
+      restore_key_file_fail: '可能是加密文件的解密密码不对，从此加密文件不能恢复钱包，请再次确认',
     },
     mode: {
       normal: '正常模式',
@@ -58,6 +62,9 @@ export default {
   },
   file_reader: {
     upload: '上传',
+  },
+  file_creator: {
+    download: '请点击此的按钮下载文件，如果没有启动下载，请在按钮上右键并选择"链接另存为..."',
   },
   safe_send: {
     title: '安全转账',
@@ -110,6 +117,10 @@ export default {
   restore_mobile: {
     title: '从手机钱包恢复',
   },
+  restore_key_file: {
+    title: '从加密文件恢复',
+    password_title: '请输入您的加密文件解密密码',
+  },
   view: {
     title: '查看钱包信息',
   },
@@ -121,6 +132,11 @@ export default {
     total_in: '总计输入：',
     fee: '手续费：',
     total_out: '总计输出：',
+  },
+  dump_as_key_file: {
+    title: '备份为加密文件',
+    password_title: '请输入密码进行文件加密',
+    warning: '请记住此时您用来加密文件的密码，此密码没有另一个地方有备份，也不能被找回，如果此密码丢失的话，这次备份的加密文件不可能通过其它办法恢复成您的钱包',
   },
   config: {
     title: '设置',

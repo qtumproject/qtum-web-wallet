@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="50%">
       <v-card>
         <v-card-title>
-          <span class="headline">{{ $t('password.enter') }}</span>
+          <span class="headline">{{ $t(headline) }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -32,15 +32,22 @@ export default {
       password: ''
     }
   },
-  props: ['open', 'validate'],
+  props: ['open', 'validate', 'notEmpty', 'title'],
   computed: {
     dialog() {
       return this.open
+    },
+    headline() {
+      return this.title? this.title : 'password.enter'
     }
   },
   methods: {
     confirmPassword() {
       let password = this.password
+      if (this.notEmpty && this.password == '') {
+        this.$root.error('password is_required')
+        return false
+      } 
       this.$emit('password', password)
       this.password = ''
       return true

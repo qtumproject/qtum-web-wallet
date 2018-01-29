@@ -12,7 +12,9 @@ export default {
       restore_from_mnemonic: 'Restore From Mnemonic',
       restore_from_wif: 'Restore From WIF',
       restore_from_mobile: 'Restore From Mobile Wallet',
+      restore_from_key_file: 'Restore From Key File',
       view: 'View Wallet Info',
+      dump_as_key_file: 'Dump As Key File',
       transactions: 'View Wallet Txs',
       safe_send: 'Safe Send',
       send: 'Send',
@@ -42,6 +44,8 @@ export default {
       address_is_not_same_as_the_old_one: 'This address is not same as the old one',
       from_address_is_not_same_as_the_wallet: 'The from address is not same as the wallet address',
       restore_wif_fail: 'Cannot restore a wallet from this WIF',
+      the_key_file_is_not_a_valid_format: 'The key file is not a valid format',
+      restore_key_file_fail: 'Restore from key file failed. Maybe the password is not correct',
     },
     mode: {
       normal: 'Normal',
@@ -58,6 +62,9 @@ export default {
   },
   file_reader: {
     upload: 'Upload',
+  },
+  file_creator: {
+    download: 'Please click this button to start downloading file, if the downloading not start, you can right-click the button and choose "save the link as ..."',
   },
   safe_send: {
     title: 'Safe Send',
@@ -110,6 +117,10 @@ export default {
   restore_mobile: {
     title: 'Restore From Mobile Wallet',
   },
+  restore_key_file: {
+    title: 'Restore From The Key File',
+    password_title: 'Please input you password to decrypt the wallet',
+  },
   view: {
     title: 'View Wallet Info',
   },
@@ -121,6 +132,11 @@ export default {
     total_in: 'TOTAL IN: ',
     fee: 'FEE: ',
     total_out: 'TOTAL OUT: ',
+  },
+  dump_as_key_file: {
+    title: 'Dump as a key file',
+    password_title: 'Please input a password to encrypt you wallet',
+    warning: 'Please remember this password, if you lose this password, this backup file cannot be decrypted any more',
   },
   config: {
     title: 'Settings',
