@@ -56,6 +56,7 @@ export default {
             address: item.address,
             txid: item.txid,
             confirmations: item.confirmations,
+            isStake: item.isStake,
             amount: item.amount,
             value: item.satoshis,
             hash: item.txid,
