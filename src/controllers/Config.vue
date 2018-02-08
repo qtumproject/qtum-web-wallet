@@ -68,6 +68,7 @@ export default {
       lanSelect: [
         { value: 'zh', text: '中文'},
         { value: 'en', text: 'En'},
+        { value: 'ko', text: '한글'}
       ],
       network: loadConfig.network,
       networkSelect: [
