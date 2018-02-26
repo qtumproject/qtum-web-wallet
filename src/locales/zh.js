@@ -9,6 +9,7 @@ export default {
     mainnet: '主网',
     menu: {
       create: '创建新钱包',
+      create_from_mnemonic: '创建密语钱包',
       restore_from_mnemonic: '从密语恢复钱包',
       restore_from_wif: '从私钥恢复钱包',
       restore_from_mobile: '从手机钱包恢复',
@@ -103,6 +104,9 @@ export default {
     result: '执行结果',
   },
   create: {
+    title: '创建新钱包',
+  },
+  create_mnemonic: {
     title: '创建新钱包',
     remember: '请记住如下助记词',
     remembered: '我已经都记住了',

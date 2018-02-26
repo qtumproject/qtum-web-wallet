@@ -9,6 +9,7 @@ export default {
     mainnet: 'Ignition-Mainnet',
     menu: {
       create: 'Generate new Wallet',
+      create_from_mnemonic: 'Create From Mnemonic',
       restore_from_mnemonic: 'Restore From Mnemonic',
       restore_from_wif: 'Restore From WIF',
       restore_from_mobile: 'Restore From Mobile Wallet',
@@ -103,6 +104,9 @@ export default {
     result: 'Result',
   },
   create: {
+    title: 'Generate new Wallet',
+  },
+  create_mnemonic: {
     title: 'Generate new Wallet',
     remember: 'Please remember the following mnemonics',
     remembered: 'I have remembered all. Let\'s check',

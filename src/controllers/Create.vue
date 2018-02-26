@@ -3,40 +3,30 @@
     <v-card-title>
       <span class="headline">{{ $t('create.title') }}</span>
     </v-card-title>
-    <v-card-text v-if="[3, 5].includes(step)">
-      <template v-if="step === 3">
-        <p>{{ $t('create.remember') }}</p>
-        <div>
-          <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
-        </div>
-      </template>
-      <template v-else-if="step === 5">
-        <mnemonic @mnemonic="validateMnemonic"></mnemonic>
-      </template>
+    <v-card-text v-if="step === 2">
+      <v-alert color="error" value="true">{{ $t('dump_as_key_file.warning') }}</v-alert>
+      <file-creator v-if="fileStr" color="green" :href="fileStr" @click="dumpDone"></file-creator>
+      <password :open="passwordRequired" notEmpty="true" title="dump_as_key_file.password_title" @password="setPassword"></password>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="error" dark @click="createWallet" v-if="step === 1">{{ $t('create.title') }}</v-btn>
-      <v-btn color="info" dark @click="checkWallet" v-if="step === 3">{{ $t('create.remembered') }}</v-btn>
     </v-card-actions>
-    <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
 
 <script>
-import mnemonic from 'components/Mnemonic'
 import password from 'components/Password'
 import webWallet from 'libs/web-wallet'
-
-let wallet = false
-let inputPassword = ''
+import fileCreator from 'components/FileCreator'
+import keyfile from 'libs/keyfile'
 
 export default {
   data() {
     return {
       step: 1,
       passwordRequired: false,
-      words: [],
+      fileStr: false,
     }
   },
   props: ['view'],
@@ -47,41 +37,24 @@ export default {
   },
   components: {
     password,
-    mnemonic,
+    fileCreator,
   },
   methods: {
     setPassword(password) {
-      if (this.step === 2) {
-        this.passwordRequired = false
-        this.step = 3
-        inputPassword = password
-        let mnemonic = webWallet.generateMnemonic()
-        wallet = webWallet.restoreFromMnemonic(mnemonic, password)
-        this.words = mnemonic.split(' ')
-      }
-      else if (this.step === 4) {
-        if (inputPassword != password) {
-          this.$root.error('password_is_not_same_as_the_old_one')
-          return false
-        }
-        this.passwordRequired = false
-        this.step = 5
-      }
+      let wallet = webWallet.restoreFromMnemonic(webWallet.generateMnemonic(), Date.now())
+      let content = keyfile.encode(wallet.getPrivKey(), password)
+      this.fileStr = 'data:text/plain,'+keyfile.build(content)
+      this.passwordRequired = false
+
     },
     createWallet() {
       this.step = 2
       this.passwordRequired = true
     },
-    checkWallet() {
-      this.step = 4
-      this.passwordRequired = true
-    },
-    validateMnemonic(mnemonic) {
-      if (!wallet.validateMnemonic(mnemonic, inputPassword)) {
-        this.$root.error('mnemonics_are_not_same_as_the_words_should_remember')
-        return false
-      }
-      this.$emit('created')
+    dumpDone() {
+      setTimeout(() => {
+        this.$emit('created')
+      }, 1000)
     }
   }
 }
