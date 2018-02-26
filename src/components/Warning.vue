@@ -25,7 +25,7 @@ import config from 'libs/config'
 export default {
   data() {
     return {
-      total: 5,
+      total: 6,
       showWarning: config.get('showWarning', true)
     }
   },

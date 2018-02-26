@@ -152,6 +152,7 @@ export default {
       '귀하는 사용자로서 자신의 자금과 자신의 안전에 전적으로 책임이 있습니다.',
       '업데이트 된 바이러스 백신 및 운영체제를 유지하십시오.',
       '개인 키는 누구에게도 제공하지 마십시오.',
+      'If you use Restore from Mnemonic, the seed words and password must be exactly right or the wallet will create a new address. When using Restore from Mnemonic, confirm you have the correct address.',
     ]
   }
 }

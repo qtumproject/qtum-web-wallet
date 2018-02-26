@@ -26,11 +26,16 @@ function restoreFromWif(wif) {
   return wallet = Wallet.restoreFromWif(wif)
 }
 
+function validateBip39Mnemonic(mnemonic) {
+  return Wallet.validateBip39Mnemonic(mnemonic);
+}
+
 export default {
   getWallet,
   generateMnemonic,
   restoreFromMnemonic,
   restoreFromMobile,
   restoreFromWif,
-  chooseMobileWallet
+  chooseMobileWallet,
+  validateBip39Mnemonic
 }
