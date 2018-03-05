@@ -35,6 +35,7 @@
           <v-layout row wrap>
             <v-flex xs10 offset-xs1>
               <create-wallet :view="isCurrent['create']" @created="setWallet" v-show="isCurrent['create']"></create-wallet>
+              <create-mnemonic :view="isCurrent['create_from_mnemonic']" @created="setWallet" v-show="isCurrent['create_from_mnemonic']"></create-mnemonic>
               <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
@@ -66,6 +67,7 @@ import Vue from 'vue'
 import Notify from 'components/Notify'
 import Warning from 'components/Warning'
 import CreateWallet from 'controllers/Create'
+import CreateMnemonic from 'controllers/CreateMnemonic'
 import RestoreWallet from 'controllers/Restore'
 import RestoreWif from 'controllers/RestoreWif'
 import RestoreMobile from 'controllers/RestoreMobile'
@@ -96,6 +98,7 @@ export default {
       mode: config.getMode(),
       menu: [
         { icon: 'add', name: 'create' },
+        { icon: 'assignment', name: 'create_from_mnemonic' },
         { icon: 'sms', name: 'restore_from_mnemonic' },
         { icon: 'create', name: 'restore_from_wif' },
         { icon: 'phonelink_lock', name: 'restore_from_mobile' },
@@ -144,6 +147,7 @@ export default {
     Notify,
     Warning,
     CreateWallet,
+    CreateMnemonic,
     RestoreWallet,
     RestoreWif,
     RestoreMobile,

@@ -124,6 +124,10 @@ export default class Wallet {
     server.currentNode().callContract(address, encodedData, callback)
   }
 
+  static validateBip39Mnemonic(mnemonic) {
+    return bip39.validateMnemonic(mnemonic);
+  }
+
   static restoreFromMnemonic(mnemonic, password) {
     //if (bip39.validateMnemonic(mnemonic) == false) return false
     let seedHex = bip39.mnemonicToSeedHex(mnemonic, password)

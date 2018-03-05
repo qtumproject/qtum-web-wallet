@@ -30,6 +30,9 @@ export default {
   methods: {
     restore(mnemonic) {
       inputMnemonic = mnemonic
+      if (webWallet.validateBip39Mnemonic(inputMnemonic) == false) {
+        if (!confirm(this.$t('restore.mnemonic_warning'))) return false
+      }
       this.passwordRequired = true
     },
     setPassword(password) {
