@@ -50,7 +50,7 @@
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "ora": "^1.4.0",
     "qtum-opcodes": "^1.0.0",
-    "qtumjs-lib": "0.0.6",
+    "qtumjs-lib": "0.0.7",
     "rimraf": "^2.6.0",
     "semver": "^5.5.0",
     "shelljs": "^0.7.6",
