@@ -1,7 +1,9 @@
 import qtum from 'qtumjs-lib'
 import bip39 from 'bip39'
+import ledger from 'libs/ledger'
 import server from 'libs/server'
 import config from 'libs/config'
+import buffer from 'buffer'
 
 const unit = 'QTUM'
 let network = {}
@@ -16,8 +18,9 @@ switch (config.getNetwork())
 }
 
 export default class Wallet {
-  constructor(keyPair, setInfo) {
+  constructor(keyPair, type) {
     this.keyPair = keyPair
+    this.type = type
     this.info = {
       address: this.getAddress(),
       balance: 'loading',
@@ -36,8 +39,20 @@ export default class Wallet {
     return this.keyPair.getAddress()
   }
 
+  getHasPrivKey() {
+    return !!this.keyPair.d
+  }
+
   getPrivKey() {
-    return this.keyPair.toWIF()
+    try {
+      return this.keyPair.toWIF()
+    } catch (e) {
+      if (e.toString() == 'Error: Missing private key') {
+        return null
+      } else {
+        throw e
+      }
+    }
   }
 
   init() {
@@ -159,7 +174,36 @@ export default class Wallet {
     return new Wallet(keyPair)
   }
 
+  static async restoreHdNodeFromLedgerPath(ledger, path) {
+    const res = await ledger.qtum.getWalletPublicKey(path)
+    const compressed = ledger.qtum.compressPublicKey(buffer.Buffer.from(res['publicKey'], 'hex'))
+    const keyPair = new qtum.ECPair.fromPublicKeyBuffer(compressed, network)
+    return new qtum.HDNode(keyPair, buffer.Buffer.from(res['chainCode'], 'hex'))
+  }
+
+  static restoreFromHdNodeByPage(hdNode, start, length = 10) {
+    let walletList = []
+    for (let i = start; i < length + start; i++) {
+      let wallet = hdNode.derive(i)
+      wallet = new Wallet(wallet.keyPair)
+      wallet.setInfo()
+      walletList[i] = {
+        wallet: wallet,
+        path: i
+      }
+    }
+    return walletList
+  }
+
   static generateMnemonic() {
     return bip39.generateMnemonic()
+  }
+
+  static async connectLedger() {
+    return await ledger.connect()
+  }
+
+  static getLedgerDefaultPath() {
+    return ledger.defaultPath
   }
 }

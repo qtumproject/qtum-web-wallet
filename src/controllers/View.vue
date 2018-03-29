@@ -22,7 +22,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-layout>
+      <v-layout v-if="privKey !== null">
         <v-flex xs3>
           <v-subheader>
             {{ $t('common.info.priv_key') }}

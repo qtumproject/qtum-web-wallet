@@ -40,6 +40,7 @@
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
               <restore-key-file @restored="setWallet" v-show="isCurrent['restore_from_key_file']"></restore-key-file>
+              <restore-ledger @restored="setWallet"  v-if="isCurrent['restore_from_ledger']"></restore-ledger>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
               <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
@@ -72,6 +73,7 @@ import RestoreWallet from 'controllers/Restore'
 import RestoreWif from 'controllers/RestoreWif'
 import RestoreMobile from 'controllers/RestoreMobile'
 import RestoreKeyFile from 'controllers/RestoreKeyFile'
+import RestoreLedger from 'controllers/RestoreLedger'
 import ViewWallet from 'controllers/View'
 import ViewTx from 'controllers/ViewTx'
 import SafeSend from 'controllers/SafeSend'
@@ -103,6 +105,7 @@ export default {
         { icon: 'create', name: 'restore_from_wif' },
         { icon: 'phonelink_lock', name: 'restore_from_mobile' },
         { icon: 'cloud_upload', name: 'restore_from_key_file' },
+        { icon: 'flip_to_front', name: 'restore_from_ledger' },
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
@@ -126,13 +129,14 @@ export default {
     },
     notShow() {
       return {
+        restore_from_ledger: this.network != 'mainnet',
         view: this.mode == 'offline' || this.wallet == false,
         transactions: this.mode == 'offline' || this.wallet == false,
         wallet: this.mode == 'offline' && this.wallet == false,
         safe_send: this.mode == 'offline' && this.wallet == false,
         send: this.mode == 'offline' || this.wallet == false,
         request_payment: this.wallet == false,
-        dump_as_key_file: this.wallet == false,
+        dump_as_key_file: this.wallet == false || this.wallet.getHasPrivKey() == false,
         contract: this.mode == 'offline' || this.wallet == false,
         create_contract: this.mode == 'offline' || this.wallet == false,
         send_to_contract: this.mode == 'offline' || this.wallet == false,
@@ -152,6 +156,7 @@ export default {
     RestoreWif,
     RestoreMobile,
     RestoreKeyFile,
+    RestoreLedger,
     ViewWallet,
     ViewTx,
     SafeSend,
