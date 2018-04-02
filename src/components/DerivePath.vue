@@ -78,7 +78,7 @@
                 <td>{{ props.item.wallet.getAddress() }}</td>
                 <td class="text-xs-right">{{ props.item.wallet.info.balance }}</td>
                 <td class="text-xs-right">
-                  <v-btn @click="setWallet(props.item.wallet)" color="success" fab small flat>
+                  <v-btn @click="setWallet(props.item.wallet, props.item.path)" color="success" fab small flat>
                     <v-icon>lock_open</v-icon>
                   </v-btn>
                 </td>
@@ -110,7 +110,7 @@ export default {
       pathTypeList: [{
         name: this.$t('derive_path.default'),
         path: webWallet.getLedgerDefaultPath(),
-      }].concat(store.get('ledgerPath') || []),
+      }].concat(store.get('ledgerPath', [])),
 
       showPathForm: false,
       pathFormName: '',
@@ -155,7 +155,7 @@ export default {
       }
     },
     updateCusPath(id, data = undefined) {
-      let cusPathList = store.get('ledgerPath') || []
+      let cusPathList = store.get('ledgerPath', [])
       let i
       for (i = 0; i < cusPathList.length; i++) {
         if (cusPathList[i].id === id) {
@@ -248,7 +248,8 @@ ${this.$t('ledger.comm_fail')}`)
       }
       return returnList
     },
-    setWallet(wallet) {
+    setWallet(wallet, index) {
+      wallet.extend.ledger.path += '/' + index
       this.$emit('setWallet', wallet)
     }
   }

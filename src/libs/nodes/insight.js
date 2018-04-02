@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from 'libs/config'
+import Promise from 'Promise'
 
 let domain = ''
 switch(config.getNetwork()) {
@@ -66,12 +67,37 @@ export default {
     })
   },
 
+  async getUtxoListAsync(address) {
+    return new Promise((resolve, reject) => {
+      _getRequest('/addr/'+address+'/utxo', (response) => {
+          resolve(response.map(item=>{
+            return {
+              address: item.address,
+              txid: item.txid,
+              confirmations: item.confirmations,
+              isStake: item.isStake,
+              amount: item.amount,
+              value: item.satoshis,
+              hash: item.txid,
+              pos: item.vout
+            }
+          }))
+      })
+    })
+  },
+
   sendRawTx(rawTx, callback) {
     _postRequest('/tx/send', {
       rawtx: rawTx
     }, function(response) {
       if (typeof callback == 'function')
         callback(response.txid)
+    })
+  },
+
+  fetchRawTx(txid, callback = () => {}) {
+    _getRequest('/rawtx/'+txid, (response) => {
+      callback(response.rawtx)
     })
   },
 

@@ -4,6 +4,7 @@ import ledger from 'libs/ledger'
 import server from 'libs/server'
 import config from 'libs/config'
 import buffer from 'buffer'
+import Promise from 'Promise'
 
 const unit = 'QTUM'
 let network = {}
@@ -18,9 +19,9 @@ switch (config.getNetwork())
 }
 
 export default class Wallet {
-  constructor(keyPair, type) {
+  constructor(keyPair, extend = {}) {
     this.keyPair = keyPair
-    this.type = type
+    this.extend = extend
     this.info = {
       address: this.getAddress(),
       balance: 'loading',
@@ -98,11 +99,17 @@ export default class Wallet {
     })
   }
 
-  generateTx(to, amount, fee, callback) {
+  generateTx(to, amount, fee, callback = () => {}) {
     let from = this.getAddress()
-    server.currentNode().getUtxList(from, list => {
-      let tx = Wallet.generateTx(this, to, amount, fee, list)
-      if (typeof callback == 'function') callback(tx)
+    server.currentNode().getUtxList(from, async list => {
+      callback(await Wallet.generateTx(this, to, amount, fee, list))
+    })
+  }
+
+  async generateTxAsync(to, amount, fee) {
+    return new Promise(async (resolve, reject) => {
+      const list = await server.currentNode().getUtxoListAsync(this.getAddress())
+      resolve(await Wallet.generateTx(this, to, amount, fee, list))
     })
   }
 
@@ -125,13 +132,18 @@ export default class Wallet {
     return qtum.utils.buildSendToContractTransaction(wallet.keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList)
   }
 
-  static generateTx(wallet, to, amount, fee, utxoList) {
+  static async generateTx(wallet, to, amount, fee, utxoList) {
+    if (!wallet.getHasPrivKey()) {
+      if (wallet.extend.ledger) {
+        return await ledger.generateTx(wallet.keyPair, wallet.extend.ledger.ledger, wallet.extend.ledger.path, wallet.getAddress(), to, amount, fee, utxoList, server.currentNode().fetchRawTx)
+      }
+    }
     return qtum.utils.buildPubKeyHashTransaction(wallet.keyPair, to, amount, fee, utxoList)
   }
 
-  static sendRawTx(tx, callback) {
+  static sendRawTx(tx, callback = () => {}) {
     server.currentNode().sendRawTx(tx, res => {
-      if (typeof callback == 'function') callback(res)
+      callback(res)
     })
   }
 
@@ -178,14 +190,22 @@ export default class Wallet {
     const res = await ledger.qtum.getWalletPublicKey(path)
     const compressed = ledger.qtum.compressPublicKey(buffer.Buffer.from(res['publicKey'], 'hex'))
     const keyPair = new qtum.ECPair.fromPublicKeyBuffer(compressed, network)
-    return new qtum.HDNode(keyPair, buffer.Buffer.from(res['chainCode'], 'hex'))
+    const hdNode = new qtum.HDNode(keyPair, buffer.Buffer.from(res['chainCode'], 'hex'))
+    hdNode.extend = {
+      ledger: {
+        ledger,
+        path
+      }
+    }
+    return hdNode
   }
 
   static restoreFromHdNodeByPage(hdNode, start, length = 10) {
     let walletList = []
+    const extend = hdNode.extend
     for (let i = start; i < length + start; i++) {
       let wallet = hdNode.derive(i)
-      wallet = new Wallet(wallet.keyPair)
+      wallet = new Wallet(wallet.keyPair, extend)
       wallet.setInfo()
       walletList[i] = {
         wallet: wallet,

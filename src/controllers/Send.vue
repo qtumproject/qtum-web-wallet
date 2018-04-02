@@ -125,7 +125,11 @@ export default {
   computed: {
     tokens: function() {
       let tokenList = [{text: 'QTUM', value: 'QTUM'}]
-      qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
+      let wallet = webWallet.getWallet()
+      if (!wallet.extend.ledger) {
+        // todo ledger later support token
+        qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
+      }
       return tokenList
     },
     notValid: function() {
@@ -141,7 +145,7 @@ export default {
       this.canSend = false
     },
 
-    confirmAddress() {
+    async confirmAddress() {
       if(this.address != this.repeatAddress) {
         this.$root.error('address_is_not_same_as_the_old_one')
         return false
@@ -150,10 +154,17 @@ export default {
       this.confirmSendDialog = true
       let wallet = webWallet.getWallet()
       if (this.symbol == 'QTUM') {
-        wallet.generateTx(this.address, this.amount, this.fee, rawTx => {
-          this.rawTx = rawTx
+        if (wallet.extend.ledger) {
+          this.rawTx = 'Please confirm tx on your ledger...'
+        }
+        try {
+          this.rawTx = await wallet.generateTxAsync(this.address, this.amount, this.fee)
           this.canSend = true
-        })
+        } catch (e) {
+          alert(e.message || e)
+          this.confirmSendDialog = false
+          return false
+        }
       }
       else if (qrc20.checkSymbol(this.symbol)) {
         let token = qrc20.getTokenBySymbol(this.symbol)
