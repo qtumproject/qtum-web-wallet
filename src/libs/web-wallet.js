@@ -47,7 +47,7 @@ function restoreFromHdNodeByPage(hdNode, start, length = 10) {
 }
 
 function validateBip39Mnemonic(mnemonic) {
-  return Wallet.validateBip39Mnemonic(mnemonic);
+  return Wallet.validateBip39Mnemonic(mnemonic)
 }
 
 export default {

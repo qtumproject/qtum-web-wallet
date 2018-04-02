@@ -1,7 +1,6 @@
 import qtumJsLib from 'qtumjs-lib'
 import btcApp from '@ledgerhq/hw-app-btc'
 import transportU2f from '@ledgerhq/hw-transport-u2f'
-import Promise from 'Promise'
 import BigNumber from 'bignumber.js'
 
 export default class Ledger {
@@ -30,29 +29,20 @@ export default class Ledger {
     if (pubkeyRes.bitcoinAddress !== from) {
       throw 'Ledger can not restore the source address, please plugin the correct ledger'
     }
-    const rawTxCache = {}
-    const rawTxFetchFuncAsync = (txid) => {
-      return new Promise((resolve, reject) => {
-        if (rawTxCache[txid] !== undefined) {
-          resolve(rawTxCache[txid])
-        } else {
-          rawTxFetchFunc(txid, function(rawTx) {
-            rawTxCache[txid] = rawTx
-            resolve(rawTx)
-          })
-        }
-      })
-    }
     let totalSelectSat = new BigNumber(0)
     const inputs = []
     const paths = []
     const selectUtxo = qtumJsLib.utils.selectTxs(utxoList, amount, fee)
+    const rawTxCache = {}
     for(let i = 0; i < selectUtxo.length; i++) {
       const item = selectUtxo[i]
+      if (!rawTxCache[item.hash]) {
+        rawTxCache[item.hash] = await rawTxFetchFunc(item.hash)
+      }
       paths.push(path)
       totalSelectSat = totalSelectSat.plus(item.value)
       inputs.push([
-        await ledger.qtum.splitTransaction(await rawTxFetchFuncAsync(item.hash)),
+        await ledger.qtum.splitTransaction(rawTxCache[item.hash]),
         item.pos
       ])
     }

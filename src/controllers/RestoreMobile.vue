@@ -4,7 +4,7 @@
       <span class="headline">{{ $t('restore_mobile.title') }}</span>
     </v-card-title>
     <v-card-text>
-      <mnemonic @mnemonic="restore" v-show="this.restored == false"></mnemonic>
+      <mnemonic @mnemonic="restore" v-show="this.restored === false"></mnemonic>
       <v-data-table
         :headers="headers"
         :items="walletList"

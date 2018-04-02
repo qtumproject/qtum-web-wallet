@@ -15,12 +15,11 @@ import mnemonic from 'components/Mnemonic'
 import password from 'components/Password'
 import webWallet from 'libs/web-wallet'
 
-let inputMnemonic = []
-
 export default {
   data() {
     return {
-      passwordRequired: false
+      passwordRequired: false,
+      inputMnemonic: []
     }
   },
   components: {
@@ -29,15 +28,15 @@ export default {
   },
   methods: {
     restore(mnemonic) {
-      inputMnemonic = mnemonic
-      if (webWallet.validateBip39Mnemonic(inputMnemonic) == false) {
+      this.inputMnemonic = mnemonic
+      if (!webWallet.validateBip39Mnemonic(this.inputMnemonic)) {
         if (!confirm(this.$t('restore.mnemonic_warning'))) return false
       }
       this.passwordRequired = true
     },
     setPassword(password) {
       this.passwordRequired = false
-      if (webWallet.restoreFromMnemonic(inputMnemonic, password) == false) {
+      if (!webWallet.restoreFromMnemonic(this.inputMnemonic, password)) {
         this.$root.error('mnemonics_can_not_restore')
         return false
       }

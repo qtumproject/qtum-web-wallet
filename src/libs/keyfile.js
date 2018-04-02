@@ -4,8 +4,8 @@ const VERSION = '0.1'
 
 function parse(str) {
     try {
-        let res = JSON.parse(str)
-        if (res.version != VERSION) {
+        const res = JSON.parse(str)
+        if (res.version !== VERSION) {
             return null
         }
         return res.content
@@ -20,7 +20,7 @@ function decode(content, password) {
 }
 
 function build(content) {
-    let res = {
+    const res = {
         version: VERSION,
         content: content
     }

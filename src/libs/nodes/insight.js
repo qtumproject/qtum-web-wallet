@@ -1,6 +1,5 @@
 import axios from 'axios'
 import config from 'libs/config'
-import Promise from 'Promise'
 
 let domain = ''
 switch(config.getNetwork()) {
@@ -12,107 +11,60 @@ switch(config.getNetwork()) {
     break
 }
 const apiPrefix = domain + '/insight-api'
-const webPrefix = domain
 
-let _getRequest = function(url, callback) {
-  axios.get(apiPrefix + url)
-    .then(function (response) {
-      if (typeof callback == 'function')
-        callback(response.data)
-    })
-  .catch(function (error) {
-    console.log(error)
-  })
+const _get = async url => {
+  return (await axios.get(apiPrefix + url)).data
 }
 
-let _postRequest = function(url, data, callback) {
-  axios.post(apiPrefix + url, data)
-    .then(function (response) {
-      if (typeof callback == 'function')
-        callback(response.data)
-    })
-  .catch(function (error) {
-    console.log(error)
-  })
+const _post = async (url, data) => {
+  return (await axios.post(apiPrefix + url, data)).data
 }
 
 export default {
-  getInfo(address, callback) {
-    _getRequest('/addr/'+address, callback)
+  async getInfo(address) {
+    return await _get(`/addr/${address}`)
   },
 
-  getQrc20(address, callback) {
-    _getRequest('/erc20/balances?balanceAddress='+address, callback)
+  async getQrc20(address) {
+    return await _get(`/erc20/balances?balanceAddress=${address}`)
   },
 
-  getTxList(address, callback) {
-    _getRequest('/txs/?address='+address, callback)
+  async getTxList(address) {
+    return await _get(`/txs/?address=${address}`)
   },
 
-  getUtxList(address, callback) {
-    _getRequest('/addr/'+address+'/utxo', function(response) {
-      if (typeof callback == 'function')
-        callback(response.map(item=>{
-          return {
-            address: item.address,
-            txid: item.txid,
-            confirmations: item.confirmations,
-            isStake: item.isStake,
-            amount: item.amount,
-            value: item.satoshis,
-            hash: item.txid,
-            pos: item.vout
-          }
-        }))
+  async getUtxoList(address) {
+    return (await _get(`/addr/${address}/utxo`)).map(item => {
+      return {
+        address: item.address,
+        txid: item.txid,
+        confirmations: item.confirmations,
+        isStake: item.isStake,
+        amount: item.amount,
+        value: item.satoshis,
+        hash: item.txid,
+        pos: item.vout
+      }
     })
   },
 
-  async getUtxoListAsync(address) {
-    return new Promise((resolve, reject) => {
-      _getRequest('/addr/'+address+'/utxo', (response) => {
-          resolve(response.map(item=>{
-            return {
-              address: item.address,
-              txid: item.txid,
-              confirmations: item.confirmations,
-              isStake: item.isStake,
-              amount: item.amount,
-              value: item.satoshis,
-              hash: item.txid,
-              pos: item.vout
-            }
-          }))
-      })
-    })
+  async sendRawTx(rawTx) {
+    return await (_post('/tx/send', {rawtx: rawTx})).txid
   },
 
-  sendRawTx(rawTx, callback) {
-    _postRequest('/tx/send', {
-      rawtx: rawTx
-    }, function(response) {
-      if (typeof callback == 'function')
-        callback(response.txid)
-    })
-  },
-
-  fetchRawTx(txid, callback = () => {}) {
-    _getRequest('/rawtx/'+txid, (response) => {
-      callback(response.rawtx)
-    })
+  async fetchRawTx(txid) {
+    return (await _get(`/rawtx/${txid}`)).rawtx
   },
 
   getTxExplorerUrl(tx) {
-    return domain + '/tx/' + tx
+    return `${domain}/tx/${tx}`
   },
 
   getAddrExplorerUrl(addr) {
-    return domain + '/address/' + addr
+    return `${domain}/address/${addr}`
   },
 
-  callContract(address, encodedData, callback) {
-    _getRequest('/contracts/'+address+'/hash/'+encodedData+'/call', function(response) {
-      if (typeof callback == 'function')
-        callback(response["executionResult"]["output"])
-    })
+  async callContract(address, encodedData) {
+    return (await _get(`/contracts/${address}/hash/${encodedData}/call`))["executionResult"]["output"]
   }
 }

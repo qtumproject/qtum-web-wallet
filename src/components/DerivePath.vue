@@ -155,7 +155,7 @@ export default {
       }
     },
     updateCusPath(id, data = undefined) {
-      let cusPathList = store.get('ledgerPath', [])
+      const cusPathList = store.get('ledgerPath', [])
       let i
       for (i = 0; i < cusPathList.length; i++) {
         if (cusPathList[i].id === id) {
@@ -242,7 +242,7 @@ ${this.$t('ledger.comm_fail')}`)
           this.walletCache[path][item.path] = item
         })
       }
-      let returnList = []
+      const returnList = []
       for (let i = start; i < start+10; i++) {
         returnList[returnList.length] = this.walletCache[path][i]
       }

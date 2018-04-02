@@ -2,12 +2,12 @@ import en from './en'
 import zh from './zh'
 import ko from './ko'
 
-let locales = [
+const locales = [
   'en',
   'zh',
   'ko'
 ]
-let messages = {
+const messages = {
   en,
   zh,
   ko

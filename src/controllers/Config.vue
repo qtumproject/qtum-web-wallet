@@ -55,7 +55,7 @@
 <script>
 import config from 'libs/config'
 
-let loadConfig = {
+const loadConfig = {
   lan: config.getLan(),
   network: config.getNetwork(),
   mode: config.getMode()

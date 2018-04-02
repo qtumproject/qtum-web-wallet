@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     hasWarning(i) {
-      let key = 'warning.list.' + i
+      const key = 'warning.list.' + i
       return this.$t(key) !== key
     },
     close() {
