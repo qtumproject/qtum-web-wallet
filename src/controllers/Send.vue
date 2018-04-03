@@ -125,11 +125,7 @@ export default {
   computed: {
     tokens: function() {
       const tokenList = [{text: 'QTUM', value: 'QTUM'}]
-      const wallet = webWallet.getWallet()
-      if (!wallet.extend.ledger) {
-        // todo ledger later support token
-        qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
-      }
+      qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
       return tokenList
     },
     notValid: function() {
@@ -160,6 +156,9 @@ export default {
           }
           this.rawTx = await wallet.generateTx(this.address, this.amount, this.fee)
         } else if (qrc20.checkSymbol(this.symbol)) {
+          if (wallet.extend.ledger) {
+            this.rawTx = 'Please confirm tx on your ledger...'
+          }
           const token = qrc20.getTokenBySymbol(this.symbol)
           const encodedData = qrc20.encodeSendData(token, this.address, this.amount)
           this.rawTx = await wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee)

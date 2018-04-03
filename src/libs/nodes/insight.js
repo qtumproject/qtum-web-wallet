@@ -49,7 +49,7 @@ export default {
   },
 
   async sendRawTx(rawTx) {
-    return await (_post('/tx/send', {rawtx: rawTx})).txid
+    return (await (_post('/tx/send', {rawtx: rawTx}))).txid
   },
 
   async fetchRawTx(txid) {

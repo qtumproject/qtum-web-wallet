@@ -82,7 +82,7 @@ export default class Wallet {
   }
 
   async generateSendToContractTx(contractAddress, encodedData, gasLimit, gasPrice, fee) {
-    return Wallet.generateSendToContractTx(this, contractAddress, encodedData, gasLimit, gasPrice, fee, await server.currentNode().getUtxoList(this.info.address))
+    return await Wallet.generateSendToContractTx(this, contractAddress, encodedData, gasLimit, gasPrice, fee, await server.currentNode().getUtxoList(this.info.address))
   }
 
   async generateTx(to, amount, fee) {
@@ -103,14 +103,19 @@ export default class Wallet {
     return qtum.utils.buildCreateContractTransaction(wallet.keyPair, code, gasLimit, gasPrice, fee, utxoList)
   }
 
-  static generateSendToContractTx(wallet, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList) {
+  static async generateSendToContractTx(wallet, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList) {
+    if (!wallet.getHasPrivKey()) {
+      if (wallet.extend.ledger) {
+        return await ledger.generateSendToContractTx(wallet.keyPair, wallet.extend.ledger.ledger, wallet.extend.ledger.path, wallet.info.address, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList, server.currentNode().fetchRawTx)
+      }
+    }
     return qtum.utils.buildSendToContractTransaction(wallet.keyPair, contractAddress, encodedData, gasLimit, gasPrice, fee, utxoList)
   }
 
   static async generateTx(wallet, to, amount, fee, utxoList) {
     if (!wallet.getHasPrivKey()) {
       if (wallet.extend.ledger) {
-        return await ledger.generateTx(wallet.keyPair, wallet.extend.ledger.ledger, wallet.extend.ledger.path, wallet.getAddress(), to, amount, fee, utxoList, server.currentNode().fetchRawTx)
+        return await ledger.generateTx(wallet.keyPair, wallet.extend.ledger.ledger, wallet.extend.ledger.path, wallet.info.address, to, amount, fee, utxoList, server.currentNode().fetchRawTx)
       }
     }
     return qtum.utils.buildPubKeyHashTransaction(wallet.keyPair, to, amount, fee, utxoList)
