@@ -28,12 +28,12 @@
           </v-flex>
         </v-layout>
         <v-text-field
-          v-if="symbol != 'QTUM'"
+          v-if="symbol !== 'QTUM'"
           label="Gas Price (1e-8 QTUM/gas)"
           v-model="gasPrice"
         ></v-text-field>
         <v-text-field
-          v-if="symbol != 'QTUM'"
+          v-if="symbol !== 'QTUM'"
           label="Gas Limit"
           v-model="gasLimit"
         ></v-text-field>
@@ -108,14 +108,14 @@ import server from 'libs/server'
 export default {
   data () {
     return {
-      address: '',
+      address: 'QS5Ve9BnhUqQSFdh2GJbqrCtCZtMgSnr4C',
       amount: '',
       symbol: 'QTUM',
       gasPrice: '40',
       gasLimit: '2500000',
       fee: '0.01',
       confirmAddressDialog: false,
-      repeatAddress: '',
+      repeatAddress: 'QS5Ve9BnhUqQSFdh2GJbqrCtCZtMgSnr4C',
       confirmSendDialog: false,
       rawTx: 'loading...',
       canSend: false,
@@ -124,14 +124,14 @@ export default {
   },
   computed: {
     tokens: function() {
-      let tokenList = [{text: 'QTUM', value: 'QTUM'}]
+      const tokenList = [{text: 'QTUM', value: 'QTUM'}]
       qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
       return tokenList
     },
     notValid: function() {
       //@todo valid the address
-      let amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
-      let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
+      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
       return !(amountCheck && feeCheck)
     }
   },
@@ -141,39 +141,48 @@ export default {
       this.canSend = false
     },
 
-    confirmAddress() {
-      if(this.address != this.repeatAddress) {
+    async confirmAddress() {
+      if(this.address !== this.repeatAddress) {
         this.$root.error('address_is_not_same_as_the_old_one')
         return false
       }
       this.confirmAddressDialog = false
       this.confirmSendDialog = true
-      let wallet = webWallet.getWallet()
-      if (this.symbol == 'QTUM') {
-        wallet.generateTx(this.address, this.amount, this.fee, rawTx => {
-          this.rawTx = rawTx
-          this.canSend = true
-        })
-      }
-      else if (qrc20.checkSymbol(this.symbol)) {
-        let token = qrc20.getTokenBySymbol(this.symbol)
-        let encodedData = qrc20.encodeSendData(token, this.address, this.amount)
-        wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee, rawTx => {
-          this.rawTx = rawTx
-          this.canSend = true
-        })
+      const wallet = webWallet.getWallet()
+      try {
+        if (this.symbol == 'QTUM') {
+          if (wallet.extend.ledger) {
+            this.rawTx = 'Please confirm tx on your ledger...'
+          }
+          this.rawTx = await wallet.generateTx(this.address, this.amount, this.fee)
+        } else if (qrc20.checkSymbol(this.symbol)) {
+          if (wallet.extend.ledger) {
+            this.rawTx = 'Please confirm tx on your ledger...'
+          }
+          const token = qrc20.getTokenBySymbol(this.symbol)
+          const encodedData = qrc20.encodeSendData(token, this.address, this.amount)
+          this.rawTx = await wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee)
+        }
+        this.canSend = true
+      } catch (e) {
+        alert(e.message || e)
+        this.confirmSendDialog = false
+        return false
       }
     },
 
-    confirmSend() {
-      let wallet = webWallet.getWallet()
+    async confirmSend() {
       this.sending = true
-      wallet.sendRawTx(this.rawTx, txId => {
+      try {
+        const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
         this.confirmSendDialog = false
         this.sending = false
         this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         this.$emit('send')
-      })
+      } catch (e) {
+        alert(e.message || e)
+        this.confirmSendDialog = false
+      }
     }
   }
 }

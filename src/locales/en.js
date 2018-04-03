@@ -14,6 +14,7 @@ export default {
       restore_from_wif: 'Restore From WIF',
       restore_from_mobile: 'Restore From Mobile Wallet',
       restore_from_key_file: 'Restore From Key File',
+      restore_from_ledger: 'Restore From Ledger',
       view: 'View Wallet Info',
       dump_as_key_file: 'Dump As Key File',
       transactions: 'View Wallet Txs',
@@ -47,6 +48,7 @@ export default {
       restore_wif_fail: 'Cannot restore a wallet from this WIF',
       the_key_file_is_not_a_valid_format: 'The key file is not a valid format',
       restore_key_file_fail: 'Restore from key file failed. Maybe the password is not correct',
+      connect_ledger_fail: 'Fail to connect Ledger. Please re-plugin your ledger and try again',
     },
     mode: {
       normal: 'Normal',
@@ -66,6 +68,20 @@ export default {
   },
   file_creator: {
     download: 'Please click this button to start downloading file, if the downloading not start, you can right-click the button and choose "save the link as ..."',
+  },
+  ledger: {
+    comm_fail: 'Fail to connect Ledger. Please re-plugin your ledger and try again',
+  },
+  derive_path: {
+    title: 'Please choose a derive path',
+    default: 'Default path',
+    add_custom: 'Add custom derive path',
+    edit_custom: 'Edit custom derive path',
+    del_custom: 'Do you confirm to delete this path?',
+    path_name: 'Path name',
+    path: 'Path',
+    prev_10: 'Prev 10 Address',
+    next_10: 'Next 10 Address',
   },
   safe_send: {
     title: 'Safe Send',
@@ -125,6 +141,12 @@ export default {
   restore_key_file: {
     title: 'Restore From The Key File',
     password_title: 'Please input you password to decrypt the wallet',
+  },
+  restore_ledger: {
+    title: 'Restore From Ledger',
+    usage: 'Please ensure your firmware and app are the newest version. Plugin your Ledger, open Qtum APP, and then click the "CONNECT" button below try to connect.',
+    download: 'No Qtum APP? Please install it follow this https://www.ledgerwallet.com/apps/manager',
+    connect: 'CONNECT',
   },
   view: {
     title: 'View Wallet Info',

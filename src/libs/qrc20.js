@@ -3,7 +3,7 @@ import config from 'libs/config'
 import abi from 'ethjs-abi'
 import qtum from 'qtumjs-lib'
 
-let tokenList = tokens[config.getNetwork()]
+const tokenList = tokens[config.getNetwork()]
 
 export default {
   getTokenList() {
@@ -11,11 +11,11 @@ export default {
   },
 
   checkSymbol(symbol) {
-    return tokenList.filter((token) => {return token.symbol == symbol}).length > 0
+    return tokenList.filter((token) => {return token.symbol === symbol}).length > 0
   },
 
   getTokenBySymbol(symbol) {
-    return tokenList.filter((token) => {return token.symbol == symbol})[0]
+    return tokenList.filter((token) => {return token.symbol === symbol})[0]
   },
 
   encodeSendData(token, address, amount) {

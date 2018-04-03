@@ -41,11 +41,9 @@ export default {
   },
   methods: {
     setPassword(password) {
-      let wallet = webWallet.restoreFromMnemonic(webWallet.generateMnemonic(), Date.now())
-      let content = keyfile.encode(wallet.getPrivKey(), password)
-      this.fileStr = 'data:text/plain,'+keyfile.build(content)
+      const wallet = webWallet.restoreFromMnemonic(webWallet.generateMnemonic(), Date.now())
+      this.fileStr = 'data:text/plain,'+keyfile.build(keyfile.encode(wallet.getPrivKey(), password))
       this.passwordRequired = false
-
     },
     createWallet() {
       this.step = 2

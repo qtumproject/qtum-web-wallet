@@ -14,6 +14,7 @@ export default {
       restore_from_wif: '从私钥恢复钱包',
       restore_from_mobile: '从手机钱包恢复',
       restore_from_key_file: '从加密文件恢复',
+      restore_from_ledger: '使用Ledger',
       view: '查看钱包信息',
       dump_as_key_file: '备份为加密文件',
       transactions: '查看交易记录',
@@ -47,6 +48,7 @@ export default {
       restore_wif_fail: '从此密钥不能恢复钱包，请再次确认',
       the_key_file_is_not_a_valid_format: '加密文件格式不对',
       restore_key_file_fail: '可能是加密文件的解密密码不对，从此加密文件不能恢复钱包，请再次确认',
+      connect_ledger_fail: '连接Ledger失败，请按上面的操作重做一次。如果还是失败，请把Ledger拔下来后重试',
     },
     mode: {
       normal: '正常模式',
@@ -66,6 +68,20 @@ export default {
   },
   file_creator: {
     download: '请点击此的按钮下载文件，如果没有启动下载，请在按钮上右键并选择"链接另存为..."',
+  },
+  ledger: {
+    comm_fail: '与ledger通信失败，请重新插入ledger',
+  },
+  derive_path: {
+    title: '请选择生成路径',
+    default: '默认路径',
+    add_custom: '新增自定义路径',
+    edit_custom: '编辑自定义路径',
+    del_custom: '确定删除这个路径吗?',
+    path_name: '路径名',
+    path: '路径',
+    prev_10: '前10个地址',
+    next_10: '后10个地址',
   },
   safe_send: {
     title: '安全转账',
@@ -125,6 +141,12 @@ export default {
   restore_key_file: {
     title: '从加密文件恢复',
     password_title: '请输入您的加密文件解密密码',
+  },
+  restore_ledger: {
+    title: '从Ledger恢复',
+    usage: '请确保您的固件和软件都是最新的版本。连接您的LedgerWallet，进入Qtum APP，然后点击下面的连接按钮尝试连接。',
+    download: '没有Qtum APP? 请按照这个安装 https://www.ledgerwallet.com/apps/manager',
+    connect: '连接',
   },
   view: {
     title: '查看钱包信息',

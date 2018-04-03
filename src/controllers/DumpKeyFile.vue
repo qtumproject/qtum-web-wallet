@@ -32,8 +32,7 @@ export default {
   methods: {
     inputed(password) {
       this.passwordRequired = false
-      let content = keyfile.encode(this.wallet.getPrivKey(), password)
-      this.fileStr = 'data:text/plain,'+keyfile.build(content)
+      this.fileStr = 'data:text/plain,'+keyfile.build(keyfile.encode(this.wallet.getPrivKey(), password))
     }
   }
 }

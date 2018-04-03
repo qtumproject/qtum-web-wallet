@@ -80,31 +80,39 @@ export default {
   computed: {
     notValid: function() {
       //@todo valid the address
-      let gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
-      let gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
-      let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      const gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
+      const gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
+      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
       return !(gasPriceCheck && gasLimitCheck && feeCheck)
     }
   },
   methods: {
-    send() {
+    async send() {
       this.confirmSendDialog = true
-      let wallet = webWallet.getWallet()
-      wallet.generateCreateContractTx(this.code, this.gasLimit, this.gasPrice, this.fee, rawTx => {
-        this.rawTx = rawTx
+      const wallet = webWallet.getWallet()
+      try {
+        this.rawTx = await wallet.generateCreateContractTx(this.code, this.gasLimit, this.gasPrice, this.fee)
         this.canSend = true
-      })
+      } catch (e) {
+        alert(e.message || e)
+        this.confirmSendDialog = false
+        return false
+      }
     },
 
     confirmSend() {
-      let wallet = webWallet.getWallet()
+      const wallet = webWallet.getWallet()
       this.sending = true
-      wallet.sendRawTx(this.rawTx, txId => {
+      try {
+        const txId = wallet.sendRawTx(this.rawTx)
         this.confirmSendDialog = false
         this.sending = false
         this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         this.$emit('send')
-      })
+      } catch (e) {
+        alert(e.message || e)
+        this.confirmSendDialog = false
+      }
     }
   }
 }

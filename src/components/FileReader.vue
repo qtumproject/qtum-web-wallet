@@ -17,9 +17,9 @@ export default {
       this.$refs.input.click()
     },
     handleFiles(e) {
-      let file = e.target.files[0]
-      let reader = new FileReader()
-      let vue = this
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      const vue = this
       reader.onload = function() {
         vue.$emit('upload', {
           content: this.result
