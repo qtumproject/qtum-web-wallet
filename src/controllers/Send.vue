@@ -108,14 +108,14 @@ import server from 'libs/server'
 export default {
   data () {
     return {
-      address: 'QS5Ve9BnhUqQSFdh2GJbqrCtCZtMgSnr4C',
+      address: '',
       amount: '',
       symbol: 'QTUM',
       gasPrice: '40',
       gasLimit: '2500000',
       fee: '0.01',
       confirmAddressDialog: false,
-      repeatAddress: 'QS5Ve9BnhUqQSFdh2GJbqrCtCZtMgSnr4C',
+      repeatAddress: '',
       confirmSendDialog: false,
       rawTx: 'loading...',
       canSend: false,
