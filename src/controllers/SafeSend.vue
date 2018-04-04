@@ -8,7 +8,7 @@
       <v-stepper non-linear vertical v-model="step">
         <v-stepper-step step="1" editable>Generate Base Info (At online computer)</v-stepper-step>
         <v-stepper-content step="1">
-          <template v-if="mode == 'offline'">
+          <template v-if="mode === 'offline'">
             <v-alert color="info" value="true">{{ $t('safe_send.info1_offline') }}</v-alert>
             <v-btn color="success" @click.native="step = 2">{{ $t('common.next') }}</v-btn>
           </template>
@@ -40,7 +40,7 @@
 
         <v-stepper-step step="2" editable>Generate Tx (At offline computer)</v-stepper-step>
         <v-stepper-content step="2">
-          <template v-if="mode == 'offline'">
+          <template v-if="mode === 'offline'">
             <v-alert color="info" value="true">{{ $t('safe_send.info2_offline') }}</v-alert>
             <template v-if="!fileParsed">
               <file-reader @upload="handleFile" color="info"></file-reader>
@@ -89,7 +89,7 @@
 
         <v-stepper-step step="3" editable>Broadcast Tx (At online computer)</v-stepper-step>
         <v-stepper-content step="3">
-          <template v-if="mode == 'offline'">
+          <template v-if="mode === 'offline'">
             <v-alert color="info" value="true">{{ $t('safe_send.info3_offline') }}</v-alert>
           </template>
           <template v-else>
@@ -179,13 +179,13 @@
 </template>
 
 <script>
-import fileSaver from "file-saver";
-import webWallet from "libs/web-wallet";
-import wallet from "libs/wallet";
-import server from "libs/server";
+import fileSaver from "file-saver"
+import webWallet from "libs/web-wallet"
+import wallet from "libs/wallet"
+import server from "libs/server"
 import config from "libs/config"
 
-import FileReader from "components/FileReader";
+import FileReader from "components/FileReader"
 
 export default {
   data() {
@@ -204,113 +204,113 @@ export default {
       rawTx: "loading...",
       canSend: false,
       sending: false
-    };
+    }
   },
   computed: {
     notValid: function() {
       //@todo valid the address
-      let amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0;
-      let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001;
-      return !(amountCheck && feeCheck && this.fromAddress && this.toAddress);
+      const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
+      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      return !(amountCheck && feeCheck && this.fromAddress && this.toAddress)
     }
   },
   components: {
     FileReader
   },
   methods: {
-    createInfoFile() {
+    async createInfoFile() {
       this.step = 2
       this.confirmSendDialog = false
-      server.currentNode().getUtxList(this.fromAddress, data => {
-        let saveInfo = JSON.stringify({
-          from: this.fromAddress,
-          to: this.toAddress,
-          amount: this.amount,
-          fee: this.fee,
-          utxo: data});
-        let blob = new Blob([saveInfo], {
-          type: "text/plain;charset=utf-8"
-        });
-        fileSaver.saveAs(
-          blob,
-          this.fromAddress + "_" + new Date().getTime() + ".raw"
-        );
-      });
-    },
-
-    createTxFile() {
-      this.step = 3
-      this.confirmSendDialog = false
-      let offLineWallet = webWallet.getWallet()
-      let rawTx = wallet.generateTx(offLineWallet, this.toAddress, this.amount, this.fee, this.utxo)
-      let saveInfo = JSON.stringify({
+      const utxoList = await server.currentNode().getUtxoList(this.fromAddress)
+      const saveInfo = JSON.stringify({
         from: this.fromAddress,
         to: this.toAddress,
         amount: this.amount,
         fee: this.fee,
-        rawTx: rawTx});
-      let blob = new Blob([saveInfo], {
+        utxo: utxoList})
+      const blob = new Blob([saveInfo], {
         type: "text/plain;charset=utf-8"
-      });
+      })
       fileSaver.saveAs(
         blob,
+        this.fromAddress + "_" + new Date().getTime() + ".raw"
+      )
+    },
+
+    async createTxFile() {
+      this.step = 3
+      this.confirmSendDialog = false
+      const offLineWallet = webWallet.getWallet()
+      const rawTx = await wallet.generateTx(offLineWallet, this.toAddress, this.amount, this.fee, this.utxo)
+      const saveInfo = JSON.stringify({
+        from: this.fromAddress,
+        to: this.toAddress,
+        amount: this.amount,
+        fee: this.fee,
+        rawTx})
+      fileSaver.saveAs(
+        new Blob([saveInfo], {
+          type: "text/plain;charset=utf-8"
+        }),
         this.fromAddress + "_" + new Date().getTime() + ".tx"
-      );
+      )
     },
 
     handleFile(file) {
       try {
-        let info = JSON.parse(file.content)
+        const info = JSON.parse(file.content)
         this.fromAddress = info.from
         this.toAddress = info.to
         this.amount = info.amount
         this.fee = info.fee
-        if (this.mode == 'offline') {
+        if (this.mode === 'offline') {
           this.utxo = info.utxo
-          let offLineWallet = webWallet.getWallet()
-          if (offLineWallet.getAddress() != this.fromAddress) {
+          const offLineWallet = webWallet.getWallet()
+          if (offLineWallet.getAddress() !== this.fromAddress) {
             this.$root.error('from_address_is_not_same_as_the_wallet')
             return false
           }
-        }
-        else {
-          if (info.rawTx == false) {
+        } else {
+          if (!info.rawTx) {
             this.$root.error('file parse fail')
             return false
           }
           this.rawTx = info.rawTx
         }
         this.fileParsed = true
-      }
-      catch (e) {
+      } catch (e) {
         this.$root.error('file parse fail')
         return false
       }
     },
 
     confirmAddress() {
-      if (this.toAddress != this.repeatToAddress) {
-        this.$root.error("address_is_not_same_as_the_old_one");
-        return false;
+      if (this.toAddress !== this.repeatToAddress) {
+        this.$root.error("address_is_not_same_as_the_old_one")
+        return false
       }
-      this.confirmAddressDialog = false;
-      this.confirmSendDialog = true;
+      this.confirmAddressDialog = false
+      this.confirmSendDialog = true
     },
 
-    confirmSend() {
-      if (this.step == 1) {
-        this.createInfoFile()
+    async confirmSend() {
+      if (this.step === 1) {
+        await this.createInfoFile()
       }
-      else if (this.step == 2) {
-        this.createTxFile()
+      else if (this.step === 2) {
+        await this.createTxFile()
       }
-      else if (this.step == 3) {
-        wallet.sendRawTx(this.rawTx, txId => {
+      else if (this.step === 3) {
+        try {
+          const txId = await wallet.sendRawTx(this.rawTx)
           this.confirmSendDialog = false
           this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
-        })
+        } catch (e) {
+          alert(e.message || e)
+          this.confirmSendDialog = false
+        }
       }
     }
   }
-};
+}
 </script>

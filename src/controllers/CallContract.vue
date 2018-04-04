@@ -86,7 +86,7 @@ export default {
       if (this.method === null) {
         return null
       }
-      let inputs = this.parsedAbi[this.method].info.inputs
+      const inputs = this.parsedAbi[this.method].info.inputs
       if (inputs.length > 0) {
         return inputs
       }
@@ -104,32 +104,30 @@ export default {
   },
   methods: {
     decodeAbi() {
-      let abiJson = {}
       try {
-        abiJson = JSON.parse(this.abi)
-      }
-      catch (e) {
+        const abiJson = JSON.parse(this.abi)
+        this.parsedAbi = []
+        for (let i = 0; i < abiJson.length; i++) {
+          this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
+        }
+      } catch (e) {
         return true
       }
-      this.parsedAbi = []
-      for (let i = 0; i < abiJson.length; i++) {
-        this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
-      }
     },
-    callTo() {
-      let encodedData = ''
+    async callTo() {
       try {
-        encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
-      }
-      catch (e) {
+        const encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
+        this.execResultDialog = true
+        try {
+          this.result = await webWallet.getWallet().callContract(this.contractAddress, encodedData)
+        } catch (e) {
+          alert(e.message || e)
+          this.execResultDialog = false
+        }
+      } catch (e) {
         this.$root.error('Params error')
         return false
       }
-      this.execResultDialog = true
-      let wallet = webWallet.getWallet()
-      wallet.callContract(this.contractAddress, encodedData, result => {
-        this.result = result
-      })
     }
   }
 }

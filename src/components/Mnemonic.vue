@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     notFinishInput() {
-      return this.mnemonic.filter((word) => !!word).length != this.length
+      return this.mnemonic.filter((word) => !!word).length !== this.length
     }
   },
   methods: {

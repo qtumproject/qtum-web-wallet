@@ -4,7 +4,7 @@
       <span class="headline">{{ $t('restore_mobile.title') }}</span>
     </v-card-title>
     <v-card-text>
-      <mnemonic @mnemonic="restore" v-show="this.restored == false"></mnemonic>
+      <mnemonic @mnemonic="restore" v-show="this.restored === false"></mnemonic>
       <v-data-table
         :headers="headers"
         :items="walletList"
@@ -12,7 +12,7 @@
         v-if="this.restored"
         hide-actions
       >
-        <template slot="items" scope="props">
+        <template slot="items" slot-scope="props">
           <td>{{ props.item.wallet.getAddress() }}</td>
           <td class="text-xs-right">{{ props.item.wallet.info.balance }}</td>
           <td class="text-xs-right">

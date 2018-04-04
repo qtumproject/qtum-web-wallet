@@ -43,11 +43,11 @@ export default {
   },
   methods: {
     confirmPassword() {
-      let password = this.password
-      if (this.notEmpty && this.password == '') {
+      const password = this.password
+      if (this.notEmpty && this.password === '') {
         this.$root.error('password is_required')
         return false
-      } 
+      }
       this.$emit('password', password)
       this.password = ''
       return true

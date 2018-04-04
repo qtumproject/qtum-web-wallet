@@ -9,9 +9,9 @@ export default {
     })
   },
   get(key, defaultValue) {
-    let temp = store.get(key)
+    const temp = store.get(key)
     try {
-      let value = temp.value
+      const value = temp.value
       if (value === undefined || temp.expired_at < +new Date) {
         return defaultValue
       }

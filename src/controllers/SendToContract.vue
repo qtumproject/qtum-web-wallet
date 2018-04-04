@@ -108,7 +108,7 @@ export default {
       if (this.method === null) {
         return null
       }
-      let inputs = this.parsedAbi[this.method].info.inputs
+      const inputs = this.parsedAbi[this.method].info.inputs
       if (inputs.length > 0) {
         return inputs
       }
@@ -116,9 +116,9 @@ export default {
     },
     notValid: function() {
       //@todo valid the address
-      let gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
-      let gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
-      let feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      const gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
+      const gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
+      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
       return !(gasPriceCheck && gasLimitCheck && feeCheck && this.method !== null)
     }
   },
@@ -129,44 +129,47 @@ export default {
   },
   methods: {
     decodeAbi() {
-      let abiJson = {}
       try {
-        abiJson = JSON.parse(this.abi)
-      }
-      catch (e) {
+        const abiJson = JSON.parse(this.abi)
+        this.parsedAbi = []
+        for (let i = 0; i < abiJson.length; i++) {
+          this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
+        }
+      } catch (e) {
         return true
       }
-      this.parsedAbi = []
-      for (let i = 0; i < abiJson.length; i++) {
-        this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
-      }
     },
-    send() {
-      let encodedData = ''
+    async send() {
       try {
-        encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
-      }
-      catch (e) {
+        const encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
+        this.confirmSendDialog = true
+        try {
+          this.rawTx = await webWallet.getWallet().generateSendToContractTx(this.contractAddress, encodedData, this.gasLimit, this.gasPrice, this.fee)
+        } catch (e) {
+          alert(e.message || e)
+          this.confirmSendDialog = false
+          return false
+        }
+        this.canSend = true
+      } catch (e) {
         this.$root.error('Params error')
+        this.confirmSendDialog = false
         return false
       }
-      this.confirmSendDialog = true
-      let wallet = webWallet.getWallet()
-      wallet.generateSendToContractTx(this.contractAddress, encodedData, this.gasLimit, this.gasPrice, this.fee, rawTx => {
-        this.rawTx = rawTx
-        this.canSend = true
-      })
     },
 
-    confirmSend() {
-      let wallet = webWallet.getWallet()
+    async confirmSend() {
       this.sending = true
-      wallet.sendRawTx(this.rawTx, txId => {
+      try {
+        const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
         this.confirmSendDialog = false
         this.sending = false
         this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         this.$emit('send')
-      })
+      } catch (e) {
+        alert(e.message || e)
+        this.confirmSendDialog = false
+      }
     }
   }
 }

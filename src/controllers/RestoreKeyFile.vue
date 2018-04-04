@@ -40,9 +40,8 @@ export default {
     },
     inputed(password) {
       this.passwordRequired = false
-      let wif = keyfile.decode(this.content, password)
       try {
-        webWallet.restoreFromWif(wif)
+        webWallet.restoreFromWif(keyfile.decode(this.content, password))
       }
       catch (e) {
         this.$root.error('restore_key_file_fail')

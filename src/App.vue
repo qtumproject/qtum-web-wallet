@@ -24,7 +24,7 @@
         <span @click="changeView('settings')">
           --{{ $t('common.' + network) }}
         </span>
-        <v-btn flat @click="changeView('settings')" v-if="mode != 'normal'">
+        <v-btn flat @click="changeView('settings')" v-if="mode !== 'normal'">
           {{ $t('common.mode.' + mode) }}
         </v-btn>
       </span>
@@ -40,6 +40,7 @@
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
               <restore-key-file @restored="setWallet" v-show="isCurrent['restore_from_key_file']"></restore-key-file>
+              <restore-ledger @restored="setWallet"  v-if="isCurrent['restore_from_ledger']"></restore-ledger>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
               <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
@@ -72,6 +73,7 @@ import RestoreWallet from 'controllers/Restore'
 import RestoreWif from 'controllers/RestoreWif'
 import RestoreMobile from 'controllers/RestoreMobile'
 import RestoreKeyFile from 'controllers/RestoreKeyFile'
+import RestoreLedger from 'controllers/RestoreLedger'
 import ViewWallet from 'controllers/View'
 import ViewTx from 'controllers/ViewTx'
 import SafeSend from 'controllers/SafeSend'
@@ -103,6 +105,7 @@ export default {
         { icon: 'create', name: 'restore_from_wif' },
         { icon: 'phonelink_lock', name: 'restore_from_mobile' },
         { icon: 'cloud_upload', name: 'restore_from_key_file' },
+        { icon: 'flip_to_front', name: 'restore_from_ledger' },
         { divider: true, name: 'wallet' },
         { icon: 'account_balance_wallet', name: 'view' },
         { icon: 'list', name: 'transactions' },
@@ -126,21 +129,22 @@ export default {
     },
     notShow() {
       return {
-        view: this.mode == 'offline' || this.wallet == false,
-        transactions: this.mode == 'offline' || this.wallet == false,
-        wallet: this.mode == 'offline' && this.wallet == false,
-        safe_send: this.mode == 'offline' && this.wallet == false,
-        send: this.mode == 'offline' || this.wallet == false,
-        request_payment: this.wallet == false,
-        dump_as_key_file: this.wallet == false,
-        contract: this.mode == 'offline' || this.wallet == false,
-        create_contract: this.mode == 'offline' || this.wallet == false,
-        send_to_contract: this.mode == 'offline' || this.wallet == false,
-        call_contract: this.mode == 'offline' || this.wallet == false,
+        restore_from_ledger: this.network !== 'mainnet',
+        view: this.mode === 'offline' || !this.wallet,
+        transactions: this.mode === 'offline' || !this.wallet,
+        wallet: this.mode === 'offline' && !this.wallet,
+        safe_send: this.mode === 'offline' && !this.wallet,
+        send: this.mode === 'offline' || !this.wallet,
+        request_payment: !this.wallet,
+        dump_as_key_file: !this.wallet || !this.wallet.getHasPrivKey(),
+        contract: this.mode === 'offline' || !this.wallet,
+        create_contract: this.mode === 'offline' || !this.wallet,
+        send_to_contract: this.mode === 'offline' || !this.wallet,
+        call_contract: this.mode === 'offline' || !this.wallet,
       }
     },
     headerClass() {
-      return this.mode == 'normal' ? 'cyan' : 'orange'
+      return this.mode === 'normal' ? 'cyan' : 'orange'
     }
   },
   components: {
@@ -152,6 +156,7 @@ export default {
     RestoreWif,
     RestoreMobile,
     RestoreKeyFile,
+    RestoreLedger,
     ViewWallet,
     ViewTx,
     SafeSend,
@@ -168,7 +173,7 @@ export default {
       this.wallet = webWallet.getWallet()
       this.wallet.init()
       if (this.wallet) {
-        if (this.mode == 'offline') {
+        if (this.mode === 'offline') {
           this.current = 'request_payment'
         }
         else {
@@ -186,11 +191,11 @@ export default {
       this.addNotify(msg, 'success')
     },
     addNotify(msg, type) {
-      let notifyId = [msg, type].join('_')
-      let notify = {
+      const notifyId = [msg, type].join('_')
+      const notify = {
         msg: msg.split(' ').reduce((msg, current) => {
           let tmsg = this.$t('common.notify.' + current)
-          tmsg = (tmsg == 'common.notify.' + current) ? ' ' + current : tmsg
+          tmsg = (tmsg === 'common.notify.' + current) ? ' ' + current : tmsg
           return msg + tmsg
         }, ''),
         type
