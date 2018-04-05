@@ -14,6 +14,7 @@ export default {
       restore_from_wif: 'WIF에서 복원',
       restore_from_mobile: '모바일 지갑에서 복원',
       restore_from_key_file: '키 파일에서 복원',
+      restore_from_ledger: 'Restore From Ledger',
       view: '지갑 정보 보기',
       dump_as_key_file: '키 파일로 덤프',
       transactions: '지갑 트랜잭션 보기',
@@ -47,6 +48,7 @@ export default {
       restore_wif_fail: '이 WIF에서 지갑을 복원할 수 없습니다.',
       the_key_file_is_not_a_valid_format: '키 파일이 올바른 형식이 아닙니다.',
       restore_key_file_fail: '키 파일에서 복원에 실패했습니다. 패스워드가 올바르지 않을 수 있습니다.',
+      connect_ledger_fail: 'Fail to connect Ledger. Please re-plugin your ledger and try again',
     },
     mode: {
       normal: '노멀',
@@ -66,6 +68,20 @@ export default {
   },
   file_creator: {
     download: '다운로드가 시작되지 않으면이 버튼을 클릭하여 파일 다운로드를 시작하십시오. 마우스 오른쪽 버튼으로 클릭하고 "링크를 다른 이름으로 저장 ..."을 선택할 수 있습니다.',
+  },
+  ledger: {
+    comm_fail: 'Fail to connect Ledger. Please re-plugin your ledger and try again',
+  },
+  derive_path: {
+    title: 'Please choose a derive path',
+    default: 'Default path',
+    add_custom: 'Add custom derive path',
+    edit_custom: 'Edit custom derive path',
+    del_custom: 'Do you confirm to delete this path?',
+    path_name: 'Path name',
+    path: 'Path',
+    prev_10: 'Prev 10 Address',
+    next_10: 'Next 10 Address',
   },
   safe_send: {
     title: '안전한 전송',
@@ -125,6 +141,12 @@ export default {
   restore_key_file: {
     title: '키 파일에서 복원',
     password_title: '지갑을 복원하려면 패스워드를 입력하십시오',
+  },
+  restore_ledger: {
+    title: 'Restore From Ledger',
+    usage: 'Please ensure your firmware and app are the newest version. Plugin your Ledger, open Qtum APP, and then click the "CONNECT" button below try to connect.',
+    download: 'No Qtum APP? Please install it follow this https://www.ledgerwallet.com/apps/manager',
+    connect: 'CONNECT',
   },
   view: {
     title: '지갑 정보 보기',
