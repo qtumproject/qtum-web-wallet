@@ -144,7 +144,7 @@ export default {
   },
   restore_ledger: {
     title: 'Ledger에서 복원',
-    usage: '펌웨어 및 응용 프로그램이 최신 버전인지 확인하십시오. 귀하의 Ledger를 플러그인하고 Qtum APP을 실행한 다음 아래의 "CONNECT" 버튼을 클릭하여 연결하십시오.',
+    usage: '펌웨어 및 응용 프로그램이 최신 버전인지 확인하십시오. 귀하의 Ledger를 플러그인하고 Qtum APP을 실행한 다음 아래의 "연결" 버튼을 클릭하여 연결하십시오.',
     download: 'Qtum APP이 없으신가요? 다음 항목을 설치하십시오 https://www.ledgerwallet.com/apps/manager',
     connect: '연결',
   },
