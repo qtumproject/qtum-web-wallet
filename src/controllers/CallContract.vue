@@ -111,6 +111,7 @@ export default {
           this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
         }
       } catch (e) {
+        this.$root.log.error('call_contract_decode_abi_error', e.stack || e.toString() || e)
         return true
       }
     },
@@ -121,11 +122,13 @@ export default {
         try {
           this.result = await webWallet.getWallet().callContract(this.contractAddress, encodedData)
         } catch (e) {
+          this.$root.log.error('call_contract_call_contract_error', e.stack || e.toString() || e)
           alert(e.message || e)
           this.execResultDialog = false
         }
       } catch (e) {
         this.$root.error('Params error')
+        this.$root.log.error('call_contract_encode_abi_error', e.stack || e.toString() || e)
         return false
       }
     }

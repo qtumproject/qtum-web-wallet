@@ -45,6 +45,7 @@ export default {
       }
       catch (e) {
         this.$root.error('restore_key_file_fail')
+        this.$root.log.error('restore_key_file_restore_wif_error', e.stack || e.toString() || e)
         return false
       }
       this.$emit('restored')

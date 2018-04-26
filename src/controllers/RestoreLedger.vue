@@ -40,8 +40,9 @@ export default {
       try {
         this.ledger = await webWallet.connectLedger()
       }
-      catch (error) {
+      catch (e) {
         this.$root.error('connect_ledger_fail')
+        this.$root.log.error('restore_ledger_connect_error', e.stack || e.toString() || e)
         return false
       }
       this.step = 2

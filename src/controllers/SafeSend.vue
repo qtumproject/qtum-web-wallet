@@ -280,6 +280,7 @@ export default {
         this.fileParsed = true
       } catch (e) {
         this.$root.error('file parse fail')
+        this.$root.log.error('safe_send_file_parse_error', e.stack || e.toString() || e)
         return false
       }
     },
@@ -307,6 +308,7 @@ export default {
           this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         } catch (e) {
           alert(e.message || e)
+          this.$root.log.error('safe_send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
           this.confirmSendDialog = false
         }
       }

@@ -166,6 +166,7 @@ export default {
         this.canSend = true
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_generate_tx_error', e.stack || e.toString() || e)
         this.confirmSendDialog = false
         return false
       }
@@ -181,6 +182,7 @@ export default {
         this.$emit('send')
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
         this.confirmSendDialog = false
       }
     }

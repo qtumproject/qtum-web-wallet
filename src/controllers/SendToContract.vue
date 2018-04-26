@@ -136,6 +136,7 @@ export default {
           this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
         }
       } catch (e) {
+        this.$root.log.error('send_to_contract_decode_abi_error', e.stack || e.toString() || e)
         return true
       }
     },
@@ -146,6 +147,7 @@ export default {
         try {
           this.rawTx = await webWallet.getWallet().generateSendToContractTx(this.contractAddress, encodedData, this.gasLimit, this.gasPrice, this.fee)
         } catch (e) {
+          this.$root.log.error('send_to_generate_tx_error', e.stack || e.toString() || e)
           alert(e.message || e)
           this.confirmSendDialog = false
           return false
@@ -153,6 +155,7 @@ export default {
         this.canSend = true
       } catch (e) {
         this.$root.error('Params error')
+        this.$root.log.error('send_to_contract_encode_abi_error', e.stack || e.toString() || e)
         this.confirmSendDialog = false
         return false
       }
@@ -168,6 +171,7 @@ export default {
         this.$emit('send')
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_to_contract_post_raw_tx_error', e.response || e.stack || e.toString() || e)
         this.confirmSendDialog = false
       }
     }
