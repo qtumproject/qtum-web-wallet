@@ -7,24 +7,24 @@
       <v-form>
         <v-text-field
           label="Byte Code"
-          v-model="code"
+          v-model.trim="code"
           multiLine
           required
           ></v-text-field>
         <a href="https://ethereum.github.io/browser-solidity/" target="_blank" style="float: right;">{{ $t('create_contract.compiler') }}</a>
         <v-text-field
           label="Gas Price (1e-8 QTUM/gas)"
-          v-model="gasPrice"
+          v-model.trim="gasPrice"
           required
         ></v-text-field>
         <v-text-field
           label="Gas Limit"
-          v-model="gasLimit"
+          v-model.trim="gasLimit"
           required
         ></v-text-field>
         <v-text-field
           label="Fee"
-          v-model="fee"
+          v-model.trim="fee"
           required
           ></v-text-field>
       </v-form>

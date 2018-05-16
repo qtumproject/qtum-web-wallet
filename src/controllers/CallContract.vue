@@ -7,12 +7,12 @@
       <v-form>
         <v-text-field
           label="Contract Address"
-          v-model="contractAddress"
+          v-model.trim="contractAddress"
           required
         ></v-text-field>
         <v-text-field
           label="ABI"
-          v-model="abi"
+          v-model.trim="abi"
           required
           multiLine
           @input="decodeAbi"

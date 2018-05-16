@@ -42,10 +42,10 @@
             <v-container grid-list-md>
               <v-layout wrap>
                 <v-flex xs12>
-                  <v-text-field :label="$t('derive_path.path_name') + '*'" v-model="pathFormPathName"></v-text-field>
+                  <v-text-field :label="$t('derive_path.path_name') + '*'" v-model.trim="pathFormPathName"></v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                  <v-text-field :label="$t('derive_path.path') + '*'" v-model="pathFormPath"></v-text-field>
+                  <v-text-field :label="$t('derive_path.path') + '*'" v-model.trim="pathFormPath"></v-text-field>
                 </v-flex>
               </v-layout>
             </v-container>

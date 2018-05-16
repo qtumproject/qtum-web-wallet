@@ -12,7 +12,7 @@
         </v-flex>
         <v-flex xs10>
           <v-text-field
-            v-model="wif"
+            v-model.trim="wif"
             @keydown.enter="restore"
           ></v-text-field>
         </v-flex>
