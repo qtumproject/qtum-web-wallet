@@ -7,14 +7,14 @@
       <v-form>
         <v-text-field
           label="Address"
-          v-model="address"
+          v-model.trim="address"
           required
           ></v-text-field>
         <v-layout>
           <v-flex xs9>
             <v-text-field
               label="Amount"
-              v-model="amount"
+              v-model.trim="amount"
               required
             ></v-text-field>
           </v-flex>
@@ -39,7 +39,7 @@
         ></v-text-field>
         <v-text-field
           label="Fee"
-          v-model="fee"
+          v-model.trim="fee"
           required
           ></v-text-field>
       </v-form>
@@ -57,7 +57,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Address" v-model="repeatAddress"></v-text-field>
+                <v-text-field label="Address" v-model.trim="repeatAddress"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -166,6 +166,7 @@ export default {
         this.canSend = true
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_generate_tx_error', e.stack || e.toString() || e)
         this.confirmSendDialog = false
         return false
       }
@@ -181,6 +182,7 @@ export default {
         this.$emit('send')
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
         this.confirmSendDialog = false
       }
     }

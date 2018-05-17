@@ -16,22 +16,22 @@
             <v-alert color="info" value="true">{{ $t('safe_send.info1_online') }}</v-alert>
             <v-text-field
               label="From Address"
-              v-model="fromAddress"
+              v-model.trim="fromAddress"
               required
               ></v-text-field>
             <v-text-field
               label="To Address"
-              v-model="toAddress"
+              v-model.trim="toAddress"
               required
               ></v-text-field>
             <v-text-field
               label="Amount"
-              v-model="amount"
+              v-model.trim="amount"
               required
               ></v-text-field>
             <v-text-field
               label="Fee"
-              v-model="fee"
+              v-model.trim="fee"
               required
               ></v-text-field>
             <v-btn color="success" @click.native="confirmAddressDialog = true" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
@@ -145,7 +145,7 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="To Address" v-model="repeatToAddress"></v-text-field>
+                <v-text-field label="To Address" v-model.trim="repeatToAddress"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -280,6 +280,7 @@ export default {
         this.fileParsed = true
       } catch (e) {
         this.$root.error('file parse fail')
+        this.$root.log.error('safe_send_file_parse_error', e.stack || e.toString() || e)
         return false
       }
     },
@@ -307,6 +308,7 @@ export default {
           this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
         } catch (e) {
           alert(e.message || e)
+          this.$root.log.error('safe_send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
           this.confirmSendDialog = false
         }
       }

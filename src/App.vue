@@ -63,6 +63,7 @@
 
 <script>
 import Vue from 'vue'
+import createLog from 'localstorage-logger'
 
 //Components
 import Notify from 'components/Notify'
@@ -89,6 +90,10 @@ import config from 'libs/config'
 import webWallet from 'libs/web-wallet'
 import i18n from 'libs/i18n'
 
+const log = createLog({
+  maxLogSizeInBytes: 500 * 1024 // 500KB
+})
+
 export default {
   name: 'app',
   i18n,
@@ -98,6 +103,7 @@ export default {
       current: 'create',
       network: config.getNetwork(),
       mode: config.getMode(),
+      log: log,
       menu: [
         { icon: 'add', name: 'create' },
         { icon: 'assignment', name: 'create_from_mnemonic' },

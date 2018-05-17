@@ -42,6 +42,12 @@
               bottom
             ></v-select>
           </v-flex>
+          <v-flex xs6>
+            <v-subheader>LOG</v-subheader>
+          </v-flex>
+          <v-flex xs6>
+            <file-creator color="red" :href="fileStr">DOWNLOAD LOGS</file-creator>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
@@ -54,6 +60,7 @@
 
 <script>
 import config from 'libs/config'
+import fileCreator from 'components/FileCreator'
 
 const loadConfig = {
   lan: config.getLan(),
@@ -80,6 +87,14 @@ export default {
         { value: 'normal', text: this.$t('common.mode.normal')},
         { value: 'offline', text: this.$t('common.mode.offline')},
       ]
+    }
+  },
+  components: {
+    fileCreator,
+  },
+  computed: {
+    fileStr: function() {
+      return 'data:text/plain,'+this.$root.log.exportToArray().join("\n")
     }
   },
   methods: {

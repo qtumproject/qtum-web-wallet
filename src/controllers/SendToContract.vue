@@ -7,12 +7,12 @@
       <v-form>
         <v-text-field
           label="Contract Address"
-          v-model="contractAddress"
+          v-model.trim="contractAddress"
           required
         ></v-text-field>
         <v-text-field
           label="ABI"
-          v-model="abi"
+          v-model.trim="abi"
           required
           multiLine
           @input="decodeAbi"
@@ -35,17 +35,17 @@
         </template>
         <v-text-field
           label="Gas Price (1e-8 QTUM/gas)"
-          v-model="gasPrice"
+          v-model.trim="gasPrice"
           required
         ></v-text-field>
         <v-text-field
           label="Gas Limit"
-          v-model="gasLimit"
+          v-model.trim="gasLimit"
           required
         ></v-text-field>
         <v-text-field
           label="Fee"
-          v-model="fee"
+          v-model.trim="fee"
           required
           ></v-text-field>
       </v-form>
@@ -136,6 +136,7 @@ export default {
           this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
         }
       } catch (e) {
+        this.$root.log.error('send_to_contract_decode_abi_error', e.stack || e.toString() || e)
         return true
       }
     },
@@ -146,6 +147,7 @@ export default {
         try {
           this.rawTx = await webWallet.getWallet().generateSendToContractTx(this.contractAddress, encodedData, this.gasLimit, this.gasPrice, this.fee)
         } catch (e) {
+          this.$root.log.error('send_to_generate_tx_error', e.stack || e.toString() || e)
           alert(e.message || e)
           this.confirmSendDialog = false
           return false
@@ -153,6 +155,7 @@ export default {
         this.canSend = true
       } catch (e) {
         this.$root.error('Params error')
+        this.$root.log.error('send_to_contract_encode_abi_error', e.stack || e.toString() || e)
         this.confirmSendDialog = false
         return false
       }
@@ -168,6 +171,7 @@ export default {
         this.$emit('send')
       } catch (e) {
         alert(e.message || e)
+        this.$root.log.error('send_to_contract_post_raw_tx_error', e.response || e.stack || e.toString() || e)
         this.confirmSendDialog = false
       }
     }

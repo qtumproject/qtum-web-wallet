@@ -14,7 +14,7 @@
           ></v-text-field>
         <v-text-field
           label="Amount"
-          v-model="amount"
+          v-model.trim="amount"
           required
           @input="drawQrCode"
           ></v-text-field>

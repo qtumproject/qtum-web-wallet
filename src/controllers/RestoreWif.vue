@@ -12,7 +12,7 @@
         </v-flex>
         <v-flex xs10>
           <v-text-field
-            v-model="wif"
+            v-model.trim="wif"
             @keydown.enter="restore"
           ></v-text-field>
         </v-flex>
@@ -39,8 +39,9 @@ export default {
       try {
         webWallet.restoreFromWif(this.wif)
       }
-      catch (error) {
+      catch (e) {
         this.$root.error('restore_wif_fail')
+        this.$root.log.error('restore_wif_restore_error', e.stack || e.toString() || e)
         return false
       }
       this.$emit('restored')
