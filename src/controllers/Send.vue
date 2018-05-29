@@ -9,7 +9,7 @@
           label="Address"
           v-model.trim="address"
           required
-          ></v-text-field>
+        ></v-text-field>
         <v-layout>
           <v-flex xs9>
             <v-text-field
@@ -22,9 +22,19 @@
             <v-select
               :items="tokens"
               v-model="symbol"
-              single-line
               bottom
-            ></v-select>
+            >
+              <template slot="item" slot-scope="data">
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    {{ data.item.text }}{{ data.item.name ? '(' + data.item.name + ')' : '' }}
+                  </v-list-tile-title>
+                  <v-list-tile-sub-title>
+                    {{ data.item.address }}
+                  </v-list-tile-sub-title>
+                </v-list-tile-content>
+              </template>
+            </v-select>
           </v-flex>
         </v-layout>
         <v-text-field
@@ -41,7 +51,7 @@
           label="Fee"
           v-model.trim="fee"
           required
-          ></v-text-field>
+        ></v-text-field>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -91,8 +101,53 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat @click="confirmSend" v-show="canSend && !sending">{{ $t('common.confirm') }}</v-btn>
-          <v-btn class="red--text darken-1" flat @click.native="confirmSendDialog = false" :v-show="!sending">{{ $t('common.cancel') }}</v-btn>
+          <v-btn class="blue--text darken-1" flat @click="confirmSend" v-show="canSend && !sending">
+            {{ $t('common.confirm') }}
+          </v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="confirmSendDialog = false" :v-show="!sending">
+            {{ $t('common.cancel') }}
+          </v-btn>
+          <v-progress-circular indeterminate :size="50" v-show="sending" class="primary--text"></v-progress-circular>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="addTokenDialog" persistent max-width="50%">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            Token
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field :label="$t('send.token_address')" v-model.trim="addTokenAddress"
+                              :disabled="addTokenStep === 2"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Name" v-model.trim="addTokenName" disabled
+                              v-if="addTokenStep === 2"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Symbol" v-model.trim="addTokenSymbol" disabled
+                              v-if="addTokenStep === 2"></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="blue--text darken-1" flat @click="searchAddToken" :loading="addTokenLoading"
+                 v-if="addTokenStep === 1">
+            {{ $t('common.search') }}
+          </v-btn>
+          <v-btn class="blue--text darken-1" flat @click="confirmAddToken" v-if="addTokenStep === 2">
+            {{ $t('common.confirm') }}
+          </v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="addTokenDialog = false">
+            {{ $t('common.cancel') }}
+          </v-btn>
           <v-progress-circular indeterminate :size="50" v-show="sending" class="primary--text"></v-progress-circular>
         </v-card-actions>
       </v-card>
@@ -101,91 +156,153 @@
 </template>
 
 <script>
-import webWallet from 'libs/web-wallet'
-import qrc20 from 'libs/qrc20'
-import server from 'libs/server'
+  import webWallet from 'libs/web-wallet'
+  import qrc20 from 'libs/qrc20'
+  import server from 'libs/server'
 
-export default {
-  data () {
-    return {
-      address: '',
-      amount: '',
-      symbol: 'QTUM',
-      gasPrice: '40',
-      gasLimit: '2500000',
-      fee: '0.01',
-      confirmAddressDialog: false,
-      repeatAddress: '',
-      confirmSendDialog: false,
-      rawTx: 'loading...',
-      canSend: false,
-      sending: false
-    }
-  },
-  computed: {
-    tokens: function() {
-      const tokenList = [{text: 'QTUM', value: 'QTUM'}]
-      qrc20.getTokenList().forEach((token) => {tokenList[tokenList.length] = {text: token.symbol, value: token.symbol}})
-      return tokenList
-    },
-    notValid: function() {
-      //@todo valid the address
-      const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
-      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
-      return !(amountCheck && feeCheck)
-    }
-  },
-  methods: {
-    send() {
-      this.confirmAddressDialog = true
-      this.canSend = false
-    },
-
-    async confirmAddress() {
-      if(this.address !== this.repeatAddress) {
-        this.$root.error('address_is_not_same_as_the_old_one')
-        return false
+  export default {
+    data() {
+      return {
+        address: '',
+        amount: '',
+        symbol: 'QTUM',
+        tokens: [],
+        addTokenStep: 1,
+        addTokenDialog: false,
+        addTokenLoading: false,
+        addTokenName: '',
+        addTokenSymbol: '',
+        addTokenAddress: '',
+        addTokenDecimals: 8,
+        gasPrice: '40',
+        gasLimit: '250000',
+        fee: '0.01',
+        confirmAddressDialog: false,
+        repeatAddress: '',
+        confirmSendDialog: false,
+        rawTx: 'loading...',
+        canSend: false,
+        sending: false
       }
-      this.confirmAddressDialog = false
-      this.confirmSendDialog = true
-      const wallet = webWallet.getWallet()
-      try {
-        if (this.symbol == 'QTUM') {
-          if (wallet.extend.ledger) {
-            this.rawTx = 'Please confirm tx on your ledger...'
-          }
-          this.rawTx = await wallet.generateTx(this.address, this.amount, this.fee)
-        } else if (qrc20.checkSymbol(this.symbol)) {
-          if (wallet.extend.ledger) {
-            this.rawTx = 'Please confirm tx on your ledger...'
-          }
-          const token = qrc20.getTokenBySymbol(this.symbol)
-          const encodedData = qrc20.encodeSendData(token, this.address, this.amount)
-          this.rawTx = await wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee)
+    },
+    computed: {
+      notValid: function () {
+        //@todo valid the address
+        const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
+        const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+        return !(amountCheck && feeCheck)
+      }
+    },
+    methods: {
+      send() {
+        this.confirmAddressDialog = true
+        this.canSend = false
+      },
+
+      async confirmAddress() {
+        if (this.address !== this.repeatAddress) {
+          this.$root.error('address_is_not_same_as_the_old_one')
+          return false
         }
-        this.canSend = true
-      } catch (e) {
-        alert(e.message || e)
-        this.$root.log.error('send_generate_tx_error', e.stack || e.toString() || e)
-        this.confirmSendDialog = false
-        return false
+        this.confirmAddressDialog = false
+        this.confirmSendDialog = true
+        const wallet = webWallet.getWallet()
+        try {
+          if (this.symbol == 'QTUM') {
+            if (wallet.extend.ledger) {
+              this.rawTx = 'Please confirm tx on your ledger...'
+            }
+            this.rawTx = await wallet.generateTx(this.address, this.amount, this.fee)
+          } else if (qrc20.checkSymbol(this.symbol)) {
+            if (wallet.extend.ledger) {
+              this.rawTx = 'Please confirm tx on your ledger...'
+            }
+            const token = qrc20.getTokenBySymbol(this.symbol)
+            const encodedData = qrc20.encodeSendData(token, this.address, this.amount)
+            this.rawTx = await wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee)
+          }
+          this.canSend = true
+        } catch (e) {
+          alert(e.message || e)
+          this.$root.log.error('send_generate_tx_error', e.stack || e.toString() || e)
+          this.confirmSendDialog = false
+          return false
+        }
+      },
+
+      async confirmSend() {
+        this.sending = true
+        try {
+          const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
+          this.confirmSendDialog = false
+          this.sending = false
+          this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
+          this.$emit('send')
+        } catch (e) {
+          alert(e.message || e)
+          this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
+          this.confirmSendDialog = false
+        }
+      },
+
+      async searchAddToken() {
+        this.addTokenLoading = true
+        try {
+          const tokenInfo = await qrc20.fetchTokenInfo(this.addTokenAddress)
+          this.addTokenName = tokenInfo.name
+          this.addTokenSymbol = tokenInfo.symbol
+          this.addTokenDecimals = tokenInfo.decimals
+        } catch (e) {
+          this.addTokenLoading = false
+          if (e.response.status === 404) {
+            this.$root.error('token_contract_address_is_not_exists')
+            this.$root.log.error('token_contract_address_is_not_exists', this.addTokenAddress)
+          } else {
+            alert(e.message || e)
+            this.addTokenDialog = false
+          }
+          return false
+        }
+        this.addTokenLoading = false
+        this.addTokenStep = 2
+      },
+
+      confirmAddToken() {
+        qrc20.addCustomToken(this.addTokenAddress, this.addTokenName, this.addTokenSymbol, this.addTokenDecimals)
+        this.initTokens()
+        this.symbol = this.addTokenSymbol
+        this.addTokenStep = 1
+        this.addTokenDialog = false
+        this.addTokenAddress = ''
+      },
+
+      initTokens() {
+        const tokenList = [{ text: 'QTUM', value: 'QTUM' }]
+        qrc20.getTokenList().forEach((token) => {
+          tokenList[tokenList.length] = {
+            text: token.symbol,
+            value: token.symbol,
+            name: token.name,
+            address: token.address
+          }
+        })
+        tokenList[tokenList.length] = { text: 'More...', value: 'more' }
+        this.tokens = tokenList
       }
     },
-
-    async confirmSend() {
-      this.sending = true
-      try {
-        const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
-        this.confirmSendDialog = false
-        this.sending = false
-        this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
-        this.$emit('send')
-      } catch (e) {
-        alert(e.message || e)
-        this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
-        this.confirmSendDialog = false
+    mounted() {
+      this.initTokens()
+    },
+    watch: {
+      'symbol'(to, from) {
+        if (from === 'more') return true
+        if (to === 'more') {
+          this.$nextTick(() => {
+            this.symbol = from
+            this.addTokenDialog = true
+          })
+        }
       }
     }
   }
-}
 </script>

@@ -2,6 +2,7 @@ export default {
   common: {
     confirm: 'Confirm',
     cancel: 'Cancel',
+    search: 'Search',
     copy: 'COPY',
     next: 'NEXT',
     question_mark: '? ',
@@ -49,6 +50,7 @@ export default {
       the_key_file_is_not_a_valid_format: 'The key file is not a valid format',
       restore_key_file_fail: 'Restore from key file failed. Maybe the password is not correct',
       connect_ledger_fail: 'Fail to connect Ledger. Please re-plugin your ledger and try again',
+      token_contract_address_is_not_exists: 'Token contract address is not exists, please confirm and try again',
     },
     mode: {
       normal: 'Normal',
@@ -102,6 +104,7 @@ export default {
     enter_address: 'Please enter address again (Double check)',
     going_to_send: 'You are going to send ',
     to_address: 'to address ',
+    token_address: 'Token Contract Address',
   },
   request_payment: {
     title: 'Request Payment',
