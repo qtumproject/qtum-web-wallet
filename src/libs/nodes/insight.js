@@ -2,7 +2,7 @@ import axios from 'axios'
 import config from 'libs/config'
 
 let domain = ''
-switch(config.getNetwork()) {
+switch (config.getNetwork()) {
   case 'testnet':
     domain = 'https://testnet.qtum.org'
     break
@@ -29,6 +29,10 @@ export default {
     return await _get(`/erc20/balances?balanceAddress=${address}`)
   },
 
+  async getTokenInfo(contractAddress) {
+    return await _get(`/qrc20/${contractAddress}`)
+  },
+
   async getTxList(address) {
     return await _get(`/txs/?address=${address}`)
   },
@@ -49,7 +53,7 @@ export default {
   },
 
   async sendRawTx(rawTx) {
-    return (await (_post('/tx/send', {rawtx: rawTx}))).txid
+    return (await (_post('/tx/send', { rawtx: rawTx }))).txid
   },
 
   async fetchRawTx(txid) {
@@ -65,6 +69,6 @@ export default {
   },
 
   async callContract(address, encodedData) {
-    return (await _get(`/contracts/${address}/hash/${encodedData}/call`))["executionResult"]["output"]
+    return (await _get(`/contracts/${address}/hash/${encodedData}/call`))['executionResult']['output']
   }
 }

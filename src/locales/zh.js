@@ -2,6 +2,7 @@ export default {
   common: {
     confirm: '确认',
     cancel: '取消',
+    search: '搜索',
     copy: '复制',
     next: '下一步',
     question_mark: '？',
@@ -49,6 +50,7 @@ export default {
       the_key_file_is_not_a_valid_format: '加密文件格式不对',
       restore_key_file_fail: '可能是加密文件的解密密码不对，从此加密文件不能恢复钱包，请再次确认',
       connect_ledger_fail: '连接Ledger失败，请按上面的操作重做一次。如果还是失败，请把Ledger拔下来后重试',
+      token_contract_address_is_not_exists: 'Token合约地址不存在，请确认后再试',
     },
     mode: {
       normal: '正常模式',
@@ -102,6 +104,7 @@ export default {
     enter_address: '请再次输入地址（二次检查）',
     going_to_send: '你确定要发送',
     to_address: '到地址',
+    token_address: 'Token合约地址',
   },
   request_payment: {
     title: '收款码',
