@@ -2,6 +2,7 @@ export default {
   common: {
     confirm: '확인',
     cancel: '취소',
+    search: '검색',
     copy: '복사',
     next: '다음',
     question_mark: '? ',
@@ -49,6 +50,7 @@ export default {
       the_key_file_is_not_a_valid_format: '키 파일이 올바른 형식이 아닙니다.',
       restore_key_file_fail: '키 파일에서 복원에 실패했습니다. 패스워드가 올바르지 않을 수 있습니다.',
       connect_ledger_fail: 'Ledger 연결 실패. Ledger를 다시 플러그인 하고 재시도하십시오.',
+      token_contract_address_is_not_exists: '토큰 컨트랙트 주소가 없습니다. 확인한 후 다시 시도하십시오',
     },
     mode: {
       normal: '노멀',
@@ -102,6 +104,7 @@ export default {
     enter_address: '주소를 다시 입력하십시오 (다시 확인하십시오).',
     going_to_send: '보내겠습니다 ',
     to_address: 'to address ',
+    token_address: '토큰 컨트랙트 주소'
   },
   request_payment: {
     title: '지불 요청',
