@@ -39,12 +39,14 @@ export default {
   },
 
   checkSymbol(symbol) {
+    const tokenList = loadTokenList(config.getNetwork())
     return tokenList.filter((token) => {
       return token.symbol === symbol
     }).length > 0
   },
 
   getTokenBySymbol(symbol) {
+    const tokenList = loadTokenList(config.getNetwork())
     return tokenList.filter((token) => {
       return token.symbol === symbol
     })[0]
