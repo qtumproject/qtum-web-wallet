@@ -22,6 +22,7 @@ export default {
       safe_send: 'Safe Send',
       send: 'Send',
       request_payment: 'Request Payment',
+      create_token: 'Create Token',
       create_contract: 'Create Contract',
       send_to_contract: 'Send To Contract',
       call_contract: 'Call Contract',
@@ -108,6 +109,14 @@ export default {
   },
   request_payment: {
     title: 'Request Payment',
+  },
+  create_token: {
+    title: 'Create Token',
+    name: 'Token Name',
+    symbol: 'Token Symbol',
+    decimal: 'Decimals (It\'s recommended to set decimals to 8 in QTUM)',
+    total_supply: 'Total Supply (UNIT: 1 Token)',
+    confirm: 'Do you confirm to create this Token?',
   },
   create_contract: {
     title: 'Create Contract',

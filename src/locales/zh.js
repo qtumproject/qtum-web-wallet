@@ -22,6 +22,7 @@ export default {
       safe_send: '安全转账',
       send: '转账',
       request_payment: '收款码',
+      create_token: '创建Token',
       create_contract: '创建智能合约',
       send_to_contract: '向智能合约发送数据',
       call_contract: '调用智能合约',
@@ -108,6 +109,14 @@ export default {
   },
   request_payment: {
     title: '收款码',
+  },
+  create_token: {
+    title: '创建Token',
+    name: 'Token名字',
+    symbol: 'Token符号',
+    decimal: '小数位数(QTUM推荐8位)',
+    total_supply: '总量(单位: 1token)',
+    confirm: '确定发布此Token吗?',
   },
   create_contract: {
     title: '创建智能合约',

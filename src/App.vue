@@ -47,6 +47,7 @@
               <send @send="setWallet" v-if="isCurrent['send']"></send>
               <request-payment v-if="isCurrent['request_payment']"></request-payment>
               <dump-key-file v-if="isCurrent['dump_as_key_file']"></dump-key-file>
+              <create-token v-if="isCurrent['create_token']"></create-token>
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
@@ -81,6 +82,7 @@ import SafeSend from 'controllers/SafeSend'
 import Send from 'controllers/Send'
 import RequestPayment from 'controllers/RequestPayment'
 import DumpKeyFile from 'controllers/DumpKeyFile'
+import CreateToken from 'controllers/CreateToken'
 import CreateContract from 'controllers/CreateContract'
 import SendToContract from 'controllers/SendToContract.vue'
 import CallContract from 'controllers/CallContract.vue'
@@ -120,6 +122,7 @@ export default {
         { icon: 'undo', name: 'request_payment' },
         { icon: 'cloud_download', name: 'dump_as_key_file' },
         { divider: true, name: 'contract' },
+        { icon: 'copyright', name: 'create_token' },
         { icon: 'gavel', name: 'create_contract' },
         { icon: 'publish', name: 'send_to_contract' },
         { icon: 'play_circle_filled', name: 'call_contract' },
@@ -144,6 +147,7 @@ export default {
         request_payment: !this.wallet,
         dump_as_key_file: !this.wallet || !this.wallet.getHasPrivKey(),
         contract: this.mode === 'offline' || !this.wallet,
+        create_token: this.mode === 'offline' || !this.wallet,
         create_contract: this.mode === 'offline' || !this.wallet,
         send_to_contract: this.mode === 'offline' || !this.wallet,
         call_contract: this.mode === 'offline' || !this.wallet,
@@ -169,6 +173,7 @@ export default {
     Send,
     RequestPayment,
     DumpKeyFile,
+    CreateToken,
     CreateContract,
     SendToContract,
     CallContract,
