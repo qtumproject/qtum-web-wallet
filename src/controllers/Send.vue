@@ -236,7 +236,8 @@
           const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
           this.confirmSendDialog = false
           this.sending = false
-          this.$root.success('Successful send. You can view at ' + server.currentNode().getTxExplorerUrl(txId))
+          const txViewUrl = server.currentNode().getTxExplorerUrl(txId)
+          this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
           this.$emit('send')
         } catch (e) {
           alert(e.message || e)

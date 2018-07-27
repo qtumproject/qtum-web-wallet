@@ -40,7 +40,7 @@
               <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
               <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
               <restore-key-file @restored="setWallet" v-show="isCurrent['restore_from_key_file']"></restore-key-file>
-              <restore-ledger @restored="setWallet"  v-if="isCurrent['restore_from_ledger']"></restore-ledger>
+              <restore-ledger @restored="setWallet" v-if="isCurrent['restore_from_ledger']"></restore-ledger>
               <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
               <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
               <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
@@ -195,13 +195,13 @@ export default {
     changeView(name) {
       this.current = name
     },
-    error(msg) {
-      this.addNotify(msg, 'error')
+    error(msg, isHtml = false, ttl = 10) {
+      this.addNotify(msg, 'error', isHtml, ttl)
     },
-    success(msg) {
-      this.addNotify(msg, 'success')
+    success(msg, isHtml = false, ttl = 10) {
+      this.addNotify(msg, 'success', isHtml, ttl)
     },
-    addNotify(msg, type) {
+    addNotify(msg, type, isHtml = false, ttl = 10) {
       const notifyId = [msg, type].join('_')
       const notify = {
         msg: msg.split(' ').reduce((msg, current) => {
@@ -209,13 +209,19 @@ export default {
           tmsg = (tmsg === 'common.notify.' + current) ? ' ' + current : tmsg
           return msg + tmsg
         }, ''),
-        type
+        type,
+        show: true,
+        isHtml,
       }
-      if (this.notifyList[notifyId]) {
+      if (this.notifyList[notifyId] && this.notifyList[notifyId].timer) {
         clearTimeout(this.notifyList[notifyId].timer)
       }
       Vue.set(this.notifyList, notifyId, notify)
-      this.notifyList[notifyId].timer = setTimeout(() => {Vue.delete(this.notifyList, notifyId)}, 10000)
+      if (ttl > 0) {
+        this.notifyList[notifyId].timer = setTimeout(() => {
+          Vue.delete(this.notifyList, notifyId)
+        }, ttl * 1000)
+      }
     }
   }
 }
