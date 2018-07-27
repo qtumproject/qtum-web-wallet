@@ -96,8 +96,8 @@ export default {
   computed: {
     notValid: function() {
       //@todo valid the address
-      const decimalCheck = /^[1-9][0-9]*$/.test(this.decimal)
-      const totalSupplyCheck = /^[1-9][0-9]*$/.test(this.totalSupply)
+      const decimalCheck = /^(0|[1-9][0-9]*)$/.test(this.decimal) && this.decimal < 256
+      const totalSupplyCheck = !isNaN(this.totalSupply)
       const gasPriceCheck = /^\d+\.?\d*$/.test(this.gasPrice) && this.gasPrice > 0
       const gasLimitCheck = /^\d+\.?\d*$/.test(this.gasLimit) && this.gasLimit > 0
       const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
