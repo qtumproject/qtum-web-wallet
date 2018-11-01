@@ -25,11 +25,11 @@ const trackAction = (action, category, label) => {
 }
 
 const trackStep = (name, prevStep, nextStep) => {
-  trackAction('next', 'name', `${prevStep} => ${nextStep}`)
+  trackAction('next', name, `${prevStep} => ${nextStep}`)
 }
 
 const trackDone = (name) => {
-  trackAction('done', 'name', 'done')
+  trackAction('done', name, 'done')
 }
 
 const trackException = (description, fatal = false) => {
