@@ -23,6 +23,7 @@
 
 <script>
 import webWallet from 'libs/web-wallet'
+import track from 'libs/track'
 import DerivePath from 'components/DerivePath'
 
 export default {
@@ -43,9 +44,11 @@ export default {
       catch (e) {
         this.$root.error('connect_ledger_fail')
         this.$root.log.error('restore_ledger_connect_error', e.stack || e.toString() || e)
+        track.trackException(`restore_from_ledger: connect error: ${e.stack || e.toString()}`, true)
         return false
       }
       this.step = 2
+      track.trackStep('restore_from_ledger', 1, 2)
     },
     setWallet(wallet) {
       webWallet.setWallet(wallet)

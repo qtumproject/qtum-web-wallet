@@ -159,6 +159,7 @@
   import webWallet from 'libs/web-wallet'
   import qrc20 from 'libs/qrc20'
   import server from 'libs/server'
+  import track from 'libs/track'
 
   export default {
     data() {
@@ -222,9 +223,11 @@
             this.rawTx = await wallet.generateSendToContractTx(token.address, encodedData, this.gasLimit, this.gasPrice, this.fee)
           }
           this.canSend = true
+          track.trackAction('preview', 'send', this.symbol)
         } catch (e) {
           alert(e.message || e)
           this.$root.log.error('send_generate_tx_error', e.stack || e.toString() || e)
+          track.trackException(`send: send_generate_tx_error: ${e.stack || e.toString() || e}`)
           this.confirmSendDialog = false
           return false
         }
@@ -238,10 +241,12 @@
           this.sending = false
           const txViewUrl = server.currentNode().getTxExplorerUrl(txId)
           this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
+          track.trackAction('done', 'send', this.symbol)
           this.$emit('send')
         } catch (e) {
           alert(e.message || e)
           this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
+          track.trackException(`send: send_post_raw_tx_error: ${e.response || e.stack || e.toString() || e}`)
           this.confirmSendDialog = false
         }
       },
@@ -253,6 +258,7 @@
           this.addTokenName = tokenInfo.name
           this.addTokenSymbol = tokenInfo.symbol
           this.addTokenDecimals = tokenInfo.decimals
+          track.trackAction('addToken', 'send', `${this.addTokenAddress}, ${tokenInfo.name}`)
         } catch (e) {
           this.addTokenLoading = false
           if (e.response.status === 404) {

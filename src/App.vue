@@ -91,6 +91,7 @@ import Config from 'controllers/Config'
 import config from 'libs/config'
 import webWallet from 'libs/web-wallet'
 import i18n from 'libs/i18n'
+import track from 'libs/track'
 
 const log = createLog({
   maxLogSizeInBytes: 500 * 1024 // 500KB
@@ -194,6 +195,7 @@ export default {
     },
     changeView(name) {
       this.current = name
+      track.trackAction('change', 'page', name)
     },
     error(msg, isHtml = false, ttl = 10) {
       this.addNotify(msg, 'error', isHtml, ttl)
@@ -223,6 +225,9 @@ export default {
         }, ttl * 1000)
       }
     }
-  }
+  },
+  mounted() {
+    track.track('lan', config.getLan())
+  },
 }
 </script>

@@ -64,6 +64,7 @@
 
 <script>
 import webWallet from 'libs/web-wallet'
+import track from 'libs/track'
 
 export default {
   data() {
@@ -93,6 +94,7 @@ export default {
   },
   methods: {
     onCopySucc: function() {
+      track.trackAction('copy', 'view', 'privkey')
       this.$root.success('copy success')
     },
     onCopyError: function() {

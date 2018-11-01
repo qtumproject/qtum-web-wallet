@@ -60,6 +60,7 @@
 
 <script>
 import config from 'libs/config'
+import track from 'libs/track'
 import fileCreator from 'components/FileCreator'
 
 const loadConfig = {
@@ -98,10 +99,16 @@ export default {
     }
   },
   methods: {
+    saveKey(key) {
+      if (this[key] !== loadConfig[key]) {
+        track.trackAction('change', 'config', `${key} : ${loadConfig[key]} => ${this[key]}`)
+      }
+      config.set(key, this[key])
+    },
     save: function() {
-      config.set('lan', this.lan)
-      config.set('network', this.network)
-      config.set('mode', this.mode)
+      this.saveKey('lan')
+      this.saveKey('network')
+      this.saveKey('mode')
       window.location.reload()
     }
   }

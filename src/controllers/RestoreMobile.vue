@@ -29,6 +29,7 @@
 <script>
 import mnemonic from 'components/Mnemonic'
 import webWallet from 'libs/web-wallet'
+import track from 'libs/track'
 
 export default {
   data() {
@@ -51,9 +52,11 @@ export default {
       setTimeout(()=>{
         this.walletList = webWallet.restoreFromMobile(mnemonic)
       }, 10)
+      track.trackStep('restore_from_mobile', 1, 2)
     },
     choose(path) {
       webWallet.chooseMobileWallet(this.walletList, path)
+      track.trackDone('restore_from_mobile')
       this.$emit('restored')
     }
   }

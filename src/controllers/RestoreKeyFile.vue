@@ -15,6 +15,7 @@ import fileReader from 'components/FileReader'
 import password from 'components/Password'
 import webWallet from 'libs/web-wallet'
 import keyfile from 'libs/keyfile'
+import track from 'libs/track'
 
 export default {
   data() {
@@ -30,11 +31,13 @@ export default {
   methods: {
     parseKeyFile(upload) {
       let content = keyfile.parse(upload.content)
+      track.trackStep('restore_from_key_file', 1, 2)
       if (content) {
         this.passwordRequired = true
         this.content = content
       }
       else {
+        track.trackException('restore_from_key_file: key file error')
         this.$root.error('the_key_file_is_not_a_valid_format')
       }
     },
@@ -48,6 +51,7 @@ export default {
         this.$root.log.error('restore_key_file_restore_wif_error', e.stack || e.toString() || e)
         return false
       }
+      track.trackDone('restore_from_key_file')
       this.$emit('restored')
     }
   }

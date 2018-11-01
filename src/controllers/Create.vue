@@ -20,6 +20,7 @@ import password from 'components/Password'
 import webWallet from 'libs/web-wallet'
 import fileCreator from 'components/FileCreator'
 import keyfile from 'libs/keyfile'
+import track from 'libs/track'
 
 export default {
   data() {
@@ -48,8 +49,10 @@ export default {
     createWallet() {
       this.step = 2
       this.passwordRequired = true
+      track.trackStep('create', 1, 2)
     },
     dumpDone() {
+      track.trackDone('create')
       setTimeout(() => {
         this.$emit('created')
       }, 1000)

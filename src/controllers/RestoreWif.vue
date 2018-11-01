@@ -27,6 +27,7 @@
 
 <script>
 import webWallet from 'libs/web-wallet'
+import track from 'libs/track'
 
 export default {
   data() {
@@ -44,6 +45,7 @@ export default {
         this.$root.log.error('restore_wif_restore_error', e.stack || e.toString() || e)
         return false
       }
+      track.trackDone('restore_from_wif')
       this.$emit('restored')
     }
   }
