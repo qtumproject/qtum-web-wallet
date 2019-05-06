@@ -261,7 +261,7 @@
           track.trackAction('addToken', 'send', `${this.addTokenAddress}, ${tokenInfo.name}`)
         } catch (e) {
           this.addTokenLoading = false
-          if (e.response.status === 404) {
+          if ((e.response && e.response.status === 404) || (e.message === 'this contract is not a qrc20 token')) {
             this.$root.error('token_contract_address_is_not_exists')
             this.$root.log.error('token_contract_address_is_not_exists', this.addTokenAddress)
           } else {

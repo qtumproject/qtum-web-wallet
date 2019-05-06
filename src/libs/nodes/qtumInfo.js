@@ -15,7 +15,7 @@ switch (config.getNetwork()) {
     insightDomain = 'https://explorer.qtum.org'
     break
 }
-const apiPrefix = insightDomain + '/insight-api'
+const apiPrefix = domain + '/api'
 
 const _get = async url => {
   return (await axios.get(apiPrefix + url)).data
@@ -27,42 +27,39 @@ const _post = async (url, data) => {
 
 export default {
   async getInfo(address) {
-    return await _get(`/addr/${address}`)
-  },
-
-  async getQrc20(address) {
-    return await _get(`/erc20/balances?balanceAddress=${address}`)
+    return await _get(`/address/${address}`)
   },
 
   async getTokenInfo(contractAddress) {
-    return await _get(`/qrc20/${contractAddress}`)
+    return await _get(`/contract/${contractAddress}`)
   },
 
-  async getTxList(address) {
-    return await _get(`/txs/?address=${address}`)
+  async getTxList(address, size = 10) {
+    const res = await _get(`/address/${address}/txs?page=0&pageSize=${size}`)
+    return Promise.all(res.transactions.map(tx => _get(`/tx/${tx}`)))
   },
 
   async getUtxoList(address) {
-    return (await _get(`/addr/${address}/utxo`)).map(item => {
+    return (await _get(`/address/${address}/utxo`)).map(item => {
       return {
         address: item.address,
-        txid: item.txid,
+        txid: item.transactionId,
         confirmations: item.confirmations,
         isStake: item.isStake,
-        amount: item.amount,
-        value: item.satoshis,
-        hash: item.txid,
-        pos: item.vout
+        amount: item.value,
+        value: item.value,
+        hash: item.transactionId,
+        pos: item.outputIndex,
       }
     })
   },
 
   async sendRawTx(rawTx) {
-    return (await (_post('/tx/send', { rawtx: rawTx }))).txid
+    return (await (_post('/tx/send', `rawtx=${rawTx}`))).txid
   },
 
   async fetchRawTx(txid) {
-    return (await _get(`/rawtx/${txid}`)).rawtx
+    return (await _get(`/raw-tx/${txid}`))
   },
 
   getTxExplorerUrl(tx) {
@@ -74,6 +71,6 @@ export default {
   },
 
   async callContract(address, encodedData) {
-    return (await _get(`/contracts/${address}/hash/${encodedData}/call`))['executionResult']['output']
-  }
+    return (await _get(`/contract/${address}/call/?data=${encodedData}`)).executionResult.output
+  },
 }
