@@ -59,7 +59,8 @@ export default {
     return {
       txid:res.txid,
       message:res.message
-    }},
+    }
+  },
 
   async fetchRawTx(txid) {
     return (await _get(`/raw-tx/${txid}`))

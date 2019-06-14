@@ -239,16 +239,14 @@
           const res = await webWallet.getWallet().sendRawTx(this.rawTx)
           this.confirmSendDialog = false
           this.sending = false
-          if(res.txId) {
+          if (res.txId) {
               const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
               this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
-              track.trackAction('done', 'send', this.symbol)
-              this.$emit('send')
-          }else{
+          } else {
               this.$root.error(`Send Failed : ${res.message}`, true, 0)
-              track.trackAction('done', 'send', this.symbol)
-              this.$emit('send')
           }
+          track.trackAction('done', 'send', this.symbol)
+          this.$emit('send')
         } catch (e) {
           alert(e.message || e)
           this.$root.log.error('send_post_raw_tx_error', e.response || e.stack || e.toString() || e)
