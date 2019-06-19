@@ -10,9 +10,9 @@ export default {
     mainnet: 'Ignition-Mainnet',
     menu: {
       create: '새 지갑 생성',
-      create_from_mnemonic: '니모닉에서 생성',
-      restore_from_mnemonic: '니모닉에서 복원',
-      restore_from_wif: 'WIF에서 복원',
+      create_from_mnemonic: '니모닉으로 생성',
+      restore_from_mnemonic: '니모닉으로 복원',
+      restore_from_wif: 'WIF로 복원',
       restore_from_mobile: '모바일 지갑에서 복원',
       restore_from_key_file: '키 파일에서 복원',
       restore_from_ledger: 'Ledger에서 복원',
