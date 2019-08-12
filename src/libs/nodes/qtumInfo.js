@@ -57,8 +57,8 @@ export default {
   async sendRawTx(rawTx) {
     const res = (await (_post('/tx/send', `rawtx=${rawTx}`)))
     return {
-      txId:res.txid,
-      message:res.message
+      txId: res.txid,
+      message: res.message
     }
   },
 
