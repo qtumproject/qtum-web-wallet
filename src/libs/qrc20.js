@@ -36,8 +36,8 @@ export default {
 
   async fetchTokenInfo(contractAddress) {
     const res = await server.currentNode().getTokenInfo(contractAddress)
-    if (res.type !== 'qrc20' || !!res.qrc20) {
-      throw new Exception('this contract is not a qrc20 token')
+    if (res.type !== 'qrc20' || !res.qrc20) {
+      throw 'this contract is not a qrc20 token'
     }
     return res.qrc20
   },
