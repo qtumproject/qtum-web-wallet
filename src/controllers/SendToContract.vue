@@ -164,11 +164,15 @@ export default {
     async confirmSend() {
       this.sending = true
       try {
-        const txId = await webWallet.getWallet().sendRawTx(this.rawTx)
+        const res = await webWallet.getWallet().sendRawTx(this.rawTx)
         this.confirmSendDialog = false
         this.sending = false
-        const txViewUrl = server.currentNode().getTxExplorerUrl(txId)
-        this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
+        if (res.txId) {
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
+          this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
+        } else {
+          this.$root.error(`Send Failed : ${res.message}`, true, 0)
+        }
         this.$emit('send')
       } catch (e) {
         alert(e.message || e)
