@@ -18,14 +18,13 @@ export default {
   },
 
   addCustomToken(address, name, symbol, decimals) {
-    const tokenList = loadTokenList(config.getNetwork())
-    const has = tokenList.find(item => {
-      return address === item.address
-    })
-    if (has) return true
     const network = config.getNetwork()
+    if (tokens[network].find(item => address === item.address)) {
+      return true
+    }
     const savedTokenList = config.get(`tokenList_${network}`, [])
-    savedTokenList[savedTokenList.length] = {
+    const index = savedTokenList.findIndex(item => address === item.address)
+    savedTokenList[index === -1 ? savedTokenList.length : index] = {
       name,
       symbol,
       address,
@@ -35,11 +34,11 @@ export default {
   },
 
   async fetchTokenInfo(contractAddress) {
-    const res = await server.currentNode().getTokenInfo(contractAddress)
-    if (res.type !== 'qrc20' || !res.qrc20) {
+    try {
+      return await server.currentNode().getTokenInfo(contractAddress)
+    } catch (e) {
       throw 'this contract is not a qrc20 token'
     }
-    return res.qrc20
   },
 
   checkSymbol(symbol) {

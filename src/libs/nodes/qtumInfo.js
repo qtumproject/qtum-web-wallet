@@ -31,7 +31,7 @@ export default {
   },
 
   async getTokenInfo(contractAddress) {
-    return await _get(`/contract/${contractAddress}`)
+    return await _get(`/qrc20/${contractAddress}`)
   },
 
   async getTxList(address, size = 10) {
