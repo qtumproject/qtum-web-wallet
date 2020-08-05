@@ -51,6 +51,7 @@
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
+              <delegations :view="isCurrent['delegations']" v-show="isCurrent['delegations']"></delegations>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>
@@ -87,11 +88,14 @@ import CreateContract from 'controllers/CreateContract'
 import SendToContract from 'controllers/SendToContract.vue'
 import CallContract from 'controllers/CallContract.vue'
 import Config from 'controllers/Config'
+import Delegations from 'controllers/Delegations'
 
 import config from 'libs/config'
 import webWallet from 'libs/web-wallet'
 import i18n from 'libs/i18n'
 import track from 'libs/track'
+
+import qtumInfo from 'libs/nodes/qtumInfo'
 
 const log = createLog({
   maxLogSizeInBytes: 500 * 1024 // 500KB
@@ -127,10 +131,13 @@ export default {
         { icon: 'gavel', name: 'create_contract' },
         { icon: 'publish', name: 'send_to_contract' },
         { icon: 'play_circle_filled', name: 'call_contract' },
+        { divider: true, name: 'stake' },
+        { icon: 'group', name: 'delegations' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
-      notifyList: {}
+      notifyList: {},
+      delegationShow: false
     }
   },
   computed: {
@@ -152,10 +159,18 @@ export default {
         create_contract: this.mode === 'offline' || !this.wallet,
         send_to_contract: this.mode === 'offline' || !this.wallet,
         call_contract: this.mode === 'offline' || !this.wallet,
+        stake: this.mode === 'offline' || !this.wallet,
+        delegations: this.mode === 'offline' || !this.wallet || !this.delegationShow,
       }
     },
     headerClass() {
       return this.mode === 'normal' ? 'cyan' : 'orange'
+    }
+  },
+  watch: {
+    async network(newVal){
+      this.delegationShow = false
+      await this.onlineDelegation(newVal)
     }
   },
   components: {
@@ -179,6 +194,7 @@ export default {
     SendToContract,
     CallContract,
     Config,
+    Delegations
   },
   methods: {
     setWallet() {
@@ -224,10 +240,34 @@ export default {
           Vue.delete(this.notifyList, notifyId)
         }, ttl * 1000)
       }
+    },
+    async onlineDelegation(network){
+      // 判断代理挖矿功能是否上线
+      if(localStorage.getItem(`${network}_delegation_online`)) {
+        this.delegationShow = true
+      } else {
+        let height = 0
+        switch(network){
+          case 'testnet':
+            height = 625000
+            break
+          case 'mainnet':
+            height = 680000
+            break
+        }
+        // 请求高度
+        const res = await qtumInfo.getQtumInfo()
+        if(res.height > height) {
+          localStorage.setItem(`${network}_delegation_online`, true)
+          this.delegationShow = true
+        }
+      }
+      
     }
   },
   mounted() {
     track.track('lan', config.getLan())
+    this.onlineDelegation(this.network)
   },
 }
 </script>

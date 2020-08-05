@@ -29,6 +29,8 @@ export default class Wallet {
       balance: 'loading',
       unconfirmedBalance: 'loading',
       qrc20: [],
+      superStaker: '',
+      fee: ''
     }
     this.txList = []
   }
@@ -73,6 +75,8 @@ export default class Wallet {
       token.balance = Wallet.changeUnitFromSatTo1(token.balance, token.decimals)
       return token
     })
+    if(info.superStaker) this.info.superStaker = info.superStaker
+    if(info.fee) this.info.fee = info.fee
   }
 
   async setTxList() {

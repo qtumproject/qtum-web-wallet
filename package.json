@@ -34,6 +34,7 @@
     "bip32-utils": "^0.10.2",
     "bip39": "^2.5.0",
     "bitcoinjs-lib": "^3.3.2",
+    "bitcoinjs-message": "^2.1.1",
     "chalk": "^2.3.2",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.1",

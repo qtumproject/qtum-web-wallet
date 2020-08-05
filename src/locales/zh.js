@@ -26,6 +26,7 @@ export default {
       create_contract: '创建智能合约',
       send_to_contract: '向智能合约发送数据',
       call_contract: '调用智能合约',
+      delegations: '离线挖矿',
       settings: '设置',
     },
     info: {
@@ -33,6 +34,13 @@ export default {
       balance: '余额',
       unconfirmed_balance: '未确认余额',
       priv_key: '私钥',
+      staker_name: '矿工名称',
+      staker_address: '矿工地址',
+      fee: '费用',
+      gas_limit: 'gasLimit',
+      gas_price: 'gasPrice',
+      gas_unit: 'gasUnit',
+      tx_fee: '手续费'
     },
     notify: {
       success: '成功',
@@ -193,5 +201,11 @@ export default {
       '请私下保存您的私钥或助记词，不要告诉任何人。',
       '如果使用了从助记词恢复地址的方式，请保证助记词和密码的绝对正确。输入任意的助记词和密码都会生成地址，如果有细微的不同都可能会导致生成跟原来不同的地址。',
     ]
+  },
+  delegations: {
+    title: '离线挖矿',
+    add: '添加代理',
+    contract_success: '合约发送成功。',
+    delegated: '地址已代理。'
   }
 }

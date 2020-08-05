@@ -25,6 +25,7 @@ export default {
       create_contract: '컨트랙트 생성',
       send_to_contract: '컨트랙트 보내기',
       call_contract: '콜 컨트랙트',
+      delegations: '',
       settings: '설정',
     },
     info: {
@@ -32,6 +33,13 @@ export default {
       balance: '잔액',
       unconfirmed_balance: '미확인 잔액',
       priv_key: '개인 키',
+      staker_name: '',
+      staker_address: '',
+      fee: '',
+      gas_limit: '',
+      gas_price: '',
+      gas_unit: '',
+      tx_fee: ''
     },
     notify: {
       success: '성공',
@@ -184,5 +192,11 @@ export default {
       '개인 키는 누구에게도 제공하지 마십시오.',
       '니모닉에서 복원을 사용하는 경우 시드 단어와 비밀번호가 정확히 맞아야하며 그렇지 않으면 지갑이 새 주소를 만듭니다. 니모닉에서 복원을 사용할 때 정확한 주소를 가지고 있는지 확인하십시오.',
     ]
+  },
+  delegations: {
+    title: '',
+    add: '',
+    contract_success: '',
+    delegated: ''
   }
 }
