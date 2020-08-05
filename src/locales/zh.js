@@ -26,7 +26,7 @@ export default {
       create_contract: '创建智能合约',
       send_to_contract: '向智能合约发送数据',
       call_contract: '调用智能合约',
-      delegations: '离线挖矿',
+      delegation: '离线挖矿',
       settings: '设置',
     },
     info: {
@@ -202,9 +202,10 @@ export default {
       '如果使用了从助记词恢复地址的方式，请保证助记词和密码的绝对正确。输入任意的助记词和密码都会生成地址，如果有细微的不同都可能会导致生成跟原来不同的地址。',
     ]
   },
-  delegations: {
+  delegation: {
     title: '离线挖矿',
     add: '添加代理',
+    remove: '移除代理',
     contract_success: '合约发送成功。',
     delegated: '地址已代理。'
   }

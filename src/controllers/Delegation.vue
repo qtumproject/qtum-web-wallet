@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('delegations.title') }}</span>
+      <span class="headline">{{ $t('delegation.title') }}</span>
     </v-card-title>
     <v-card-text>
       <DelegationHeadAction
@@ -18,8 +18,8 @@
 <script>
 import webWallet from 'libs/web-wallet'
 
-import DelegationInfo from 'components/Delegations/Info'
-import DelegationHeadAction from 'components/Delegations/HeadAction'
+import DelegationInfo from 'components/Delegation/Info'
+import DelegationHeadAction from 'components/Delegation/HeadAction'
 
 export default {
   data() {

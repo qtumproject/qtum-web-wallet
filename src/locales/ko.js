@@ -25,7 +25,7 @@ export default {
       create_contract: '컨트랙트 생성',
       send_to_contract: '컨트랙트 보내기',
       call_contract: '콜 컨트랙트',
-      delegations: '',
+      delegation: '',
       settings: '설정',
     },
     info: {
@@ -193,7 +193,7 @@ export default {
       '니모닉에서 복원을 사용하는 경우 시드 단어와 비밀번호가 정확히 맞아야하며 그렇지 않으면 지갑이 새 주소를 만듭니다. 니모닉에서 복원을 사용할 때 정확한 주소를 가지고 있는지 확인하십시오.',
     ]
   },
-  delegations: {
+  delegation: {
     title: '',
     add: '',
     contract_success: '',

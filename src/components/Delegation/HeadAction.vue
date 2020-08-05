@@ -3,7 +3,7 @@
     <!-- 展示内容部分 -->
     <section class="main">
       <!-- 标题部分 -->
-      <section class="title">{{ $t('delegations.add') }}</section>
+      <section class="title">{{ $t('delegation.add') }}</section>
       <!-- 添加按钮 -->
       <section>
         <v-btn round info @click.native="checkDelegation">
@@ -16,7 +16,7 @@
       <v-card>
         <!-- dialog 标题 -->
         <v-card-title>
-          <h5>Add delegations</h5>
+          <h5>{{ $t('delegation.add') }}</h5>
         </v-card-title>
         <!-- 添加表单部分 -->
         <v-card-text>
@@ -34,11 +34,8 @@
               <v-flex xs8 offset-xs2>
                 <v-text-field :label="$t('common.info.gas_limit')" type="number" v-model="info.gasLimit"/>
               </v-flex>
-              <v-flex xs4 offset-xs2>
+              <v-flex xs8 offset-xs2>
                 <v-text-field :label="$t('common.info.gas_price')" v-model="info.gasPrice" type="number" min="0" suffix="e-8 Qtum/gas"/>
-              </v-flex>
-              <v-flex xs3 offset-xs1>
-                <v-select :label="$t('common.info.gas_unit')" v-model="info.gasUnit" :items="[{text: 'Qtum', value: 'qtum'}]"/>
               </v-flex>
               <v-flex xs8 offset-xs2>
                 <v-text-field :label="$t('common.info.tx_fee')" v-model="txFee" type="number" step="0.01"/>
@@ -85,15 +82,14 @@ export default {
       addDelegationDialog: false,
       snackbarShow: false,
       formValidate: false,
-      addAbi: {name: 'addDelegation',inputs:[{name:'staker',type:'address'},{name:'fee',type:'uint8'},{name:'PoD',type:'bytes'}]},
+      addAbi: { name: 'addDelegation', inputs: [ { name: 'staker', type: 'address' }, { name: 'fee', type: 'uint8' }, { name:'PoD', type: 'bytes' } ] },
       contractAddress: '0000000000000000000000000000000000000086',
       txFee: '0.01',
       info: {
         stakerAddress: '',
         fee: 10,
         gasLimit: '2500000',
-        gasPrice: 40,
-        gasUnit: 'qtum'
+        gasPrice: 40
       },
       tip: {
         type: 'error',
@@ -145,7 +141,7 @@ export default {
       const res = await this.wallet.sendRawTx(rawTx)
       if (res.txId) {
         this.snackbarShow = true
-        this.tip.msg = this.$t('delegations.contract_success')
+        this.tip.msg = this.$t('delegation.contract_success')
         this.tip.type = "success"
         this.addDelegationDialog = false
       }
@@ -153,7 +149,7 @@ export default {
     checkDelegation() {
       if (this.superStaker) {
         this.snackbarShow = true
-        this.tip.msg = this.$t('delegations.delegated')
+        this.tip.msg = this.$t('delegation.delegated')
         this.tip.type = "error"
         return
       }

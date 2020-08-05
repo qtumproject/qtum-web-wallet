@@ -26,7 +26,7 @@ export default {
       create_contract: 'Create Contract',
       send_to_contract: 'Send To Contract',
       call_contract: 'Call Contract',
-      delegations: 'Offline Staking',
+      delegation: 'Offline Staking',
       settings: 'Settings',
     },
     info: {
@@ -202,9 +202,10 @@ export default {
       'If you use Restore from Mnemonic, the seed words and password must be exactly right or the wallet will create a new address. When using Restore from Mnemonic, confirm you have the correct address.',
     ]
   },
-  delegations: {
-    title: 'Delegations',
+  delegation: {
+    title: 'Offline Staking',
     add: 'Add Delegation',
+    remove: 'Remove Delegation',
     contract_success: 'Contract send successful.',
     delegated: 'Address has been delegated.'
   }

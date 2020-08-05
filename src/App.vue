@@ -51,7 +51,7 @@
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
-              <delegations :view="isCurrent['delegations']" v-show="isCurrent['delegations']"></delegations>
+              <delegation :view="isCurrent['delegation']" v-show="isCurrent['delegation']"></delegation>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>
@@ -88,7 +88,7 @@ import CreateContract from 'controllers/CreateContract'
 import SendToContract from 'controllers/SendToContract.vue'
 import CallContract from 'controllers/CallContract.vue'
 import Config from 'controllers/Config'
-import Delegations from 'controllers/Delegations'
+import Delegation from 'controllers/Delegation'
 
 import config from 'libs/config'
 import webWallet from 'libs/web-wallet'
@@ -132,7 +132,7 @@ export default {
         { icon: 'publish', name: 'send_to_contract' },
         { icon: 'play_circle_filled', name: 'call_contract' },
         { divider: true, name: 'stake' },
-        { icon: 'group', name: 'delegations' },
+        { icon: 'group', name: 'delegation' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
@@ -160,7 +160,7 @@ export default {
         send_to_contract: this.mode === 'offline' || !this.wallet,
         call_contract: this.mode === 'offline' || !this.wallet,
         stake: this.mode === 'offline' || !this.wallet,
-        delegations: this.mode === 'offline' || !this.wallet || !this.delegationShow,
+        delegation: this.mode === 'offline' || !this.wallet || !this.delegationShow,
       }
     },
     headerClass() {
@@ -194,7 +194,7 @@ export default {
     SendToContract,
     CallContract,
     Config,
-    Delegations
+    Delegation
   },
   methods: {
     setWallet() {
