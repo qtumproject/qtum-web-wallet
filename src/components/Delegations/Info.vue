@@ -101,21 +101,21 @@ export default {
     wallet: Object
   },
   computed: {
-    superStaker(){
+    superStaker() {
       return this.wallet.info.superStaker
     },
-    fee(){
+    fee() {
       return this.wallet.info.fee
     },
-    address(){
+    address() {
       return this.wallet.info.address
     },
-    balance(){
+    balance() {
       return this.wallet.info.balance
     },
   },
   methods: {
-    async removeDelegation () {
+    async removeDelegation() {
       console.log(this.info)
       try {
         // 编码 abi
@@ -125,7 +125,7 @@ export default {
         // 发送交易
         const res = await this.wallet.sendRawTx(rawTx)
 
-        if(res.txId) {
+        if (res.txId) {
           this.snackbarShow = true
           this.tip.type = "success"
           this.tip.msg = this.$t('delegations.contract_success')
@@ -136,7 +136,6 @@ export default {
         this.tip.type = "error"
         this.tip.msg = error.message
         this.removeDelegationDialog = false
-        console.log(error)
       }
       
     }

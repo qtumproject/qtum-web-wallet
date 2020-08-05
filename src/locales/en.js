@@ -26,7 +26,7 @@ export default {
       create_contract: 'Create Contract',
       send_to_contract: 'Send To Contract',
       call_contract: 'Call Contract',
-      delegations: 'Delegations',
+      delegations: 'Offline Staking',
       settings: 'Settings',
     },
     info: {

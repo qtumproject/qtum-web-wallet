@@ -168,7 +168,7 @@ export default {
     }
   },
   watch: {
-    async network(newVal){
+    async network(newVal) {
       this.delegationShow = false
       await this.onlineDelegation(newVal)
     }
@@ -241,9 +241,9 @@ export default {
         }, ttl * 1000)
       }
     },
-    async onlineDelegation(network){
+    async onlineDelegation(network) {
       // 判断代理挖矿功能是否上线
-      if(localStorage.getItem(`${network}_delegation_online`)) {
+      if (localStorage.getItem(`${network}_delegation_online`)) {
         this.delegationShow = true
       } else {
         let height = 0
@@ -257,7 +257,7 @@ export default {
         }
         // 请求高度
         const res = await qtumInfo.getQtumInfo()
-        if(res.height > height) {
+        if (res.height > height) {
           localStorage.setItem(`${network}_delegation_online`, true)
           this.delegationShow = true
         }

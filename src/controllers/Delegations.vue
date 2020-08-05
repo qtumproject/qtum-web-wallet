@@ -22,7 +22,7 @@ import DelegationInfo from 'components/Delegations/Info'
 import DelegationHeadAction from 'components/Delegations/HeadAction'
 
 export default {
-  data(){
+  data() {
     return {
       wallet: webWallet.getWallet()
     }
@@ -32,7 +32,7 @@ export default {
   ],
   watch: {
     view: async function (newVal) {
-      if(newVal) {
+      if (newVal) {
         this.wallet = webWallet.getWallet()
         this.wallet.setInfo()
       }

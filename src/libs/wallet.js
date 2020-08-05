@@ -75,8 +75,10 @@ export default class Wallet {
       token.balance = Wallet.changeUnitFromSatTo1(token.balance, token.decimals)
       return token
     })
-    if(info.superStaker) this.info.superStaker = info.superStaker
-    if(info.fee) this.info.fee = info.fee
+    if (info.superStaker) {
+      this.info.superStaker = info.superStaker
+      this.info.fee = info.fee
+    }
   }
 
   async setTxList() {

@@ -108,13 +108,13 @@ export default {
     'wallet'
   ],
   computed: {
-    superStaker(){
+    superStaker() {
       return this.wallet.info.superStaker
     },
-    address(){
+    address() {
       return this.wallet.info.address
     },
-    keyPair(){
+    keyPair() {
       return this.wallet.keyPair
     }
   },
@@ -143,7 +143,7 @@ export default {
 
       // 发送交易
       const res = await this.wallet.sendRawTx(rawTx)
-      if(res.txId) {
+      if (res.txId) {
         this.snackbarShow = true
         this.tip.msg = this.$t('delegations.contract_success')
         this.tip.type = "success"
@@ -151,7 +151,7 @@ export default {
       }
     },
     checkDelegation() {
-      if(this.superStaker) {
+      if (this.superStaker) {
         this.snackbarShow = true
         this.tip.msg = this.$t('delegations.delegated')
         this.tip.type = "error"
