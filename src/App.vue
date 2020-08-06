@@ -51,7 +51,7 @@
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
-              <delegation :view="isCurrent['delegation']" v-if="!notShow['delegation']" v-show="isCurrent['delegation']"></delegation>
+              <delegation :view="isCurrent['delegation']" v-if="isCurrent['delegation']"></delegation>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>

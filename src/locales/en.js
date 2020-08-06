@@ -204,9 +204,9 @@ export default {
     title: 'Offline Staking',
     add: 'Add Delegation',
     remove: 'Remove Delegation',
-    contract_success: 'Contract send successful.',
+    contract_success: 'Contract send successfully.',
     delegated: 'Address has been delegated.',
-    refresh_success: 'Refresh successful',
+    refresh_success: 'Refresh successfully',
     address: 'Address: {address}',
     super_staker: 'Super Staker: {superStaker}',
     processing: 'The contract is being processed.'
