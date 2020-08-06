@@ -34,12 +34,10 @@ export default {
       balance: 'Balance',
       unconfirmed_balance: 'Unconfirmed Balance',
       priv_key: 'Private Key',
-      staker_name: 'Staker Name',
       staker_address: 'Staker Address',
       fee: 'Staker Fee',
       gas_limit: 'Gas Limit',
       gas_price: 'Gas Price',
-      gas_unit: 'Gas Unit',
       tx_fee: 'Fee'
     },
     notify: {
@@ -207,6 +205,10 @@ export default {
     add: 'Add Delegation',
     remove: 'Remove Delegation',
     contract_success: 'Contract send successful.',
-    delegated: 'Address has been delegated.'
+    delegated: 'Address has been delegated.',
+    refresh_success: 'Refresh successful',
+    address: 'Address: {address}',
+    super_staker: 'Super Staker: {superStaker}',
+    processing: 'The contract is being processed.'
   }
 }

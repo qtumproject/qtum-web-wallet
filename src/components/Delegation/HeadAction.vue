@@ -6,8 +6,11 @@
       <section class="title">{{ $t('delegation.add') }}</section>
       <!-- 添加按钮 -->
       <section>
-        <v-btn round info @click.native="checkDelegation">
+        <v-btn round info @click.native="checkDelegation" :disabled="delegateStatus !== 'none'">
           <v-icon>add</v-icon>
+        </v-btn>
+        <v-btn round info @click.native="refreshData" color="purple">
+          <v-icon>replay</v-icon>
         </v-btn>
       </section>
     </section>
@@ -20,7 +23,7 @@
         </v-card-title>
         <!-- 添加表单部分 -->
         <v-card-text>
-          <v-form v-model="formValidate">
+          <v-form v-model="formValidate" ref="addDelegationForm">
             <v-layout wrap>
               <v-flex xs8 offset-xs2>
                 <v-text-field clearable :label="$t('common.info.staker_address')" v-model="info.stakerAddress" :rules="[rules.required]"/>
@@ -53,20 +56,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-- 信息提示 -->
-    <v-snackbar
-      v-model="snackbarShow"
-      top right
-      :color="tip.type"
-      clearable
-    >
-      <section>
-        {{ tip.msg }}
-      </section>
-      <v-btn icon small @click="snackbarShow = false">
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-snackbar>
   </section>
 </template>
 
@@ -80,7 +69,6 @@ export default {
   data(){
     return {
       addDelegationDialog: false,
-      snackbarShow: false,
       formValidate: false,
       addAbi: { name: 'addDelegation', inputs: [ { name: 'staker', type: 'address' }, { name: 'fee', type: 'uint8' }, { name:'PoD', type: 'bytes' } ] },
       contractAddress: '0000000000000000000000000000000000000086',
@@ -90,10 +78,6 @@ export default {
         fee: 10,
         gasLimit: '2500000',
         gasPrice: 40
-      },
-      tip: {
-        type: 'error',
-        msg: ''
       },
       rules: {
         required: value => !!value || 'Required.',
@@ -112,48 +96,62 @@ export default {
     },
     keyPair() {
       return this.wallet.keyPair
+    },
+    delegateStatus() {
+      return this.wallet.info.delegateStatus
     }
   },
   methods: {
     async confirmSend() {
+      // 验证表单内容
+      this.$refs.addDelegationForm.validate()
       if (!this.formValidate) return
+
       // 将地址转换为 hex
-      const hexAddress = qtum.address.fromBase58Check(this.info.stakerAddress).hash.toString("hex")
+      const hexAddress = qtum.address.fromBase58Check(this.info.stakerAddress).hash.toString('hex')
 
       // 使用私钥对代理地址签名
       var signature = '0x' + bitcoinMessage.sign(
-        hexAddress, 
-        this.keyPair.d.toBuffer(), 
-        this.keyPair.compressed, 
+        hexAddress,
+        this.keyPair.d.toBuffer(),
+        this.keyPair.compressed,
         this.keyPair.network.messagePrefix
-      ).toString("hex")
+      ).toString('hex')
 
       // 组合所需参数
-      const params = [ "0x" + hexAddress, this.info.fee, signature ]
+      const params = [ '0x' + hexAddress, this.info.fee, signature ]
 
       // 编码 abi
       const encodedData = abi.encodeMethod(this.addAbi, params).substr(2)
-      
+
       // 把交易编码成 raw tx
       const rawTx = await this.wallet.generateSendToContractTx(this.contractAddress, encodedData, this.info.gasLimit, this.info.gasPrice, this.txFee)
 
       // 发送交易
       const res = await this.wallet.sendRawTx(rawTx)
+
+      // 合约调用成功
       if (res.txId) {
-        this.snackbarShow = true
-        this.tip.msg = this.$t('delegation.contract_success')
-        this.tip.type = "success"
+        // 临时设置代理
+        this.wallet.setDelegation(this.info.stakerAddress, this.info.fee)
+        this.wallet.setDelegationStatus('addDelegation')
+
+        this.$emit('notify', this.$t('delegation.contract_success'), 'success')
+
         this.addDelegationDialog = false
       }
     },
     checkDelegation() {
       if (this.superStaker) {
-        this.snackbarShow = true
-        this.tip.msg = this.$t('delegation.delegated')
-        this.tip.type = "error"
+        this.$emit('notify', this.$t('delegation.delegated'), 'error')
         return
       }
+      this.info.stakerAddress = ''
       this.addDelegationDialog = true
+    },
+    async refreshData() {
+      await this.wallet.setInfo()
+      this.$emit('notify', this.$t('delegation.refresh_success'), 'success')
     }
   }
 }

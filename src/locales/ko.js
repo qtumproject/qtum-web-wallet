@@ -25,7 +25,7 @@ export default {
       create_contract: '컨트랙트 생성',
       send_to_contract: '컨트랙트 보내기',
       call_contract: '콜 컨트랙트',
-      delegation: '',
+      delegation: '오프라인 스테이킹',
       settings: '설정',
     },
     info: {
@@ -33,12 +33,10 @@ export default {
       balance: '잔액',
       unconfirmed_balance: '미확인 잔액',
       priv_key: '개인 키',
-      staker_name: '',
-      staker_address: '',
-      fee: '',
-      gas_limit: '',
-      gas_price: '',
-      gas_unit: '',
+      staker_address: '스테이커 주소',
+      fee: '스테이커 수수료',
+      gas_limit: 'Gas Limit',
+      gas_price: 'Gas Price',
       tx_fee: ''
     },
     notify: {
@@ -194,9 +192,14 @@ export default {
     ]
   },
   delegation: {
-    title: '',
-    add: '',
-    contract_success: '',
-    delegated: ''
+    title: '오프라인 스테이킹',
+    add: '위임 추가',
+    remove: '위임 삭제',
+    contract_success: '컨트랙트 내보내기 성공',
+    delegated: '주소 위임 완료',
+    refresh_success: '',
+    address: '',
+    super_staker: '',
+    processing: ''
   }
 }

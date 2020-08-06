@@ -51,7 +51,7 @@
               <create-contract v-if="isCurrent['create_contract']"></create-contract>
               <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
-              <delegation :view="isCurrent['delegation']" v-show="isCurrent['delegation']"></delegation>
+              <delegation :view="isCurrent['delegation']" v-if="!notShow['delegation']" v-show="isCurrent['delegation']"></delegation>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>
@@ -115,7 +115,7 @@ export default {
         { icon: 'add', name: 'create' },
         { icon: 'assignment', name: 'create_from_mnemonic' },
         { icon: 'sms', name: 'restore_from_mnemonic' },
-        { icon: 'create', name: 'restore_from_wif' },
+        { icon: 'vpn_key', name: 'restore_from_wif' },
         { icon: 'phonelink_lock', name: 'restore_from_mobile' },
         { icon: 'cloud_upload', name: 'restore_from_key_file' },
         { icon: 'flip_to_front', name: 'restore_from_ledger' },
@@ -128,11 +128,11 @@ export default {
         { icon: 'cloud_download', name: 'dump_as_key_file' },
         { divider: true, name: 'contract' },
         { icon: 'copyright', name: 'create_token' },
-        { icon: 'gavel', name: 'create_contract' },
+        { icon: 'create', name: 'create_contract' },
         { icon: 'publish', name: 'send_to_contract' },
         { icon: 'play_circle_filled', name: 'call_contract' },
         { divider: true, name: 'stake' },
-        { icon: 'group', name: 'delegation' },
+        { icon: 'gavel', name: 'delegation' },
         { divider: true, name: 'disc' },
         { icon: 'settings', name: 'settings' },
       ],
@@ -262,7 +262,6 @@ export default {
           this.delegationShow = true
         }
       }
-      
     }
   },
   mounted() {

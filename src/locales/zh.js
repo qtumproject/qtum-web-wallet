@@ -34,12 +34,10 @@ export default {
       balance: '余额',
       unconfirmed_balance: '未确认余额',
       priv_key: '私钥',
-      staker_name: '矿工名称',
       staker_address: '矿工地址',
       fee: '费用',
-      gas_limit: 'gasLimit',
-      gas_price: 'gasPrice',
-      gas_unit: 'gasUnit',
+      gas_limit: 'Gas Limit',
+      gas_price: 'Gas Price',
       tx_fee: '手续费'
     },
     notify: {
@@ -207,6 +205,10 @@ export default {
     add: '添加代理',
     remove: '移除代理',
     contract_success: '合约发送成功。',
-    delegated: '地址已代理。'
+    delegated: '地址已代理。',
+    refresh_success: '刷新成功',
+    address: '地址：{address}',
+    super_staker: '代理地址：{superStaker}',
+    processing: '合约正在处理。'
   }
 }

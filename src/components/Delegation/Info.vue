@@ -6,15 +6,16 @@
       <!-- 左边内容 -->
       <section class="delegation-list__left">
         <div class="header">
-          <span class="name">Fee</span>
-          <span class="fee">（ {{ fee }}% ）</span>
+          <span class="name text--lighten-4" :class="textColor">Fee</span>
+          <span class="fee" :class="textColor">（ {{ fee }}% ）</span>
         </div>
-        <span class="address">{{ address }}</span>
+        <span :class="textColor">{{ $t('delegation.address', {address}) }}</span><br/>
+        <span :class="textColor">{{ $t('delegation.super_staker', {superStaker}) }}</span>
       </section>
       <!-- 右边内容 -->
       <section class="delegation-list__right">
-        <div class="balance">{{ balance }}</div>
-        <v-btn fab error small class="action" @click="removeDelegationDialog = true">
+        <div class="balance text--lighten-4" :class="textColor">{{ balance }}</div>
+        <v-btn fab error small class="action" @click="checkDelDelegation">
           <v-icon>close</v-icon>
         </v-btn>
       </section>
@@ -55,21 +56,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!-- 信息提示 -->
-    <v-snackbar
-      v-model="snackbarShow"
-      top right
-      :color="tip.type"
-      clearable
-    >
-      <section>
-        {{ tip.msg }}
-      </section>
-      <v-btn icon small @click="snackbarShow = false">
-        <v-icon>close</v-icon>
-      </v-btn>
-    </v-snackbar>
-  </section>  
+  </section>
 </template>
 
 <script>
@@ -78,7 +65,6 @@ import abi from 'ethjs-abi'
 export default {
   data () {
     return {
-      snackbarShow: false,
       removeDelegationDialog: false,
       removeAbi: { name: 'removeDelegation', inputs: [] },
       contractAddress: '0000000000000000000000000000000000000086',
@@ -86,10 +72,6 @@ export default {
       info: {
         gasLimit: '2500000',
         gasPrice: 40
-      },
-      tip: {
-        type: 'error',
-        msg: ''
       },
     }
   },
@@ -109,10 +91,22 @@ export default {
     balance() {
       return this.wallet.info.balance
     },
+    textColor() {
+      let color = ''
+      switch(this.wallet.info.delegateStatus) {
+        case 'addDelegation':
+        case 'delDelegation':
+          color = 'brown'
+          break
+        case 'delegated':
+          color = 'grey'
+          break
+      }
+      return color + '--text'
+    }
   },
   methods: {
     async removeDelegation() {
-      console.log(this.info)
       try {
         // 编码 abi
         const encodedData = abi.encodeMethod(this.removeAbi, []).substr(2)
@@ -121,19 +115,27 @@ export default {
         // 发送交易
         const res = await this.wallet.sendRawTx(rawTx)
 
+        // 合约调用成功
         if (res.txId) {
-          this.snackbarShow = true
-          this.tip.type = "success"
-          this.tip.msg = this.$t('delegation.contract_success')
+          this.$emit('notify', this.$t('delegation.contract_success'), 'success')
+
+          // 临时删除
+          this.wallet.setDelegation('', '')
+          this.wallet.setDelegationStatus('delDelegation')
+
           this.removeDelegationDialog = false
         }
       } catch (error) {
-        this.snackbarShow = true
-        this.tip.type = "error"
-        this.tip.msg = error.message
+        this.$emit('notify', error.message, 'error')
         this.removeDelegationDialog = false
       }
-      
+    },
+    checkDelDelegation() {
+      if (this.wallet.info.delegateStatus !== 'delegated') {
+        this.$emit('notify', this.$t('delegation.processing'), 'error')
+        return
+      }
+      this.removeDelegationDialog = true
     }
   }
 }
@@ -160,11 +162,7 @@ export default {
         }
         .fee {
           font-style: italic;
-          color: #999;
         }
-      }
-      .address {
-        color: #aaa;
       }
     }
     .delegation-list__right {
@@ -174,9 +172,6 @@ export default {
       padding-left: 20px;
       .balance {
         font-size: 20px;
-      }
-      .stake {
-        color: #999;
       }
       .action {
         z-index: 2;
