@@ -5,11 +5,13 @@
     </v-card-title>
     <v-card-text>
       <v-form>
+        <!-- 合约地址 input -->
         <v-text-field
           label="Contract Address"
           v-model.trim="contractAddress"
           required
         ></v-text-field>
+        <!-- 合约 ABI -->
         <v-text-field
           label="ABI"
           v-model.trim="abi"
@@ -17,6 +19,7 @@
           multiLine
           @input="decodeAbi"
         ></v-text-field>
+        <!-- 合约方法选择 -->
         <v-select
           v-if="parsedAbi"
           :items="parsedAbi"
@@ -25,6 +28,7 @@
           single-line
           bottom
         ></v-select>
+        <!-- 合约参数 -->
         <template v-if="params">
           <v-text-field
             v-for="(param, index) in params"
@@ -35,6 +39,7 @@
         </template>
       </v-form>
     </v-card-text>
+    <!-- 合约确认按钮 -->
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn class="success" dark @click="callTo" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>

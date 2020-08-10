@@ -1,0 +1,12 @@
+{
+  "i18n-ally.localesPaths": "src/locales",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.editor.preferEditor": true,
+  "i18n-ally.ignoreFiles": [
+    "**/index.js"
+  ],
+  "i18n-ally.enabledParsers": ["js"],
+  "i18n-ally.refactor.templates": [
+    "{{ $t('{key}') }}"
+  ],
+}

@@ -29,6 +29,9 @@ export default class Wallet {
       balance: 'loading',
       unconfirmedBalance: 'loading',
       qrc20: [],
+      superStaker: '',
+      fee: '',
+      delegateStatus: 'none'
     }
     this.txList = []
   }
@@ -73,6 +76,39 @@ export default class Wallet {
       token.balance = Wallet.changeUnitFromSatTo1(token.balance, token.decimals)
       return token
     })
+
+    if (info.superStaker) {
+      switch (this.info.delegateStatus) {
+        case 'delDelegation':
+          this.setDelegation(null, null)
+          break
+        case 'addDelegation':
+        case 'none':
+          this.setDelegation(info.superStaker, info.fee)
+          this.setDelegationStatus('delegated')
+          break
+      }
+    } else {
+      switch (this.info.delegateStatus) {
+        case 'none':
+        case 'addDelegation':
+          break
+        case 'delDelegation':
+          this.setDelegationStatus('none')
+          break
+      }
+    }
+  }
+
+  // 设置代理信息
+  setDelegation(superStaker, fee) {
+    this.info.superStaker = superStaker
+    this.info.fee = fee
+  }
+
+  // 设置代理状态（是否被确认）
+  setDelegationStatus(status) {
+    this.info.delegateStatus = status
   }
 
   async setTxList() {

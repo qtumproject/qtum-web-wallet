@@ -26,6 +26,7 @@ export default {
       create_contract: 'Create Contract',
       send_to_contract: 'Send To Contract',
       call_contract: 'Call Contract',
+      delegation: 'Offline Staking',
       settings: 'Settings',
     },
     info: {
@@ -33,6 +34,11 @@ export default {
       balance: 'Balance',
       unconfirmed_balance: 'Unconfirmed Balance',
       priv_key: 'Private Key',
+      staker_address: 'Staker Address',
+      fee: 'Staker Fee',
+      gas_limit: 'Gas Limit',
+      gas_price: 'Gas Price',
+      tx_fee: 'Fee'
     },
     notify: {
       success: 'Success',
@@ -193,5 +199,16 @@ export default {
       'Please keep your private keys PRIVATE, do not give them to anyone.',
       'If you use Restore from Mnemonic, the seed words and password must be exactly right or the wallet will create a new address. When using Restore from Mnemonic, confirm you have the correct address.',
     ]
+  },
+  delegation: {
+    title: 'Offline Staking',
+    add: 'Add Delegation',
+    remove: 'Remove Delegation',
+    contract_success: 'Contract send successfully.',
+    delegated: 'Address has been delegated.',
+    refresh_success: 'Refresh successfully',
+    address: 'Address: {address}',
+    super_staker: 'Super Staker: {superStaker}',
+    processing: 'The contract is being processed.'
   }
 }

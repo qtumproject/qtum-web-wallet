@@ -77,4 +77,8 @@ export default {
   async callContract(address, encodedData) {
     return (await _get(`/contract/${address}/call/?data=${encodedData}`)).executionResult.output
   },
+
+  async getQtumInfo() {
+    return await _get(`/info`)
+  }
 }
