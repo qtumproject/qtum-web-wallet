@@ -133,7 +133,9 @@ export default {
         const abiJson = JSON.parse(this.abi)
         this.parsedAbi = []
         for (let i = 0; i < abiJson.length; i++) {
-          this.parsedAbi[i] = {text: abiJson[i]['name'], value: i, info: abiJson[i]}
+          // 过滤 constructor & event
+          if (abiJson[i].type === 'constructor' || abiJson[i].type === 'event') continue
+          this.parsedAbi.push({text: abiJson[i]['name'], value: i, info: abiJson[i]})
         }
       } catch (e) {
         this.$root.log.error('send_to_contract_decode_abi_error', e.stack || e.toString() || e)
