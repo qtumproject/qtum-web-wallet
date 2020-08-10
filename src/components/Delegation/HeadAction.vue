@@ -64,6 +64,7 @@ import abi from 'ethjs-abi'
 import bitcoinMessage from 'bitcoinjs-message'
 import bitcoin from 'bitcoinjs-lib'
 import qtum from 'qtumjs-lib'
+import server from 'libs/server'
 
 export default {
   data(){
@@ -136,9 +137,12 @@ export default {
         this.wallet.setDelegation(this.info.stakerAddress, this.info.fee)
         this.wallet.setDelegationStatus('addDelegation')
 
-        this.$emit('notify', this.$t('delegation.contract_success'), 'success')
+        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
+        this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
 
         this.addDelegationDialog = false
+      } else {
+        this.$root.error(`Send Failed : ${res.message}`, true, 0)
       }
     },
     checkDelegation() {

@@ -61,6 +61,7 @@
 
 <script>
 import abi from 'ethjs-abi'
+import server from 'libs/server'
 
 export default {
   data () {
@@ -117,7 +118,8 @@ export default {
 
         // 合约调用成功
         if (res.txId) {
-          this.$emit('notify', this.$t('delegation.contract_success'), 'success')
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
+          this.$root.success(`Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`, true, 0)
 
           // 临时删除
           this.wallet.setDelegation('', '')
