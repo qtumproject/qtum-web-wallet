@@ -36,7 +36,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/bech32'), resolve('node_modules/bitcoinjs-message')]
+        include: [resolve('src'), resolve('test'), resolve('node_modules/bech32')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
