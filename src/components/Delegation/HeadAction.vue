@@ -61,8 +61,6 @@
 
 <script>
 import abi from 'ethjs-abi'
-import bitcoinMessage from 'bitcoinjs-message'
-import bitcoin from 'bitcoinjs-lib'
 import qtum from 'qtumjs-lib'
 import server from 'libs/server'
 
@@ -112,12 +110,7 @@ export default {
       const hexAddress = qtum.address.fromBase58Check(this.info.stakerAddress).hash.toString('hex')
 
       // 使用私钥对代理地址签名
-      var signature = '0x' + bitcoinMessage.sign(
-        hexAddress,
-        this.keyPair.d.toBuffer(),
-        this.keyPair.compressed,
-        this.keyPair.network.messagePrefix
-      ).toString('hex')
+      var signature = '0x' + this.wallet.signMessage(hexAddress).toString('hex')
 
       // 组合所需参数
       const params = [ '0x' + hexAddress, this.info.fee, signature ]

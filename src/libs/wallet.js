@@ -1,11 +1,13 @@
 import qtum from 'qtumjs-lib'
 import bip39 from 'bip39'
 import abi from 'ethjs-abi'
+import secp256k1 from 'secp256k1'
 import BigNumber from 'bignumber.js'
 import ledger from 'libs/ledger'
 import server from 'libs/server'
 import config from 'libs/config'
-import buffer from 'buffer'
+import { sha256d } from 'libs/hash'
+import { Buffer } from 'buffer'
 
 const unit = 'QTUM'
 let network = {}
@@ -66,6 +68,19 @@ export default class Wallet {
       this.setInfo().then()
       this.setTxList().then()
     }
+  }
+
+  signMessage(message) {
+    const hash = sha256d(Buffer.concat([
+      Buffer.from(this.keyPair.network.messagePrefix, 'utf8'),
+      Buffer.from([message.length]),
+      Buffer.from(message, 'utf8')
+    ]))
+    const { signature, recovery } = secp256k1.sign(hash, this.keyPair.d.toBuffer())
+    return Buffer.concat([
+      Buffer.from([recovery + (this.keyPair.compressed ? 31 : 27)]),
+      signature
+    ])
   }
 
   async setInfo() {
@@ -222,9 +237,9 @@ export default class Wallet {
 
   static async restoreHdNodeFromLedgerPath(ledger, path) {
     const res = await ledger.qtum.getWalletPublicKey(path)
-    const compressed = ledger.qtum.compressPublicKey(buffer.Buffer.from(res['publicKey'], 'hex'))
+    const compressed = ledger.qtum.compressPublicKey(Buffer.from(res['publicKey'], 'hex'))
     const keyPair = new qtum.ECPair.fromPublicKeyBuffer(compressed, network)
-    const hdNode = new qtum.HDNode(keyPair, buffer.Buffer.from(res['chainCode'], 'hex'))
+    const hdNode = new qtum.HDNode(keyPair, Buffer.from(res['chainCode'], 'hex'))
     hdNode.extend = {
       ledger: {
         ledger,
