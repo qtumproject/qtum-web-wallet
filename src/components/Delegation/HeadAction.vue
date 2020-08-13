@@ -38,7 +38,7 @@
                 <v-text-field :label="$t('common.info.gas_limit')" type="number" v-model="info.gasLimit"/>
               </v-flex>
               <v-flex xs8 offset-xs2>
-                <v-text-field :label="$t('common.info.gas_price')" v-model="info.gasPrice" type="number" min="0" suffix="e-8 Qtum/gas"/>
+                <v-text-field :label="$t('common.info.gas_price')" v-model="info.gasPrice" type="number" min="0" suffix="e-8 QTUM/gas"/>
               </v-flex>
               <v-flex xs8 offset-xs2>
                 <v-text-field :label="$t('common.info.tx_fee')" v-model="txFee" type="number" step="0.01"/>
