@@ -9,4 +9,8 @@
   "i18n-ally.refactor.templates": [
     "{{ $t('{key}') }}"
   ],
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "all",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }

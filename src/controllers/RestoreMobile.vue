@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('restore_mobile.title') }}</span>
+      <span class="headline">{{ $t("restore_mobile.title") }}</span>
     </v-card-title>
     <v-card-text>
       <mnemonic @mnemonic="restore" v-show="this.restored === false"></mnemonic>
@@ -27,9 +27,9 @@
 </template>
 
 <script>
-import mnemonic from 'components/Mnemonic'
-import webWallet from 'libs/web-wallet'
-import track from 'libs/track'
+import mnemonic from "@/components/Mnemonic";
+import webWallet from "@/libs/web-wallet";
+import track from "@/libs/track";
 
 export default {
   data() {
@@ -37,28 +37,28 @@ export default {
       walletList: [],
       restored: false,
       headers: [
-        { text: 'Address', value: 'address', align: 'left', sortable: false },
-        { text: 'Balance', value: 'balance', sortable: false },
-        { text: '', value: '', sortable: false },
-      ],
-    }
+        { text: "Address", value: "address", align: "left", sortable: false },
+        { text: "Balance", value: "balance", sortable: false },
+        { text: "", value: "", sortable: false }
+      ]
+    };
   },
   components: {
-    mnemonic,
+    mnemonic
   },
   methods: {
     restore(mnemonic) {
-      this.restored = true
-      setTimeout(()=>{
-        this.walletList = webWallet.restoreFromMobile(mnemonic)
-      }, 10)
-      track.trackStep('restore_from_mobile', 1, 2)
+      this.restored = true;
+      setTimeout(() => {
+        this.walletList = webWallet.restoreFromMobile(mnemonic);
+      }, 10);
+      track.trackStep("restore_from_mobile", 1, 2);
     },
     choose(path) {
-      webWallet.chooseMobileWallet(this.walletList, path)
-      track.trackDone('restore_from_mobile')
-      this.$emit('restored')
+      webWallet.chooseMobileWallet(this.walletList, path);
+      track.trackDone("restore_from_mobile");
+      this.$emit("restored");
     }
   }
-}
+};
 </script>

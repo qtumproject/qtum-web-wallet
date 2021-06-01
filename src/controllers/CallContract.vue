@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('call_contract.title') }}</span>
+      <span class="headline">{{ $t("call_contract.title") }}</span>
     </v-card-title>
     <v-card-text>
       <v-form>
@@ -42,27 +42,39 @@
     <!-- 合约确认按钮 -->
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn class="success" dark @click="callTo" :disabled="notValid">{{ $t('common.confirm') }}</v-btn>
+      <v-btn class="success" dark @click="callTo" :disabled="notValid">{{
+        $t("common.confirm")
+      }}</v-btn>
     </v-card-actions>
     <v-dialog v-model="execResultDialog" persistent max-width="50%">
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t('call_contract.result') }}
+            {{ $t("call_contract.result") }}
           </span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Result" v-model="result" multi-line disabled></v-text-field>
+                <v-text-field
+                  label="Result"
+                  v-model="result"
+                  multi-line
+                  disabled
+                ></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn class="blue--text darken-1" flat @click.native="execResultDialog = false">{{ $t('common.confirm') }}</v-btn>
+          <v-btn
+            class="blue--text darken-1"
+            flat
+            @click.native="execResultDialog = false"
+            >{{ $t("common.confirm") }}</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -70,75 +82,92 @@
 </template>
 
 <script>
-import webWallet from 'libs/web-wallet'
-import abi from 'ethjs-abi'
-import server from 'libs/server'
+import webWallet from "@/libs/web-wallet";
+import abi from "ethjs-abi";
 
 export default {
-  data () {
+  data() {
     return {
-      contractAddress: '',
-      abi: '',
+      contractAddress: "",
+      abi: "",
       parsedAbi: null,
       method: null,
       inputParams: [],
       execResultDialog: false,
-      result: 'loading...',
-    }
+      result: "loading..."
+    };
   },
   computed: {
     params: function() {
       if (this.method === null) {
-        return null
+        return null;
       }
-      const inputs = this.parsedAbi[this.method].info.inputs
+      const inputs = this.parsedAbi[this.method].info.inputs;
       if (inputs.length > 0) {
-        return inputs
+        return inputs;
       }
-      return null
+      return null;
     },
     notValid: function() {
       //@todo valid the address
-      return !(this.method !== null)
+      return !(this.method !== null);
     }
   },
   watch: {
     method: function() {
-      this.inputParams = []
+      this.inputParams = [];
     }
   },
   methods: {
     decodeAbi() {
       try {
-        const abiJson = JSON.parse(this.abi)
-        this.parsedAbi = []
+        const abiJson = JSON.parse(this.abi);
+        this.parsedAbi = [];
         for (let i = 0; i < abiJson.length; i++) {
           // 过滤 constructor & event
-          if (abiJson[i].type === 'constructor' || abiJson[i].type === 'event') continue
-          this.parsedAbi.push({text: abiJson[i]['name'], value: i, info: abiJson[i]})
+          if (abiJson[i].type === "constructor" || abiJson[i].type === "event")
+            continue;
+          this.parsedAbi.push({
+            text: abiJson[i]["name"],
+            value: i,
+            info: abiJson[i]
+          });
         }
       } catch (e) {
-        this.$root.log.error('call_contract_decode_abi_error', e.stack || e.toString() || e)
-        return true
+        this.$root.log.error(
+          "call_contract_decode_abi_error",
+          e.stack || e.toString() || e
+        );
+        return true;
       }
     },
     async callTo() {
       try {
-        const encodedData = abi.encodeMethod(this.parsedAbi[this.method].info, this.inputParams).substr(2)
-        this.execResultDialog = true
+        const encodedData = abi
+          .encodeMethod(this.parsedAbi[this.method].info, this.inputParams)
+          .substr(2);
+        this.execResultDialog = true;
         try {
-          this.result = await webWallet.getWallet().callContract(this.contractAddress, encodedData)
+          this.result = await webWallet
+            .getWallet()
+            .callContract(this.contractAddress, encodedData);
         } catch (e) {
-          this.$root.log.error('call_contract_call_contract_error', e.stack || e.toString() || e)
-          alert(e.message || e)
-          this.execResultDialog = false
+          this.$root.log.error(
+            "call_contract_call_contract_error",
+            e.stack || e.toString() || e
+          );
+          alert(e.message || e);
+          this.execResultDialog = false;
         }
       } catch (e) {
-        this.$root.error('Params error')
-        this.$root.log.error('call_contract_encode_abi_error', e.stack || e.toString() || e)
-        return false
+        this.$root.error("Params error");
+        this.$root.log.error(
+          "call_contract_encode_abi_error",
+          e.stack || e.toString() || e
+        );
+        return false;
       }
     }
   }
-}
+};
 </script>
