@@ -104,6 +104,7 @@
                 v-if="isCurrent['send_to_contract']"
               ></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
+              <create-nft v-if="isCurrent['create_NFT']"></create-nft>
               <delegation
                 :view="isCurrent['delegation']"
                 v-if="isCurrent['delegation']"
@@ -143,6 +144,7 @@ import CreateToken from "@/controllers/CreateToken";
 import CreateContract from "@/controllers/CreateContract";
 import SendToContract from "@/controllers/SendToContract.vue";
 import CallContract from "@/controllers/CallContract.vue";
+import CreateNft from "@/controllers/CreateNFT.vue";
 import Config from "@/controllers/Config";
 import Delegation from "@/controllers/Delegation";
 
@@ -154,7 +156,7 @@ import track from "@/libs/track";
 import qtumInfo from "@/libs/nodes/qtumInfo";
 
 const log = createLog({
-  maxLogSizeInBytes: 500 * 1024 // 500KB
+  maxLogSizeInBytes: 500 * 1024, // 500KB
 });
 
 export default {
@@ -189,11 +191,12 @@ export default {
         { icon: "create", name: "create_contract" },
         { icon: "publish", name: "send_to_contract" },
         { icon: "play_circle_filled", name: "call_contract" },
+        { icon: "play_circle_filled", name: "create_NFT" },
         { divider: true, name: "disc" },
-        { icon: "settings", name: "settings" }
+        { icon: "settings", name: "settings" },
       ],
       notifyList: {},
-      delegationShow: false
+      delegationShow: false,
     };
   },
   computed: {
@@ -215,20 +218,21 @@ export default {
         create_contract: this.mode === "offline" || !this.wallet,
         send_to_contract: this.mode === "offline" || !this.wallet,
         call_contract: this.mode === "offline" || !this.wallet,
+        create_NFT: this.mode === "offline" || !this.wallet,
         stake: this.mode === "offline" || !this.wallet,
         delegation:
-          this.mode === "offline" || !this.wallet || !this.delegationShow
+          this.mode === "offline" || !this.wallet || !this.delegationShow,
       };
     },
     headerClass() {
       return this.mode === "normal" ? "cyan" : "orange";
-    }
+    },
   },
   watch: {
     async network(newVal) {
       this.delegationShow = false;
       await this.onlineDelegation(newVal);
-    }
+    },
   },
   components: {
     Notify,
@@ -251,7 +255,8 @@ export default {
     SendToContract,
     CallContract,
     Config,
-    Delegation
+    Delegation,
+    CreateNft,
   },
   methods: {
     setWallet() {
@@ -285,7 +290,7 @@ export default {
         }, ""),
         type,
         show: true,
-        isHtml
+        isHtml,
       };
       if (this.notifyList[notifyId] && this.notifyList[notifyId].timer) {
         clearTimeout(this.notifyList[notifyId].timer);
@@ -318,11 +323,11 @@ export default {
           this.delegationShow = true;
         }
       }
-    }
+    },
   },
   mounted() {
     track.track("lan", config.getLan());
     this.onlineDelegation(this.network);
-  }
+  },
 };
 </script>

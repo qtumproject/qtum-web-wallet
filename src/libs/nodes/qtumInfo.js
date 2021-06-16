@@ -1,9 +1,17 @@
 import axios from "axios";
-
+import config from '@/libs/config'
 // todo change apis to qtum.info
 
 let domain = "";
 
+switch (config.getNetwork()) {
+    case 'testnet':
+        domain = 'https://testnet.qtum.info';
+        break
+    case 'mainnet':
+        domain = 'https://qtum.info';
+        break
+}
 const apiPrefix = domain + "/api";
 
 const _get = async url => {

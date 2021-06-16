@@ -12,5 +12,5 @@
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "all",
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.defaultFormatter": "octref.vetur",
 }

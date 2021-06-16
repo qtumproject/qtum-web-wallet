@@ -178,6 +178,7 @@ export default {
       }
     },
     async send() {
+      console.log("send");
       try {
         const encodedData = abi
           .encodeMethod(this.parsedAbi[this.method].info, this.inputParams)
@@ -215,6 +216,7 @@ export default {
     },
 
     async confirmSend() {
+      console.log("confirmSend");
       this.sending = true;
       try {
         const res = await webWallet.getWallet().sendRawTx(this.rawTx);

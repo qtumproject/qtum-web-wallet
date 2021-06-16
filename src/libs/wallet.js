@@ -14,9 +14,11 @@ let network = {};
 switch (config.getNetwork()) {
     case "testnet":
         network = qtum.networks.qtum_testnet;
+        console.log(qtum.networks.qtum_testnet);
         break;
     case "mainnet":
         network = qtum.networks.qtum;
+        console.log(qtum.networks.qtum);
         break;
 }
 

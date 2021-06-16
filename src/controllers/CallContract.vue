@@ -21,11 +21,11 @@
         ></v-text-field>
         <!-- 合约方法选择 -->
         <v-select
-          v-if="parsedAbi"
           :items="parsedAbi"
           label="Method"
           v-model="method"
           single-line
+          return-object
           bottom
         ></v-select>
         <!-- 合约参数 -->
@@ -94,29 +94,29 @@ export default {
       method: null,
       inputParams: [],
       execResultDialog: false,
-      result: "loading..."
+      result: "loading...",
     };
   },
   computed: {
-    params: function() {
+    params: function () {
       if (this.method === null) {
         return null;
       }
-      const inputs = this.parsedAbi[this.method].info.inputs;
+      const inputs = this.method.info.inputs;
       if (inputs.length > 0) {
         return inputs;
       }
       return null;
     },
-    notValid: function() {
+    notValid: function () {
       //@todo valid the address
       return !(this.method !== null);
-    }
+    },
   },
   watch: {
-    method: function() {
+    method: function () {
       this.inputParams = [];
-    }
+    },
   },
   methods: {
     decodeAbi() {
@@ -130,7 +130,7 @@ export default {
           this.parsedAbi.push({
             text: abiJson[i]["name"],
             value: i,
-            info: abiJson[i]
+            info: abiJson[i],
           });
         }
       } catch (e) {
@@ -143,8 +143,9 @@ export default {
     },
     async callTo() {
       try {
+        console.log(this.method.info, this.inputParams);
         const encodedData = abi
-          .encodeMethod(this.parsedAbi[this.method].info, this.inputParams)
+          .encodeMethod(this.method.info, this.inputParams)
           .substr(2);
         this.execResultDialog = true;
         try {
@@ -167,7 +168,7 @@ export default {
         );
         return false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
