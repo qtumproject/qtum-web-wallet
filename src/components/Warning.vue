@@ -28,23 +28,22 @@ export default {
   data() {
     return {
       total: Array(6).fill(0),
-      showWarning: config.get("showWarning", true)
+      showWarning: config.get("showWarning", true),
     };
   },
   computed: {
-    warningTotal: function() {
-      console.log(this.total);
+    warningTotal: function () {
       return this.total.filter((_, i) => {
         const key = "warning.list." + i;
         return this.$t(key) !== key;
       });
-    }
+    },
   },
   methods: {
     close() {
       this.showWarning = false;
       config.set("showWarning", this.showWarning, 86400);
-    }
-  }
+    },
+  },
 };
 </script>

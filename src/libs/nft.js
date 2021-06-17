@@ -4,7 +4,7 @@
  * 3. 调用对应的合约接口
  */
 import webWallet from '@/libs/web-wallet';
-import { nftAbiMap, contractAddress } from "@/libs/nodes/nftInfo";
+import { nftAbiMap, getNFTContractAddress } from "@/libs/nodes/nftInfo";
 import abi from 'ethjs-abi';
 import qtum from "qtumjs-lib";
 import { ethers } from "ethers";
@@ -31,7 +31,7 @@ class NFTService {
             .hash.toString("hex");
         const encodeData = this.encodeMethod(encodeMethod, [`0x${hexAddress}`, name, url, desc, count]);
         const wallet = webWallet.getWallet();
-        const rawTx = await wallet.generateSendToContractTx(contractAddress, encodeData, "2500000", "40", "0.01");
+        const rawTx = await wallet.generateSendToContractTx(getNFTContractAddress(), encodeData, "2500000", "40", "0.01");
         const res = await wallet.sendRawTx(rawTx);
         return res;
     }
@@ -45,7 +45,7 @@ class NFTService {
             .fromBase58Check(owner)
             .hash.toString("hex");
         const encodeData = this.encodeMethod(encodeMethod, [`0x${hexAddress}`, fromIndex, count]);
-        const res = await webWallet.getWallet().callContract(contractAddress, encodeData);
+        const res = await webWallet.getWallet().callContract(getNFTContractAddress(), encodeData);
         if (res) {
             const data = this.decodeData(`0x${res}`, encodeMethod.outputs);
             const ids = Array.from(new Set(data[0].filter((id) => id).map((id) => id.toString())));
@@ -65,7 +65,7 @@ class NFTService {
             .fromBase58Check(owner)
             .hash.toString("hex");
         const encodeData = this.encodeMethod(encodeMethod, [`0x${hexAddress}`, ids]);
-        const res = await webWallet.getWallet().callContract(contractAddress, encodeData);
+        const res = await webWallet.getWallet().callContract(getNFTContractAddress(), encodeData);
         if (res) {
             const data = this.decodeData(`0x${res}`, encodeMethod.outputs);
             return data[0];
@@ -87,7 +87,7 @@ class NFTService {
             .hash.toString("hex");
         const encodeData = this.encodeMethod(encodeMethod, [`0x${fromHexAddress}`, `0x${toHexAddress}`, tokenId, count]);
         const wallet = webWallet.getWallet();
-        const rawTx = await wallet.generateSendToContractTx(contractAddress, encodeData, "2500000", "40", "0.01");
+        const rawTx = await wallet.generateSendToContractTx(getNFTContractAddress(), encodeData, "2500000", "40", "0.01");
         const res = await wallet.sendRawTx(rawTx);
         return res;
     }

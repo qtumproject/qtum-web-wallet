@@ -1,6 +1,8 @@
 /*
  * @description: nft相关数据
  */
+import config from "@/libs/config";
+
 export const nftAbi = [{
         "inputs": [],
         "stateMutability": "nonpayable",
@@ -456,4 +458,11 @@ nftAbi.map((nft) => {
     }
 });
 
-export const contractAddress = "16c98b19e66e931b7ada0d5ca41006f33cea5c29";
+export function getNFTContractAddress() {
+    switch (config.getNetwork()) {
+        case "testnet":
+            return "16c98b19e66e931b7ada0d5ca41006f33cea5c29";
+        case "mainnet":
+            return "4e4d13a577072f0f5cb6fc1a17c96489de0f533e";
+    }
+}

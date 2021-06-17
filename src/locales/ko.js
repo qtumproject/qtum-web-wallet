@@ -202,5 +202,19 @@ export default {
         address: '',
         super_staker: '',
         processing: ''
+    },
+    nft: {
+        title: "NFT",
+        send: "보내기",
+        create_title: "생성 NFT",
+        create_name: "NFT 이름",
+        create_symbol: "NFT 기호",
+        create_desc: "NFT 설명",
+        create_supply: "NFT 총량(MAX 10)",
+        send_nft: "이전 NFT",
+        close_confirm: "닫기",
+        send_confirm: "확인",
+        send_address: "주소",
+        send_amount: "수량"
     }
 }

@@ -8,7 +8,9 @@
         <uploader :options="options">
           <uploader-unsupport></uploader-unsupport>
           <uploader-btn class="nft-img__upload" :single="false" :attrs="attrs">
-            <div v-if="!isUpload">select img</div>
+            <div v-if="!isUpload">
+              <v-icon class="nft-img__upload-add">add</v-icon>
+            </div>
             <img
               v-if="isUpload"
               :src="uploadUrl"
@@ -101,7 +103,7 @@ export default {
       uploadUrl: "",
       wallet: webWallet.getWallet(),
       options: {
-        target: "https://qtumwallet.org/api/upload",
+        target: "https://api.qtumwallet.org/picture/upload",
         testChunks: false,
         singleFile: true,
         processResponse: (res) => {
@@ -122,23 +124,31 @@ export default {
   methods: {
     async handleSend() {
       try {
-        const { info: {
-          address
-        } } = this.wallet;
-        const res = await nftService.createNFT(address, this.name, this.uploadUrl, this.desc, this.totalSupply);
-        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
-        this.$root.success(
-          `Successful send. You can view wallet into <a href="${txViewUrl} ${txViewUrl}`,
-          true,
-          0
-        );
+        const {
+          info: { address },
+        } = this.wallet;
+        if (address && this.name && this.desc && 10 >= this.totalSupply > 0) {
+          const res = await nftService.createNFT(
+            address,
+            this.name,
+            this.uploadUrl,
+            this.desc,
+            this.totalSupply
+          );
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          this.$root.success(
+            `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
+            true,
+            0
+          );
+        }
       } catch (error) {
         this.$root.error(`Send Failed : ${error.message}`, true, 0);
       }
     },
 
     handleFileComplete(res) {
-      const url = JSON.parse(res).data.url;
+      const url = JSON.parse(res).url;
       this.uploadUrl = url;
       this.isUpload = true;
     },
@@ -155,6 +165,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    &-add {
+      font-size: 34px;
+    }
   }
 
   &__img {

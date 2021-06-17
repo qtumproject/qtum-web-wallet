@@ -220,5 +220,10 @@ export default {
         create_symbol: "NFT符号",
         create_desc: "NFT描述",
         create_supply: "NFT总量(MAX 10)",
+        send_nft: "转移NFT",
+        close_confirm: "关闭",
+        send_confirm: "确认",
+        send_address: "地址",
+        send_amount: "数量"
     }
 }

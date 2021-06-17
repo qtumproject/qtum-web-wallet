@@ -14,7 +14,6 @@ let network = {};
 switch (config.getNetwork()) {
     case "testnet":
         network = qtum.networks.qtum_testnet;
-        console.log(qtum.networks.qtum_testnet);
         break;
     case "mainnet":
         network = qtum.networks.qtum;
@@ -244,7 +243,6 @@ export default class Wallet {
                 .toString(16)
             ]
         );
-        console.log(encodedParam);
         return qtum.utils.buildCreateContractTransaction(
             wallet.keyPair,
             qrc20TokenCode + encodedParam.substr(2),

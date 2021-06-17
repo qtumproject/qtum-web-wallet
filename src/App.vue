@@ -191,7 +191,7 @@ export default {
         { icon: "create", name: "create_contract" },
         { icon: "publish", name: "send_to_contract" },
         { icon: "play_circle_filled", name: "call_contract" },
-        { icon: "play_circle_filled", name: "create_NFT" },
+        { icon: "fingerprint", name: "create_NFT" },
         { divider: true, name: "disc" },
         { icon: "settings", name: "settings" },
       ],

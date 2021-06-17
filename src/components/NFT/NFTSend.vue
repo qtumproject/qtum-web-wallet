@@ -3,14 +3,14 @@
     <v-dialog v-model="isOpen" persistent max-width="500px">
       <v-card>
         <v-card-title>
-          <span class="headline">转移NFT</span>
+          <span class="headline">{{ $t("nft.send_nft") }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
                 <v-text-field
-                  label="地址"
+                  :label="$t('nft.send_address')"
                   v-model.trim="to"
                   required
                 ></v-text-field>
@@ -18,7 +18,7 @@
               <v-flex xs10>
                 <v-text-field
                   type="number"
-                  label="数量"
+                  :label="$t('nft.send_amount')"
                   v-model.trim="sendCount"
                   :rules="[rules.required, rules.counter]"
                 ></v-text-field>
@@ -52,10 +52,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click="handleClose()">关闭</v-btn>
-          <v-btn color="blue darken-1" flat @click="handleConfirmSend()"
-            >确认</v-btn
-          >
+          <v-btn color="blue darken-1" flat @click="handleClose()">{{
+            $t("nft.close_confirm")
+          }}</v-btn>
+          <v-btn color="blue darken-1" flat @click="handleConfirmSend()">{{
+            $t("nft.send_confirm")
+          }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -64,6 +66,7 @@
 <script>
 import { nftService } from "@/libs/nft";
 import webWallet from "@/libs/web-wallet";
+import server from "@/libs/server";
 
 export default {
   props: {
@@ -91,18 +94,30 @@ export default {
       this.$emit("close");
     },
     async handleConfirmSend() {
-      console.log(this.tokenId);
       const wallet = webWallet.getWallet();
       const {
         info: { address },
       } = wallet;
-      await nftService.safeTransferFrom(
-        address,
-        this.to,
-        this.tokenId,
-        this.sendCount
-      );
-      this.$emit("close");
+      if (
+        address &&
+        this.to &&
+        this.tokenId !== "" &&
+        this.count >= this.sendCount > 0
+      ) {
+        const res = await nftService.safeTransferFrom(
+          address,
+          this.to,
+          this.tokenId,
+          this.sendCount
+        );
+        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+        this.$root.success(
+          `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
+          true,
+          0
+        );
+        this.$emit("close");
+      }
     },
   },
 };

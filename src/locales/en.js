@@ -26,7 +26,7 @@ export default {
             create_contract: 'Create Contract',
             send_to_contract: 'Send To Contract',
             call_contract: 'Call Contract',
-            create_NFT: 'Call NFT',
+            create_NFT: 'Create NFT',
             delegation: 'Offline Staking',
             settings: 'Settings',
         },
@@ -211,5 +211,19 @@ export default {
         address: 'Address: {address}',
         super_staker: 'Super Staker: {superStaker}',
         processing: 'The contract is being processed.'
+    },
+    nft: {
+        title: "NFT",
+        send: "send",
+        create_title: "CREATE NFT",
+        create_name: "NFT Name",
+        create_symbol: "NFT Symbol",
+        create_desc: "NFT Desc",
+        create_supply: "NFT amount(MAX 10)",
+        send_nft: "send NFT",
+        close_confirm: "close",
+        send_confirm: "confirm",
+        send_address: "address",
+        send_amount: "amount"
     }
 }
