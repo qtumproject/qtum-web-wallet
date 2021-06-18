@@ -31,7 +31,7 @@
         ></v-text-field>
         <v-text-field
           :label="$t('nft.create_supply')"
-          v-model.trim="totalSupply"
+          v-model="totalSupply"
           :rules="[rules.required, rules.totalSupply]"
           required
         ></v-text-field>
@@ -92,7 +92,7 @@ export default {
     return {
       name: "",
       desc: "",
-      totalSupply: 0,
+      totalSupply: 1,
       gasPrice: "40",
       gasLimit: "2500000",
       fee: "0.01",
@@ -115,8 +115,10 @@ export default {
       },
       rules: {
         required: (value) => !!value || "Required.",
-        totalSupply: (value) =>
-          (value <= 10 && value > 0) || "max value 10 and min value 1",
+        totalSupply: (value) => {
+          const isValid = value <= 10 && value > 0 && value % 1 === 0;
+          return isValid || "max value 10 and min value 1, must Integer";
+        },
       },
     };
   },
@@ -127,20 +129,33 @@ export default {
         const {
           info: { address },
         } = this.wallet;
-        if (address && this.name && this.desc && 10 >= this.totalSupply > 0) {
+        if (
+          address &&
+          this.name &&
+          this.desc &&
+          10 >= this.totalSupply > 0 &&
+          this.totalSupply % 1 === 0
+        ) {
           const res = await nftService.createNFT(
             address,
             this.name,
             this.uploadUrl,
             this.desc,
-            this.totalSupply
+            this.totalSupply,
+            this.gasPrice,
+            this.gasLimit,
+            this.fee
           );
           const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
-          this.$root.success(
-            `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
-            true,
-            0
-          );
+          if (txViewUrl) {
+            this.$root.success(
+              `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
+              true,
+              0
+            );
+          } else {
+            this.$root.error(`Send Failed : tx is fail`, true, 0);
+          }
         }
       } catch (error) {
         this.$root.error(`Send Failed : ${error.message}`, true, 0);

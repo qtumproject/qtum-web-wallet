@@ -71,6 +71,11 @@ export default class Wallet {
         }
     }
 
+    async update() {
+        const res = await Promise.all([this.setInfo(), this.setTxList()]);
+        return res;
+    }
+
     signMessage(message) {
         const hash = sha256d(
             Buffer.concat([

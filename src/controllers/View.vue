@@ -115,6 +115,9 @@ export default {
       return this.wallet.getPrivKey();
     },
   },
+  mounted() {
+    this.wallet.update();
+  },
   methods: {
     onCopySucc: function () {
       track.trackAction("copy", "view", "privkey");

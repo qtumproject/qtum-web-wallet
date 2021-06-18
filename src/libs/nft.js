@@ -24,14 +24,14 @@ class NFTService {
     /**
      * @description 创建NFT
      */
-    async createNFT(owner, name, url, desc, count) {
+    async createNFT(owner, name, url, desc, count, gasPrice, gasLimit, fee) {
         const encodeMethod = nftAbiMap["createNFT"];
         const hexAddress = qtum.address
             .fromBase58Check(owner)
             .hash.toString("hex");
         const encodeData = this.encodeMethod(encodeMethod, [`0x${hexAddress}`, name, url, desc, count]);
         const wallet = webWallet.getWallet();
-        const rawTx = await wallet.generateSendToContractTx(getNFTContractAddress(), encodeData, "2500000", "40", "0.01");
+        const rawTx = await wallet.generateSendToContractTx(getNFTContractAddress(), encodeData, gasLimit, gasPrice, fee);
         const res = await wallet.sendRawTx(rawTx);
         return res;
     }
@@ -89,6 +89,7 @@ class NFTService {
         const wallet = webWallet.getWallet();
         const rawTx = await wallet.generateSendToContractTx(getNFTContractAddress(), encodeData, "2500000", "40", "0.01");
         const res = await wallet.sendRawTx(rawTx);
+
         return res;
     }
 }

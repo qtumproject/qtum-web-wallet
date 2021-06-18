@@ -29,7 +29,11 @@
               v-for="(vtx, vid) in tx.inputs"
               :key="vid"
               :class="vtx.address === wallet.info.address ? 'red--text' : ''"
-              style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              "
             >
               {{ vtx.address }}
             </p>
@@ -52,15 +56,17 @@
               &nbsp;QTUM
             </p>
           </v-flex>
-          <v-flex xs1>
-            =&gt;
-          </v-flex>
+          <v-flex xs1> =&gt; </v-flex>
           <v-flex xs3>
             <p
               v-for="(vtx, vid) in tx.outputs"
               :key="vid"
               :class="vtx.address === wallet.info.address ? 'green--text' : ''"
-              style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              "
             >
               <template v-if="vtx.address">
                 {{ vtx.address }}
@@ -84,9 +90,7 @@
               :key="vid"
               :class="vtx.address === wallet.info.address ? 'green--text' : ''"
             >
-              <template v-if="vtx.address">
-                QTUM
-              </template>
+              <template v-if="vtx.address"> QTUM </template>
             </p>
           </v-flex>
         </v-layout>
@@ -124,19 +128,22 @@ export default {
     return {
       wallet: webWallet.getWallet(),
       node: server.currentNode(),
-      Wallet
+      Wallet,
     };
   },
   props: ["view"],
   watch: {
-    view: function() {
+    view: function () {
       this.wallet.setTxList();
-    }
+    },
   },
   computed: {
-    txList: function() {
+    txList: function () {
       return this.wallet.txList;
-    }
-  }
+    },
+  },
+  mounted() {
+    this.wallet.update();
+  },
 };
 </script>

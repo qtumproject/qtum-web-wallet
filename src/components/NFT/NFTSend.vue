@@ -80,11 +80,14 @@ export default {
       gasLimit: "2500000",
       fee: "0.01",
       to: "",
-      sendCount: 0,
+      sendCount: 1,
+      wallet: webWallet.getWallet(),
       rules: {
         required: (value) => !!value || "Required.",
-        counter: (value) =>
-          (value > 0 && value <= this.count) || `count max ${this.count}`,
+        counter: (value) => {
+          const isValid = value <= 10 && value > 0 && value % 1 === 0;
+          return isValid || "max value 10 and min value 1, must Integer";
+        },
       },
     };
   },
@@ -94,29 +97,38 @@ export default {
       this.$emit("close");
     },
     async handleConfirmSend() {
-      const wallet = webWallet.getWallet();
+      this.wallet = webWallet.getWallet();
       const {
         info: { address },
-      } = wallet;
+      } = this.wallet;
       if (
         address &&
         this.to &&
         this.tokenId !== "" &&
-        this.count >= this.sendCount > 0
+        this.count >= this.sendCount > 0 &&
+        this.count % 1 === 0
       ) {
-        const res = await nftService.safeTransferFrom(
-          address,
-          this.to,
-          this.tokenId,
-          this.sendCount
-        );
-        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
-        this.$root.success(
-          `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
-          true,
-          0
-        );
-        this.$emit("close");
+        try {
+          const res = await nftService.safeTransferFrom(
+            address,
+            this.to,
+            this.tokenId,
+            this.sendCount
+          );
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          if (txViewUrl) {
+            this.$root.success(
+              `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
+              true,
+              0
+            );
+            this.$emit("close");
+          } else {
+            this.$root.error(`Send Failed : tx is fail`, true, 0);
+          }
+        } catch (error) {
+          this.$root.error(`Send Failed : ${error.message}`, true, 0);
+        }
       }
     },
   },

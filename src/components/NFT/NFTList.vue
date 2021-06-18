@@ -5,35 +5,38 @@
     </v-card-title>
     <v-container>
       <v-card flat tile class="nft-card">
-        <div
-          class="nft-item"
-          v-for="nft in NFTList"
-          :key="nft.NFTId.toString()"
-          @click="handleOpenNFTItem(true, nft.url, $event)"
-        >
-          <div class="nft-item__count">
-            <div class="nft-item__count-box">{{ nft.count }}</div>
-          </div>
-          <v-img
-            :src="nft.url"
-            :lazy-src="nft.url"
-            aspect-ratio="1"
-            class="nft-item_img"
-          ></v-img>
-          <div class="nft-item__name">
-            <span>{{ nft.name }}</span>
-          </div>
-          <div class="nft-item__desc">
-            <v-clamp autoresize :max-lines="3">{{ nft.desc }}</v-clamp>
-          </div>
-          <v-btn
-            small
-            class="mt-3"
-            @click="handleOpen(true, nft.count, nft.tokenId, $event)"
-            color="cyan"
+        <div class="nft-item__desc" v-if="NFTList.length === 0">no-data</div>
+        <div class="nft-item__list" v-if="NFTList.length > 0">
+          <div
+            class="nft-item"
+            v-for="nft in NFTList"
+            :key="nft.NFTId.toString()"
+            @click="handleOpenNFTItem(true, nft.url, $event)"
           >
-            {{ $t("nft.send") }}
-          </v-btn>
+            <div class="nft-item__count">
+              <div class="nft-item__count-box">{{ nft.count }}</div>
+            </div>
+            <v-img
+              :src="nft.url"
+              :lazy-src="nft.url"
+              aspect-ratio="1"
+              class="nft-item_img"
+            ></v-img>
+            <div class="nft-item__name">
+              <span>{{ nft.name }}</span>
+            </div>
+            <div class="nft-item__desc">
+              <v-clamp autoresize :max-lines="3">{{ nft.desc }}</v-clamp>
+            </div>
+            <v-btn
+              small
+              class="mt-3"
+              @click="handleOpen(true, nft.count, nft.tokenId, $event)"
+              color="cyan"
+            >
+              {{ $t("nft.send") }}
+            </v-btn>
+          </div>
         </div>
       </v-card>
       <div class="nft__load-more" v-if="isShowLoadMore" @click="loadNFTList">
@@ -156,6 +159,20 @@ export default {
   padding: 10px;
   transition: 100ms;
   position: relative;
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  &__desc {
+    width: 100%;
+    font-size: 18px;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__count {
     position: absolute;
