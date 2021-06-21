@@ -26,16 +26,16 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import track from "@/libs/track";
-import DerivePath from "@/components/DerivePath";
+import webWallet from '@/libs/web-wallet'
+import track from '@/libs/track'
+import DerivePath from '@/components/DerivePath'
 
 export default {
   data() {
     return {
       step: 1,
       ledger: null
-    };
+    }
   },
   components: {
     DerivePath
@@ -43,26 +43,26 @@ export default {
   methods: {
     async connect() {
       try {
-        this.ledger = await webWallet.connectLedger();
+        this.ledger = await webWallet.connectLedger()
       } catch (e) {
-        this.$root.error("connect_ledger_fail");
+        this.$root.error('connect_ledger_fail')
         this.$root.log.error(
-          "restore_ledger_connect_error",
+          'restore_ledger_connect_error',
           e.stack || e.toString() || e
-        );
+        )
         track.trackException(
           `restore_from_ledger: connect error: ${e.stack || e.toString()}`,
           true
-        );
-        return false;
+        )
+        return false
       }
-      this.step = 2;
-      track.trackStep("restore_from_ledger", 1, 2);
+      this.step = 2
+      track.trackStep('restore_from_ledger', 1, 2)
     },
     setWallet(wallet) {
-      webWallet.setWallet(wallet);
-      this.$emit("restored");
+      webWallet.setWallet(wallet)
+      this.$emit('restored')
     }
   }
-};
+}
 </script>

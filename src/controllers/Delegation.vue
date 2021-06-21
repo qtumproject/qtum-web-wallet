@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
+import webWallet from '@/libs/web-wallet'
 
-import DelegationInfo from "@/components/Delegation/Info";
-import DelegationHeadAction from "@/components/Delegation/HeadAction";
+import DelegationInfo from '@/components/Delegation/Info'
+import DelegationHeadAction from '@/components/Delegation/HeadAction'
 
 export default {
   data() {
@@ -39,17 +39,17 @@ export default {
       wallet: webWallet.getWallet(),
       snackbarShow: false,
       tip: {
-        type: "error",
-        msg: ""
+        type: 'error',
+        msg: ''
       }
-    };
+    }
   },
-  props: ["view"],
+  props: ['view'],
   watch: {
     view: async function(newVal) {
       if (newVal) {
-        this.wallet = webWallet.getWallet();
-        this.wallet.setInfo();
+        this.wallet = webWallet.getWallet()
+        this.wallet.setInfo()
       }
     }
   },
@@ -59,10 +59,10 @@ export default {
   },
   methods: {
     notify(message, type) {
-      this.snackbarShow = true;
-      this.tip.msg = message;
-      this.tip.type = type;
+      this.snackbarShow = true
+      this.tip.msg = message
+      this.tip.type = type
     }
   }
-};
+}
 </script>

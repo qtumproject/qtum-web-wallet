@@ -82,50 +82,50 @@
 </template>
 
 <script>
-import NFTList from "@/components/NFT/NFTList.vue";
-import webWallet from "@/libs/web-wallet";
-import track from "@/libs/track";
+import NFTList from '@/components/NFT/NFTList.vue'
+import webWallet from '@/libs/web-wallet'
+import track from '@/libs/track'
 
 export default {
   data() {
     return {
       infoLabel: [
-        { label: "address", name: "address", copy: true },
-        { label: "balance", name: "balance" },
-        { label: "unconfirmed_balance", name: "unconfirmedBalance" },
+        { label: 'address', name: 'address', copy: true },
+        { label: 'balance', name: 'balance' },
+        { label: 'unconfirmed_balance', name: 'unconfirmedBalance' }
       ],
       wallet: webWallet.getWallet(),
-      showPriv: false,
-    };
+      showPriv: false
+    }
   },
   components: {
-    "nft-list": NFTList,
+    'nft-list': NFTList
   },
-  props: ["view"],
+  props: ['view'],
   watch: {
     view: function () {
-      this.wallet.setInfo();
-    },
+      this.wallet.setInfo()
+    }
   },
   computed: {
     info: function () {
-      return this.wallet.info;
+      return this.wallet.info
     },
     privKey: function () {
-      return this.wallet.getPrivKey();
-    },
+      return this.wallet.getPrivKey()
+    }
   },
   mounted() {
-    this.wallet.update();
+    this.wallet.update()
   },
   methods: {
     onCopySucc: function () {
-      track.trackAction("copy", "view", "privkey");
-      this.$root.success("copy success");
+      track.trackAction('copy', 'view', 'privkey')
+      this.$root.success('copy success')
     },
     onCopyError: function () {
-      this.$root.error("copy fail");
-    },
-  },
-};
+      this.$root.error('copy fail')
+    }
+  }
+}
 </script>

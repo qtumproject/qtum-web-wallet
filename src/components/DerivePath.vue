@@ -150,8 +150,8 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import store from "store";
+import webWallet from '@/libs/web-wallet'
+import store from 'store'
 
 export default {
   data() {
@@ -161,129 +161,129 @@ export default {
       posCache: {},
       pathTypeList: [
         {
-          name: this.$t("derive_path.default"),
+          name: this.$t('derive_path.default'),
           path: webWallet.getLedgerDefaultPath()
         }
-      ].concat(store.get("ledgerPath", [])),
+      ].concat(store.get('ledgerPath', [])),
 
       showPathForm: false,
-      pathFormName: "",
-      pathFormPathName: "",
-      pathFormPath: "",
-      pathFormPathId: "",
+      pathFormName: '',
+      pathFormPathName: '',
+      pathFormPath: '',
+      pathFormPathId: '',
 
       activePath: null,
       showAddressList: false,
       addressListLoading: false,
-      addressListPathName: "",
-      addressListPath: "",
+      addressListPathName: '',
+      addressListPath: '',
       addressListPos: 0,
       addressListHeaders: [
-        { text: "Path", value: "path", align: "left", sortable: false },
-        { text: "Address", value: "address", align: "left", sortable: false },
-        { text: "Balance", value: "balance", sortable: false },
-        { text: "", value: "", sortable: false }
+        { text: 'Path', value: 'path', align: 'left', sortable: false },
+        { text: 'Address', value: 'address', align: 'left', sortable: false },
+        { text: 'Balance', value: 'balance', sortable: false },
+        { text: '', value: '', sortable: false }
       ],
       addressList: []
-    };
+    }
   },
-  props: ["ledger"],
+  props: ['ledger'],
   methods: {
     addCusPath() {
-      this.showPathForm = true;
-      this.pathFormName = this.$t("derive_path.add_custom");
-      this.pathFormPathId = Date.now();
-      this.pathFormPathName = "";
-      this.pathFormPath = "";
+      this.showPathForm = true
+      this.pathFormName = this.$t('derive_path.add_custom')
+      this.pathFormPathId = Date.now()
+      this.pathFormPathName = ''
+      this.pathFormPath = ''
     },
     editCusPath(pathItem) {
-      this.showPathForm = true;
-      this.pathFormName = this.$t("derive_path.edit_custom");
-      this.pathFormPathId = pathItem.id;
-      this.pathFormPathName = pathItem.name;
-      this.pathFormPath = pathItem.path;
+      this.showPathForm = true
+      this.pathFormName = this.$t('derive_path.edit_custom')
+      this.pathFormPathId = pathItem.id
+      this.pathFormPathName = pathItem.name
+      this.pathFormPath = pathItem.path
     },
     delCusPath(id) {
-      if (confirm(this.$t("derive_path.del_custom"))) {
-        this.updateCusPath(id);
+      if (confirm(this.$t('derive_path.del_custom'))) {
+        this.updateCusPath(id)
       }
     },
     updateCusPath(id, data = undefined) {
-      const cusPathList = store.get("ledgerPath", []);
-      let i;
+      const cusPathList = store.get('ledgerPath', [])
+      let i
       for (i = 0; i < cusPathList.length; i++) {
         if (cusPathList[i].id === id) {
-          break;
+          break
         }
       }
-      cusPathList.splice(i, 1);
-      this.pathTypeList.splice(i + 1, 1);
+      cusPathList.splice(i, 1)
+      this.pathTypeList.splice(i + 1, 1)
       if (data !== undefined) {
-        cusPathList.splice(i, 0, data);
-        this.pathTypeList.splice(i + 1, 0, data);
+        cusPathList.splice(i, 0, data)
+        this.pathTypeList.splice(i + 1, 0, data)
       }
-      store.set("ledgerPath", cusPathList);
+      store.set('ledgerPath', cusPathList)
     },
     savePathForm() {
       this.updateCusPath(this.pathFormPathId, {
         id: this.pathFormPathId,
         name: this.pathFormPathName,
         path: this.pathFormPath
-      });
-      this.showPathForm = false;
+      })
+      this.showPathForm = false
     },
     choosePath(path) {
-      this.activePath = path;
+      this.activePath = path
       if (this.posCache[path.path] === undefined) {
-        this.posCache[path.path] = 0;
+        this.posCache[path.path] = 0
       }
-      this.addressListPos = this.posCache[path.path];
-      this.showAddressList = true;
-      this.addressListPathName = path.name;
-      this.addressListPath = path.path;
-      this.addressListLoading = true;
-      this.addressList = [];
+      this.addressListPos = this.posCache[path.path]
+      this.showAddressList = true
+      this.addressListPathName = path.name
+      this.addressListPath = path.path
+      this.addressListLoading = true
+      this.addressList = []
       setTimeout(async () => {
         this.addressList = await this.getAddressList(
           path.path,
           this.addressListPos
-        );
-        this.addressListLoading = false;
-      }, 10);
+        )
+        this.addressListLoading = false
+      }, 10)
     },
     next10Address() {
-      const path = this.activePath;
+      const path = this.activePath
       if (this.posCache[path.path] === undefined) {
-        this.posCache[path.path] = 0;
+        this.posCache[path.path] = 0
       }
-      this.posCache[path.path] += 10;
-      this.addressListPos = this.posCache[path.path];
-      this.addressListLoading = true;
-      this.addressList = [];
+      this.posCache[path.path] += 10
+      this.addressListPos = this.posCache[path.path]
+      this.addressListLoading = true
+      this.addressList = []
       setTimeout(async () => {
         this.addressList = await this.getAddressList(
           path.path,
           this.addressListPos
-        );
-        this.addressListLoading = false;
-      }, 10);
+        )
+        this.addressListLoading = false
+      }, 10)
     },
     prev10Address() {
-      const path = this.activePath;
+      const path = this.activePath
       if (this.posCache[path.path] === undefined) {
-        this.posCache[path.path] = 0;
+        this.posCache[path.path] = 0
       }
-      this.posCache[path.path] = Math.max(this.posCache[path.path] - 10, 0);
-      this.addressListPos = this.posCache[path.path];
-      this.addressListLoading = true;
-      this.addressList = [];
+      this.posCache[path.path] = Math.max(this.posCache[path.path] - 10, 0)
+      this.addressListPos = this.posCache[path.path]
+      this.addressListLoading = true
+      this.addressList = []
       setTimeout(async () => {
         this.addressList = await this.getAddressList(
           path.path,
           this.addressListPos
-        );
-        this.addressListLoading = false;
-      }, 10);
+        )
+        this.addressListLoading = false
+      }, 10)
     },
     async getAddressList(path, start) {
       if (this.hdNodeCache[path] === undefined) {
@@ -291,33 +291,33 @@ export default {
           this.hdNodeCache[path] = await webWallet.restoreHdNodeFromLedgerPath(
             this.ledger,
             path
-          );
+          )
         } catch (e) {
           alert(`${e.message}
 
-${this.$t("ledger.comm_fail")}`);
-          return;
+${this.$t('ledger.comm_fail')}`)
+          return
         }
       }
-      const hdNode = this.hdNodeCache[path];
+      const hdNode = this.hdNodeCache[path]
       if (this.walletCache[path] === undefined) {
-        this.walletCache[path] = {};
+        this.walletCache[path] = {}
       }
       if (this.walletCache[path][start] === undefined) {
         webWallet.restoreFromHdNodeByPage(hdNode, start).forEach(item => {
-          this.walletCache[path][item.path] = item;
-        });
+          this.walletCache[path][item.path] = item
+        })
       }
-      const returnList = [];
+      const returnList = []
       for (let i = start; i < start + 10; i++) {
-        returnList[returnList.length] = this.walletCache[path][i];
+        returnList[returnList.length] = this.walletCache[path][i]
       }
-      return returnList;
+      return returnList
     },
     setWallet(wallet, index) {
-      wallet.extend.ledger.path += "/" + index;
-      this.$emit("setWallet", wallet);
+      wallet.extend.ledger.path += '/' + index
+      this.$emit('setWallet', wallet)
     }
   }
-};
+}
 </script>

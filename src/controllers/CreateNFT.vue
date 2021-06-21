@@ -83,52 +83,52 @@
   </v-card>
 </template>
 <script>
-import { nftService } from "@/libs/nft";
-import webWallet from "@/libs/web-wallet";
-import server from "@/libs/server";
+import { nftService } from '@/libs/nft'
+import webWallet from '@/libs/web-wallet'
+import server from '@/libs/server'
 
 export default {
   data() {
     return {
-      name: "",
-      desc: "",
+      name: '',
+      desc: '',
       totalSupply: 1,
-      gasPrice: "40",
-      gasLimit: "2500000",
-      fee: "0.01",
-      rawTx: "loading...",
+      gasPrice: '40',
+      gasLimit: '2500000',
+      fee: '0.01',
+      rawTx: 'loading...',
       confirmSendDialog: false,
       notValid: false,
       isUpload: false,
-      uploadUrl: "",
+      uploadUrl: '',
       wallet: webWallet.getWallet(),
       options: {
-        target: "https://api.qtumwallet.org/picture/upload",
+        target: 'https://api.qtumwallet.org/picture/upload',
         testChunks: false,
         singleFile: true,
         processResponse: (res) => {
-          this.handleFileComplete(res);
-        },
+          this.handleFileComplete(res)
+        }
       },
       attrs: {
-        accept: "image/*",
+        accept: 'image/*'
       },
       rules: {
-        required: (value) => !!value || "Required.",
+        required: (value) => !!value || 'Required.',
         totalSupply: (value) => {
-          const isValid = value <= 10 && value > 0 && value % 1 === 0;
-          return isValid || "max value 10 and min value 1, must Integer";
-        },
-      },
-    };
+          const isValid = value <= 10 && value > 0 && value % 1 === 0
+          return isValid || 'max value 10 and min value 1, must Integer'
+        }
+      }
+    }
   },
 
   methods: {
     async handleSend() {
       try {
         const {
-          info: { address },
-        } = this.wallet;
+          info: { address }
+        } = this.wallet
         if (
           address &&
           this.name &&
@@ -145,30 +145,30 @@ export default {
             this.gasPrice,
             this.gasLimit,
             this.fee
-          );
-          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          )
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
           if (txViewUrl) {
             this.$root.success(
               `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
               true,
               0
-            );
+            )
           } else {
-            this.$root.error(`Send Failed : tx is fail`, true, 0);
+            this.$root.error('Send Failed : tx is fail', true, 0)
           }
         }
       } catch (error) {
-        this.$root.error(`Send Failed : ${error.message}`, true, 0);
+        this.$root.error(`Send Failed : ${error.message}`, true, 0)
       }
     },
 
     handleFileComplete(res) {
-      const url = JSON.parse(res).url;
-      this.uploadUrl = url;
-      this.isUpload = true;
-    },
-  },
-};
+      const url = JSON.parse(res).url
+      this.uploadUrl = url
+      this.isUpload = true
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

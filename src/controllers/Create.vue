@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import password from "@/components/Password";
-import webWallet from "@/libs/web-wallet";
-import fileCreator from "@/components/FileCreator";
-import keyfile from "@/libs/keyfile";
-import track from "@/libs/track";
+import password from '@/components/Password'
+import webWallet from '@/libs/web-wallet'
+import fileCreator from '@/components/FileCreator'
+import keyfile from '@/libs/keyfile'
+import track from '@/libs/track'
 
 export default {
   data() {
@@ -42,12 +42,12 @@ export default {
       step: 1,
       passwordRequired: false,
       fileStr: false
-    };
+    }
   },
-  props: ["view"],
+  props: ['view'],
   watch: {
     view: function() {
-      this.step = 1;
+      this.step = 1
     }
   },
   components: {
@@ -59,23 +59,23 @@ export default {
       const wallet = webWallet.restoreFromMnemonic(
         webWallet.generateMnemonic(),
         Date.now()
-      );
+      )
       this.fileStr =
-        "data:text/plain," +
-        keyfile.build(keyfile.encode(wallet.getPrivKey(), password));
-      this.passwordRequired = false;
+        'data:text/plain,' +
+        keyfile.build(keyfile.encode(wallet.getPrivKey(), password))
+      this.passwordRequired = false
     },
     createWallet() {
-      this.step = 2;
-      this.passwordRequired = true;
-      track.trackStep("create", 1, 2);
+      this.step = 2
+      this.passwordRequired = true
+      track.trackStep('create', 1, 2)
     },
     dumpDone() {
-      track.trackDone("create");
+      track.trackDone('create')
       setTimeout(() => {
-        this.$emit("created");
-      }, 1000);
+        this.$emit('created')
+      }, 1000)
     }
   }
-};
+}
 </script>

@@ -30,25 +30,25 @@
 </template>
 
 <script>
-import mnemonic from "@/components/Mnemonic";
-import password from "@/components/Password";
-import webWallet from "@/libs/web-wallet";
-import track from "@/libs/track";
+import mnemonic from '@/components/Mnemonic'
+import password from '@/components/Password'
+import webWallet from '@/libs/web-wallet'
+import track from '@/libs/track'
 
 export default {
   data() {
     return {
       step: 1,
       passwordRequired: false,
-      inputPassword: "",
+      inputPassword: '',
       words: [],
       wallet: false
-    };
+    }
   },
-  props: ["view"],
+  props: ['view'],
   watch: {
     view: function() {
-      this.step = 1;
+      this.step = 1
     }
   },
   components: {
@@ -58,41 +58,41 @@ export default {
   methods: {
     setPassword(password) {
       if (this.step === 2) {
-        this.passwordRequired = false;
-        this.step = 3;
-        this.inputPassword = password;
-        const mnemonic = webWallet.generateMnemonic();
-        this.wallet = webWallet.restoreFromMnemonic(mnemonic, password);
-        this.words = mnemonic.split(" ");
-        track.trackStep("create_from_mnemonic", 2, 3);
+        this.passwordRequired = false
+        this.step = 3
+        this.inputPassword = password
+        const mnemonic = webWallet.generateMnemonic()
+        this.wallet = webWallet.restoreFromMnemonic(mnemonic, password)
+        this.words = mnemonic.split(' ')
+        track.trackStep('create_from_mnemonic', 2, 3)
       } else if (this.step === 4) {
         if (this.inputPassword !== password) {
-          this.$root.error("password_is_not_same_as_the_old_one");
-          return false;
+          this.$root.error('password_is_not_same_as_the_old_one')
+          return false
         }
-        this.passwordRequired = false;
-        this.step = 5;
-        track.trackStep("create_from_mnemonic", 4, 5);
+        this.passwordRequired = false
+        this.step = 5
+        track.trackStep('create_from_mnemonic', 4, 5)
       }
     },
     createWallet() {
-      this.step = 2;
-      this.passwordRequired = true;
-      track.trackStep("create_from_mnemonic", 1, 2);
+      this.step = 2
+      this.passwordRequired = true
+      track.trackStep('create_from_mnemonic', 1, 2)
     },
     checkWallet() {
-      this.step = 4;
-      this.passwordRequired = true;
-      track.trackStep("create_from_mnemonic", 3, 4);
+      this.step = 4
+      this.passwordRequired = true
+      track.trackStep('create_from_mnemonic', 3, 4)
     },
     validateMnemonic(mnemonic) {
       if (!this.wallet.validateMnemonic(mnemonic, this.inputPassword)) {
-        this.$root.error("mnemonics_are_not_same_as_the_words_should_remember");
-        return false;
+        this.$root.error('mnemonics_are_not_same_as_the_words_should_remember')
+        return false
       }
-      track.trackDone("create_from_mnemonic");
-      this.$emit("created");
+      track.trackDone('create_from_mnemonic')
+      this.$emit('created')
     }
   }
-};
+}
 </script>

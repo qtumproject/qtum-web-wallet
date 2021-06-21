@@ -119,31 +119,31 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import Wallet from "@/libs/wallet";
-import server from "@/libs/server";
+import webWallet from '@/libs/web-wallet'
+import Wallet from '@/libs/wallet'
+import server from '@/libs/server'
 
 export default {
   data() {
     return {
       wallet: webWallet.getWallet(),
       node: server.currentNode(),
-      Wallet,
-    };
+      Wallet
+    }
   },
-  props: ["view"],
+  props: ['view'],
   watch: {
     view: function () {
-      this.wallet.setTxList();
-    },
+      this.wallet.setTxList()
+    }
   },
   computed: {
     txList: function () {
-      return this.wallet.txList;
-    },
+      return this.wallet.txList
+    }
   },
   mounted() {
-    this.wallet.update();
-  },
-};
+    this.wallet.update()
+  }
+}
 </script>

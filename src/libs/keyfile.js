@@ -1,6 +1,6 @@
-import aes from 'aes256';
+import aes from 'aes256'
 
-const VERSION = '0.1';
+const VERSION = '0.1'
 
 function parse(str) {
     try {

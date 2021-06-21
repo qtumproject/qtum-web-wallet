@@ -101,9 +101,9 @@
 </template>
 
 <script>
-import abi from "ethjs-abi";
-import qtum from "qtumjs-lib";
-import server from "@/libs/server";
+import abi from 'ethjs-abi'
+import qtum from 'qtumjs-lib'
+import server from '@/libs/server'
 
 export default {
   data() {
@@ -111,61 +111,61 @@ export default {
       addDelegationDialog: false,
       formValidate: false,
       addAbi: {
-        name: "addDelegation",
+        name: 'addDelegation',
         inputs: [
-          { name: "staker", type: "address" },
-          { name: "fee", type: "uint8" },
-          { name: "PoD", type: "bytes" }
+          { name: 'staker', type: 'address' },
+          { name: 'fee', type: 'uint8' },
+          { name: 'PoD', type: 'bytes' }
         ]
       },
-      contractAddress: "0000000000000000000000000000000000000086",
-      txFee: "0.01",
+      contractAddress: '0000000000000000000000000000000000000086',
+      txFee: '0.01',
       info: {
-        stakerAddress: "",
+        stakerAddress: '',
         fee: 10,
-        gasLimit: "2500000",
+        gasLimit: '2500000',
         gasPrice: 40
       },
       rules: {
-        required: value => !!value || "Required."
+        required: value => !!value || 'Required.'
       }
-    };
+    }
   },
-  props: ["wallet"],
+  props: ['wallet'],
   computed: {
     superStaker() {
-      return this.wallet.info.superStaker;
+      return this.wallet.info.superStaker
     },
     address() {
-      return this.wallet.info.address;
+      return this.wallet.info.address
     },
     keyPair() {
-      return this.wallet.keyPair;
+      return this.wallet.keyPair
     },
     delegateStatus() {
-      return this.wallet.info.delegateStatus;
+      return this.wallet.info.delegateStatus
     }
   },
   methods: {
     async confirmSend() {
       // 验证表单内容
-      this.$refs.addDelegationForm.validate();
-      if (!this.formValidate) return;
+      this.$refs.addDelegationForm.validate()
+      if (!this.formValidate) return
 
       // 将地址转换为 hex
       const hexAddress = qtum.address
         .fromBase58Check(this.info.stakerAddress)
-        .hash.toString("hex");
+        .hash.toString('hex')
 
       // 使用私钥对代理地址签名
       var signature =
-        "0x" + this.wallet.signMessage(hexAddress).toString("hex");
+        '0x' + this.wallet.signMessage(hexAddress).toString('hex')
 
       // 组合所需参数
-      const params = ["0x" + hexAddress, this.info.fee, signature];
+      const params = ['0x' + hexAddress, this.info.fee, signature]
 
       // 编码 abi
-      const encodedData = abi.encodeMethod(this.addAbi, params).substr(2);
+      const encodedData = abi.encodeMethod(this.addAbi, params).substr(2)
 
       // 把交易编码成 raw tx
       const rawTx = await this.wallet.generateSendToContractTx(
@@ -174,43 +174,43 @@ export default {
         this.info.gasLimit,
         this.info.gasPrice,
         this.txFee
-      );
+      )
 
       // 发送交易
-      const res = await this.wallet.sendRawTx(rawTx);
+      const res = await this.wallet.sendRawTx(rawTx)
 
       // 合约调用成功
       if (res.txId) {
         // 临时设置代理
-        this.wallet.setDelegation(this.info.stakerAddress, this.info.fee);
-        this.wallet.setDelegationStatus("addDelegation");
+        this.wallet.setDelegation(this.info.stakerAddress, this.info.fee)
+        this.wallet.setDelegationStatus('addDelegation')
 
-        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+        const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
         this.$root.success(
           `Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`,
           true,
           0
-        );
+        )
 
-        this.addDelegationDialog = false;
+        this.addDelegationDialog = false
       } else {
-        this.$root.error(`Send Failed : ${res.message}`, true, 0);
+        this.$root.error(`Send Failed : ${res.message}`, true, 0)
       }
     },
     checkDelegation() {
       if (this.superStaker) {
-        this.$emit("notify", this.$t("delegation.delegated"), "error");
-        return;
+        this.$emit('notify', this.$t('delegation.delegated'), 'error')
+        return
       }
-      this.info.stakerAddress = "";
-      this.addDelegationDialog = true;
+      this.info.stakerAddress = ''
+      this.addDelegationDialog = true
     },
     async refreshData() {
-      await this.wallet.setInfo();
-      this.$emit("notify", this.$t("delegation.refresh_success"), "success");
+      await this.wallet.setInfo()
+      this.$emit('notify', this.$t('delegation.refresh_success'), 'success')
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

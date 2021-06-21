@@ -64,47 +64,47 @@
   </v-layout>
 </template>
 <script>
-import { nftService } from "@/libs/nft";
-import webWallet from "@/libs/web-wallet";
-import server from "@/libs/server";
+import { nftService } from '@/libs/nft'
+import webWallet from '@/libs/web-wallet'
+import server from '@/libs/server'
 
 export default {
   props: {
     isOpen: Boolean,
     count: Number,
-    tokenId: String,
+    tokenId: String
   },
   data() {
     return {
-      gasPrice: "40",
-      gasLimit: "2500000",
-      fee: "0.01",
-      to: "",
+      gasPrice: '40',
+      gasLimit: '2500000',
+      fee: '0.01',
+      to: '',
       sendCount: 1,
       wallet: webWallet.getWallet(),
       rules: {
-        required: (value) => !!value || "Required.",
+        required: (value) => !!value || 'Required.',
         counter: (value) => {
-          const isValid = value <= 10 && value > 0 && value % 1 === 0;
-          return isValid || "max value 10 and min value 1, must Integer";
-        },
-      },
-    };
+          const isValid = value <= 10 && value > 0 && value % 1 === 0
+          return isValid || 'max value 10 and min value 1, must Integer'
+        }
+      }
+    }
   },
 
   methods: {
     handleClose() {
-      this.$emit("close");
+      this.$emit('close')
     },
     async handleConfirmSend() {
-      this.wallet = webWallet.getWallet();
+      this.wallet = webWallet.getWallet()
       const {
-        info: { address },
-      } = this.wallet;
+        info: { address }
+      } = this.wallet
       if (
         address &&
         this.to &&
-        this.tokenId !== "" &&
+        this.tokenId !== '' &&
         this.count >= this.sendCount > 0 &&
         this.count % 1 === 0
       ) {
@@ -114,25 +114,25 @@ export default {
             this.to,
             this.tokenId,
             this.sendCount
-          );
-          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          )
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
           if (txViewUrl) {
             this.$root.success(
               `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
               true,
               0
-            );
-            this.$emit("close");
+            )
+            this.$emit('close')
           } else {
-            this.$root.error(`Send Failed : tx is fail`, true, 0);
+            this.$root.error('Send Failed : tx is fail', true, 0)
           }
         } catch (error) {
-          this.$root.error(`Send Failed : ${error.message}`, true, 0);
+          this.$root.error(`Send Failed : ${error.message}`, true, 0)
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .nft-send {

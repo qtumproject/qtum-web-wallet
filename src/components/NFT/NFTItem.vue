@@ -20,25 +20,25 @@
 export default {
   props: {
     isOpen: Boolean,
-    curImg: String,
+    curImg: String
   },
   data() {
     return {
-      isShowClose: false,
-    };
+      isShowClose: false
+    }
   },
   updated() {
     setTimeout(() => {
-      this.isShowClose = true;
-    }, 400);
+      this.isShowClose = true
+    }, 400)
   },
 
   methods: {
     handleClose() {
-      this.$emit("close");
-    },
-  },
-};
+      this.$emit('close')
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .nft-item {

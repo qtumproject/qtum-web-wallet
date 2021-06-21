@@ -26,30 +26,30 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import track from "@/libs/track";
+import webWallet from '@/libs/web-wallet'
+import track from '@/libs/track'
 
 export default {
   data() {
     return {
-      wif: ""
-    };
+      wif: ''
+    }
   },
   methods: {
     restore() {
       try {
-        webWallet.restoreFromWif(this.wif);
+        webWallet.restoreFromWif(this.wif)
       } catch (e) {
-        this.$root.error("restore_wif_fail");
+        this.$root.error('restore_wif_fail')
         this.$root.log.error(
-          "restore_wif_restore_error",
+          'restore_wif_restore_error',
           e.stack || e.toString() || e
-        );
-        return false;
+        )
+        return false
       }
-      track.trackDone("restore_from_wif");
-      this.$emit("restored");
+      track.trackDone('restore_from_wif')
+      this.$emit('restored')
     }
   }
-};
+}
 </script>

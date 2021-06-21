@@ -12,5 +12,15 @@
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "all",
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "octref.vetur",
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.js"
+  },
+  "eslint.validate": ["javascript", "vue", "html", "json" ,"javascriptreact"],
+  "eslint.codeAction.showDocumentation": {
+
+
+    "enable": true
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }

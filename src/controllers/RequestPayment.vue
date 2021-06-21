@@ -33,30 +33,30 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import qrcode from "qrcode";
+import webWallet from '@/libs/web-wallet'
+import qrcode from 'qrcode'
 
 export default {
   data() {
     return {
       address: webWallet.getWallet().getAddress(),
-      amount: "0.0",
-      message: "",
-      qr: ""
-    };
+      amount: '0.0',
+      message: '',
+      qr: ''
+    }
   },
   methods: {
     drawQrCode() {
       qrcode.toDataURL(
         `qtum:${this.address}?amount=${this.amount}&message=${this.message}`,
         (err, url) => {
-          this.qr = url;
+          this.qr = url
         }
-      );
+      )
     }
   },
   mounted: function() {
-    this.drawQrCode();
+    this.drawQrCode()
   }
-};
+}
 </script>

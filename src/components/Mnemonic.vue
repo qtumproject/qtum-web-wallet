@@ -30,7 +30,7 @@ export default {
     return {
       currentIndex: 0,
       length: 12,
-      mnemonic: [],
+      mnemonic: []
     }
   },
   computed: {

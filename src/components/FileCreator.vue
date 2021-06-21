@@ -22,6 +22,6 @@ export default {
       this.$emit('click')
     }
   },
-  props: ['color', 'download', 'href'],
+  props: ['color', 'download', 'href']
 }
 </script>

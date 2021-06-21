@@ -58,13 +58,13 @@
   </v-card>
 </template>
 <script>
-import VClamp from "vue-clamp";
-import { nftService } from "@/libs/nft";
-import webWallet from "@/libs/web-wallet";
-import NFTSend from "./NFTSend.vue";
-import NFTItem from "./NFTItem.vue";
+import VClamp from 'vue-clamp'
+import { nftService } from '@/libs/nft'
+import webWallet from '@/libs/web-wallet'
+import NFTSend from './NFTSend.vue'
+import NFTItem from './NFTItem.vue'
 
-const NFT_LOADCOUNT = 10;
+const NFT_LOADCOUNT = 10
 export default {
   data() {
     return {
@@ -72,65 +72,65 @@ export default {
       isOpenNFTDialog: false,
       curCount: 0,
       curIndex: 0,
-      curTokenId: "-1",
-      curImg: "",
+      curTokenId: '-1',
+      curImg: '',
       isShowLoadMore: false,
-      NFTList: [],
-    };
+      NFTList: []
+    }
   },
   components: {
     VClamp,
-    "nft-send": NFTSend,
-    "nft-item-dialog": NFTItem,
+    'nft-send': NFTSend,
+    'nft-item-dialog': NFTItem
   },
 
   async mounted() {
-    await this.loadNFTList();
+    await this.loadNFTList()
   },
 
   methods: {
     handleOpen(val, count, tokenId, e) {
-      e && e.stopPropagation();
-      this.curCount = count;
-      this.curTokenId = tokenId;
-      this.isOpenSendDialog = val;
+      e && e.stopPropagation()
+      this.curCount = count
+      this.curTokenId = tokenId
+      this.isOpenSendDialog = val
     },
 
     handleOpenNFTItem(val, curImg, e) {
-      e && e.stopPropagation();
-      this.curImg = curImg;
-      this.isOpenNFTDialog = val;
+      e && e.stopPropagation()
+      this.curImg = curImg
+      this.isOpenNFTDialog = val
     },
 
     /**
      * @description 加载更多的nft item
      */
     async loadNFTList() {
-      const wallet = webWallet.getWallet();
+      const wallet = webWallet.getWallet()
       const {
-        info: { address },
-      } = wallet;
+        info: { address }
+      } = wallet
       if (address) {
         const [NFTList, index] = await nftService.getNFTListByOwner(
           address,
           this.curIndex,
           NFT_LOADCOUNT
-        );
-        const curIndex = index;
+        )
+        const curIndex = index
         if (curIndex === NFT_LOADCOUNT) {
-          this.isShowLoadMore = true;
+          this.isShowLoadMore = true
         } else {
-          this.isShowLoadMore = false;
+          this.isShowLoadMore = false
         }
 
-        this.curIndex = curIndex;
+        this.curIndex = curIndex
         this.NFTList = this.NFTList.concat(
           NFTList.filter((NFT) => NFT.count > 0)
-        );
+        )
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .nft-card {
@@ -171,7 +171,7 @@ export default {
     color: #ccc;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   &__count {

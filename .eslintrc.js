@@ -3,9 +3,14 @@ module.exports = {
     env: {
         node: true
     },
-    extends: ["plugin:vue/essential", "eslint:recommended"],
+    extends: ['plugin:vue/essential', 'eslint:recommended'],
     parserOptions: {
-        parser: "babel-eslint"
+        parser: 'babel-eslint'
     },
-    rules: {}
-};
+    rules: {
+        'quotes': [2, 'single'],
+        'semi': [2, 'never'],
+        'comma-dangle': [2, 'never'],
+        'eol-last': 2
+    }
+}

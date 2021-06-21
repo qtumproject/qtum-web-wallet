@@ -211,167 +211,167 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import qrc20 from "@/libs/qrc20";
-import server from "@/libs/server";
-import track from "@/libs/track";
+import webWallet from '@/libs/web-wallet'
+import qrc20 from '@/libs/qrc20'
+import server from '@/libs/server'
+import track from '@/libs/track'
 
 export default {
   data() {
     return {
-      address: "",
-      amount: "",
-      symbol: "QTUM",
+      address: '',
+      amount: '',
+      symbol: 'QTUM',
       tokens: [],
       addTokenStep: 1,
       addTokenDialog: false,
       addTokenLoading: false,
-      addTokenName: "",
-      addTokenSymbol: "",
-      addTokenAddress: "",
+      addTokenName: '',
+      addTokenSymbol: '',
+      addTokenAddress: '',
       addTokenDecimals: 8,
-      gasPrice: "40",
-      gasLimit: "250000",
-      fee: "0.01",
+      gasPrice: '40',
+      gasLimit: '250000',
+      fee: '0.01',
       confirmAddressDialog: false,
-      repeatAddress: "",
+      repeatAddress: '',
       confirmSendDialog: false,
-      rawTx: "loading...",
+      rawTx: 'loading...',
       canSend: false,
       sending: false
-    };
+    }
   },
   computed: {
     notValid: function() {
       //@todo valid the address
-      const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0;
-      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001;
-      return !(amountCheck && feeCheck);
+      const amountCheck = /^\d+\.?\d*$/.test(this.amount) && this.amount > 0
+      const feeCheck = /^\d+\.?\d*$/.test(this.fee) && this.fee > 0.0001
+      return !(amountCheck && feeCheck)
     }
   },
   methods: {
     send() {
-      this.confirmAddressDialog = true;
-      this.canSend = false;
+      this.confirmAddressDialog = true
+      this.canSend = false
     },
 
     async confirmAddress() {
       if (this.address !== this.repeatAddress) {
-        this.$root.error("address_is_not_same_as_the_old_one");
-        return false;
+        this.$root.error('address_is_not_same_as_the_old_one')
+        return false
       }
-      this.confirmAddressDialog = false;
-      this.confirmSendDialog = true;
-      const wallet = webWallet.getWallet();
+      this.confirmAddressDialog = false
+      this.confirmSendDialog = true
+      const wallet = webWallet.getWallet()
       try {
-        if (this.symbol == "QTUM") {
+        if (this.symbol == 'QTUM') {
           if (wallet.extend.ledger) {
-            this.rawTx = "Please confirm tx on your ledger...";
+            this.rawTx = 'Please confirm tx on your ledger...'
           }
           this.rawTx = await wallet.generateTx(
             this.address,
             this.amount,
             this.fee
-          );
+          )
         } else if (qrc20.checkSymbol(this.symbol)) {
           if (wallet.extend.ledger) {
-            this.rawTx = "Please confirm tx on your ledger...";
+            this.rawTx = 'Please confirm tx on your ledger...'
           }
-          const token = qrc20.getTokenBySymbol(this.symbol);
+          const token = qrc20.getTokenBySymbol(this.symbol)
           const encodedData = qrc20.encodeSendData(
             token,
             this.address,
             this.amount
-          );
+          )
           this.rawTx = await wallet.generateSendToContractTx(
             token.address,
             encodedData,
             this.gasLimit,
             this.gasPrice,
             this.fee
-          );
+          )
         }
-        this.canSend = true;
-        track.trackAction("preview", "send", this.symbol);
+        this.canSend = true
+        track.trackAction('preview', 'send', this.symbol)
       } catch (e) {
-        alert(e.message || e);
+        alert(e.message || e)
         this.$root.log.error(
-          "send_generate_tx_error",
+          'send_generate_tx_error',
           e.stack || e.toString() || e
-        );
+        )
         track.trackException(
           `send: send_generate_tx_error: ${e.stack || e.toString() || e}`
-        );
-        this.confirmSendDialog = false;
-        return false;
+        )
+        this.confirmSendDialog = false
+        return false
       }
     },
 
     async confirmSend() {
-      this.sending = true;
+      this.sending = true
       try {
-        const res = await webWallet.getWallet().sendRawTx(this.rawTx);
-        this.confirmSendDialog = false;
-        this.sending = false;
+        const res = await webWallet.getWallet().sendRawTx(this.rawTx)
+        this.confirmSendDialog = false
+        this.sending = false
         if (res.txId) {
-          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
           this.$root.success(
             `Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`,
             true,
             0
-          );
+          )
         } else {
-          this.$root.error(`Send Failed : ${res.message}`, true, 0);
+          this.$root.error(`Send Failed : ${res.message}`, true, 0)
         }
-        track.trackAction("done", "send", this.symbol);
-        this.$emit("send");
+        track.trackAction('done', 'send', this.symbol)
+        this.$emit('send')
       } catch (e) {
-        alert(e.message || e);
+        alert(e.message || e)
         this.$root.log.error(
-          "send_post_raw_tx_error",
+          'send_post_raw_tx_error',
           e.response || e.stack || e.toString() || e
-        );
+        )
         track.trackException(
           `send: send_post_raw_tx_error: ${e.response ||
             e.stack ||
             e.toString() ||
             e}`
-        );
-        this.confirmSendDialog = false;
+        )
+        this.confirmSendDialog = false
       }
     },
 
     async searchAddToken() {
-      this.addTokenLoading = true;
+      this.addTokenLoading = true
       try {
-        const tokenInfo = await qrc20.fetchTokenInfo(this.addTokenAddress);
-        this.addTokenName = tokenInfo.name;
-        this.addTokenSymbol = tokenInfo.symbol;
-        this.addTokenDecimals = tokenInfo.decimals;
+        const tokenInfo = await qrc20.fetchTokenInfo(this.addTokenAddress)
+        this.addTokenName = tokenInfo.name
+        this.addTokenSymbol = tokenInfo.symbol
+        this.addTokenDecimals = tokenInfo.decimals
         track.trackAction(
-          "addToken",
-          "send",
+          'addToken',
+          'send',
           `${this.addTokenAddress}, ${tokenInfo.name}`
-        );
+        )
       } catch (e) {
-        this.addTokenLoading = false;
+        this.addTokenLoading = false
         if (
           (e.response && e.response.status === 404) ||
-          e.message === "this contract is not a qrc20 token"
+          e.message === 'this contract is not a qrc20 token'
         ) {
-          this.$root.error("token_contract_address_is_not_exists");
+          this.$root.error('token_contract_address_is_not_exists')
           this.$root.log.error(
-            "token_contract_address_is_not_exists",
+            'token_contract_address_is_not_exists',
             this.addTokenAddress
-          );
+          )
         } else {
-          alert(e.message || e);
-          this.addTokenDialog = false;
+          alert(e.message || e)
+          this.addTokenDialog = false
         }
-        return false;
+        return false
       }
-      this.addTokenLoading = false;
-      this.addTokenStep = 2;
+      this.addTokenLoading = false
+      this.addTokenStep = 2
     },
 
     confirmAddToken() {
@@ -380,41 +380,41 @@ export default {
         this.addTokenName,
         this.addTokenSymbol,
         this.addTokenDecimals
-      );
-      this.initTokens();
-      this.symbol = this.addTokenSymbol;
-      this.addTokenStep = 1;
-      this.addTokenDialog = false;
-      this.addTokenAddress = "";
+      )
+      this.initTokens()
+      this.symbol = this.addTokenSymbol
+      this.addTokenStep = 1
+      this.addTokenDialog = false
+      this.addTokenAddress = ''
     },
 
     initTokens() {
-      const tokenList = [{ text: "QTUM", value: "QTUM" }];
+      const tokenList = [{ text: 'QTUM', value: 'QTUM' }]
       qrc20.getTokenList().forEach(token => {
         tokenList[tokenList.length] = {
           text: token.symbol,
           value: token.symbol,
           name: token.name,
           address: token.address
-        };
-      });
-      tokenList[tokenList.length] = { text: "More...", value: "more" };
-      this.tokens = tokenList;
+        }
+      })
+      tokenList[tokenList.length] = { text: 'More...', value: 'more' }
+      this.tokens = tokenList
     }
   },
   mounted() {
-    this.initTokens();
+    this.initTokens()
   },
   watch: {
     symbol(to, from) {
-      if (from === "more") return true;
-      if (to === "more") {
+      if (from === 'more') return true
+      if (to === 'more') {
         this.$nextTick(() => {
-          this.symbol = from;
-          this.addTokenDialog = true;
-        });
+          this.symbol = from
+          this.addTokenDialog = true
+        })
       }
     }
   }
-};
+}
 </script>

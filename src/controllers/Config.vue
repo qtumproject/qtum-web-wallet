@@ -61,62 +61,62 @@
 </template>
 
 <script>
-import config from "@/libs/config";
-import track from "@/libs/track";
-import fileCreator from "@/components/FileCreator";
+import config from '@/libs/config'
+import track from '@/libs/track'
+import fileCreator from '@/components/FileCreator'
 
 const loadConfig = {
   lan: config.getLan(),
   network: config.getNetwork(),
   mode: config.getMode()
-};
+}
 
 export default {
   data() {
     return {
       lan: loadConfig.lan,
       lanSelect: [
-        { value: "zh", text: "中文" },
-        { value: "en", text: "En" },
-        { value: "ko", text: "한글" }
+        { value: 'zh', text: '中文' },
+        { value: 'en', text: 'En' },
+        { value: 'ko', text: '한글' }
       ],
       network: loadConfig.network,
       networkSelect: [
-        { value: "testnet", text: this.$t("common.testnet") },
-        { value: "mainnet", text: this.$t("common.mainnet") }
+        { value: 'testnet', text: this.$t('common.testnet') },
+        { value: 'mainnet', text: this.$t('common.mainnet') }
       ],
       mode: loadConfig.mode,
       modeSelect: [
-        { value: "normal", text: this.$t("common.mode.normal") },
-        { value: "offline", text: this.$t("common.mode.offline") }
+        { value: 'normal', text: this.$t('common.mode.normal') },
+        { value: 'offline', text: this.$t('common.mode.offline') }
       ]
-    };
+    }
   },
   components: {
     fileCreator
   },
   computed: {
     fileStr: function() {
-      return "data:text/plain," + this.$root.log.exportToArray().join("\n");
+      return 'data:text/plain,' + this.$root.log.exportToArray().join('\n')
     }
   },
   methods: {
     saveKey(key) {
       if (this[key] !== loadConfig[key]) {
         track.trackAction(
-          "change",
-          "config",
+          'change',
+          'config',
           `${key} : ${loadConfig[key]} => ${this[key]}`
-        );
+        )
       }
-      config.set(key, this[key]);
+      config.set(key, this[key])
     },
     save: function() {
-      this.saveKey("lan");
-      this.saveKey("network");
-      this.saveKey("mode");
-      window.location.reload();
+      this.saveKey('lan')
+      this.saveKey('network')
+      this.saveKey('mode')
+      window.location.reload()
     }
   }
-};
+}
 </script>

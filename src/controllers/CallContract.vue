@@ -82,93 +82,93 @@
 </template>
 
 <script>
-import webWallet from "@/libs/web-wallet";
-import abi from "ethjs-abi";
+import webWallet from '@/libs/web-wallet'
+import abi from 'ethjs-abi'
 
 export default {
   data() {
     return {
-      contractAddress: "",
-      abi: "",
+      contractAddress: '',
+      abi: '',
       parsedAbi: null,
       method: null,
       inputParams: [],
       execResultDialog: false,
-      result: "loading...",
-    };
+      result: 'loading...'
+    }
   },
   computed: {
     params: function () {
       if (this.method === null) {
-        return null;
+        return null
       }
-      const inputs = this.method.info.inputs;
+      const inputs = this.method.info.inputs
       if (inputs.length > 0) {
-        return inputs;
+        return inputs
       }
-      return null;
+      return null
     },
     notValid: function () {
       //@todo valid the address
-      return !(this.method !== null);
-    },
+      return !(this.method !== null)
+    }
   },
   watch: {
     method: function () {
-      this.inputParams = [];
-    },
+      this.inputParams = []
+    }
   },
   methods: {
     decodeAbi() {
       try {
-        const abiJson = JSON.parse(this.abi);
-        this.parsedAbi = [];
+        const abiJson = JSON.parse(this.abi)
+        this.parsedAbi = []
         for (let i = 0; i < abiJson.length; i++) {
           // 过滤 constructor & event
-          if (abiJson[i].type === "constructor" || abiJson[i].type === "event")
-            continue;
+          if (abiJson[i].type === 'constructor' || abiJson[i].type === 'event')
+            continue
           this.parsedAbi.push({
-            text: abiJson[i]["name"],
+            text: abiJson[i]['name'],
             value: i,
-            info: abiJson[i],
-          });
+            info: abiJson[i]
+          })
         }
       } catch (e) {
         this.$root.log.error(
-          "call_contract_decode_abi_error",
+          'call_contract_decode_abi_error',
           e.stack || e.toString() || e
-        );
-        return true;
+        )
+        return true
       }
     },
     async callTo() {
       try {
-        console.log(this.method.info, this.inputParams);
+        console.log(this.method.info, this.inputParams)
         const encodedData = abi
           .encodeMethod(this.method.info, this.inputParams)
-          .substr(2);
-        this.execResultDialog = true;
+          .substr(2)
+        this.execResultDialog = true
         try {
           this.result = await webWallet
             .getWallet()
-            .callContract(this.contractAddress, encodedData);
+            .callContract(this.contractAddress, encodedData)
         } catch (e) {
           this.$root.log.error(
-            "call_contract_call_contract_error",
+            'call_contract_call_contract_error',
             e.stack || e.toString() || e
-          );
-          alert(e.message || e);
-          this.execResultDialog = false;
+          )
+          alert(e.message || e)
+          this.execResultDialog = false
         }
       } catch (e) {
-        this.$root.error("Params error");
+        this.$root.error('Params error')
         this.$root.log.error(
-          "call_contract_encode_abi_error",
+          'call_contract_encode_abi_error',
           e.stack || e.toString() || e
-        );
-        return false;
+        )
+        return false
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>

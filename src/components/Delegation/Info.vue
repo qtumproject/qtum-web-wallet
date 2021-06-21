@@ -92,57 +92,57 @@
 </template>
 
 <script>
-import abi from "ethjs-abi";
-import server from "@/libs/server";
+import abi from 'ethjs-abi'
+import server from '@/libs/server'
 
 export default {
   data() {
     return {
       removeDelegationDialog: false,
-      removeAbi: { name: "removeDelegation", inputs: [] },
-      contractAddress: "0000000000000000000000000000000000000086",
-      txFee: "0.01",
+      removeAbi: { name: 'removeDelegation', inputs: [] },
+      contractAddress: '0000000000000000000000000000000000000086',
+      txFee: '0.01',
       info: {
-        gasLimit: "2500000",
+        gasLimit: '2500000',
         gasPrice: 40
       }
-    };
+    }
   },
   props: {
     wallet: Object
   },
   computed: {
     superStaker() {
-      return this.wallet.info.superStaker;
+      return this.wallet.info.superStaker
     },
     fee() {
-      return this.wallet.info.fee;
+      return this.wallet.info.fee
     },
     address() {
-      return this.wallet.info.address;
+      return this.wallet.info.address
     },
     balance() {
-      return this.wallet.info.balance;
+      return this.wallet.info.balance
     },
     textColor() {
-      let color = "";
+      let color = ''
       switch (this.wallet.info.delegateStatus) {
-        case "addDelegation":
-        case "delDelegation":
-          color = "brown";
-          break;
-        case "delegated":
-          color = "grey";
-          break;
+        case 'addDelegation':
+        case 'delDelegation':
+          color = 'brown'
+          break
+        case 'delegated':
+          color = 'grey'
+          break
       }
-      return color + "--text";
+      return color + '--text'
     }
   },
   methods: {
     async removeDelegation() {
       try {
         // 编码 abi
-        const encodedData = abi.encodeMethod(this.removeAbi, []).substr(2);
+        const encodedData = abi.encodeMethod(this.removeAbi, []).substr(2)
         // 把交易编码成 raw tx
         const rawTx = await this.wallet.generateSendToContractTx(
           this.contractAddress,
@@ -150,39 +150,39 @@ export default {
           this.info.gasLimit,
           this.info.gasPrice,
           this.txFee
-        );
+        )
         // 发送交易
-        const res = await this.wallet.sendRawTx(rawTx);
+        const res = await this.wallet.sendRawTx(rawTx)
 
         // 合约调用成功
         if (res.txId) {
-          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId);
+          const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
           this.$root.success(
             `Successful send. You can view at <a href="${txViewUrl}" target="_blank">${txViewUrl}</a>`,
             true,
             0
-          );
+          )
 
           // 临时删除
-          this.wallet.setDelegation("", "");
-          this.wallet.setDelegationStatus("delDelegation");
+          this.wallet.setDelegation('', '')
+          this.wallet.setDelegationStatus('delDelegation')
 
-          this.removeDelegationDialog = false;
+          this.removeDelegationDialog = false
         }
       } catch (error) {
-        this.$emit("notify", error.message, "error");
-        this.removeDelegationDialog = false;
+        this.$emit('notify', error.message, 'error')
+        this.removeDelegationDialog = false
       }
     },
     checkDelDelegation() {
-      if (this.wallet.info.delegateStatus !== "delegated") {
-        this.$emit("notify", this.$t("delegation.processing"), "error");
-        return;
+      if (this.wallet.info.delegateStatus !== 'delegated') {
+        this.$emit('notify', this.$t('delegation.processing'), 'error')
+        return
       }
-      this.removeDelegationDialog = true;
+      this.removeDelegationDialog = true
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
