@@ -1,13 +1,15 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('create_mnemonic.title') }}</span>
+      <span class="headline">{{ $t("create_mnemonic.title") }}</span>
     </v-card-title>
     <v-card-text v-if="[3, 5].includes(step)">
       <template v-if="step === 3">
-        <p>{{ $t('create_mnemonic.remember') }}</p>
+        <p>{{ $t("create_mnemonic.remember") }}</p>
         <div>
-          <v-chip label v-for="(word, index) in words" :key="index">{{word}}</v-chip>
+          <v-chip label v-for="(word, index) in words" :key="index">{{
+            word
+          }}</v-chip>
         </div>
       </template>
       <template v-else-if="step === 5">
@@ -16,18 +18,22 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="error" dark @click="createWallet" v-if="step === 1">{{ $t('create_mnemonic.title') }}</v-btn>
-      <v-btn color="info" dark @click="checkWallet" v-if="step === 3">{{ $t('create_mnemonic.remembered') }}</v-btn>
+      <v-btn color="error" dark @click="createWallet" v-if="step === 1">{{
+        $t("create_mnemonic.title")
+      }}</v-btn>
+      <v-btn color="info" dark @click="checkWallet" v-if="step === 3">{{
+        $t("create_mnemonic.remembered")
+      }}</v-btn>
     </v-card-actions>
     <password :open="passwordRequired" @password="setPassword"></password>
   </v-card>
 </template>
 
 <script>
-import mnemonic from 'components/Mnemonic'
-import password from 'components/Password'
-import webWallet from 'libs/web-wallet'
-import track from 'libs/track'
+import mnemonic from '@/components/Mnemonic'
+import password from '@/components/Password'
+import webWallet from '@/libs/web-wallet'
+import track from '@/libs/track'
 
 export default {
   data() {
@@ -47,7 +53,7 @@ export default {
   },
   components: {
     password,
-    mnemonic,
+    mnemonic
   },
   methods: {
     setPassword(password) {

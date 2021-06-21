@@ -9,4 +9,18 @@
   "i18n-ally.refactor.templates": [
     "{{ $t('{key}') }}"
   ],
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "all",
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.js"
+  },
+  "eslint.validate": ["javascript", "vue", "html", "json" ,"javascriptreact"],
+  "eslint.codeAction.showDocumentation": {
+
+
+    "enable": true
+  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
 }

@@ -15,5 +15,5 @@ const messages = {
 
 export default {
   locales,
-  messages,
+  messages
 }

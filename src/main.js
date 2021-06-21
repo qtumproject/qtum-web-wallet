@@ -3,14 +3,16 @@
 import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import Vuetify from 'vuetify'
-import App from 'App'
+import Uploader from 'vue-simple-uploader'
+import App from './App.vue'
 
 import 'vuetify/dist/vuetify.min.css'
-import 'assets/less/qtum-icons.less'
-import 'assets/css/material-icons.css'
-import 'assets/css/main.css'
+import './assets/less/qtum-icons.less'
+import './assets/css/material-icons.css'
+import './assets/css/main.css'
 
 Vue.use(Vuetify)
+Vue.use(Uploader)
 Vue.use(VueClipboard)
 Vue.config.productionTip = false
 

@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('request_payment.title') }}</span>
+      <span class="headline">{{ $t("request_payment.title") }}</span>
     </v-card-title>
     <v-card-text>
       <v-form>
@@ -11,19 +11,19 @@
           required
           disabled
           @input="drawQrCode"
-          ></v-text-field>
+        ></v-text-field>
         <v-text-field
           label="Amount"
           v-model.trim="amount"
           required
           @input="drawQrCode"
-          ></v-text-field>
+        ></v-text-field>
         <v-text-field
           label="Message"
           v-model="message"
           required
           @input="drawQrCode"
-          ></v-text-field>
+        ></v-text-field>
         <p class="text-xs-center">
           <img :src="qr" />
         </p>
@@ -33,23 +33,26 @@
 </template>
 
 <script>
-import webWallet from 'libs/web-wallet'
+import webWallet from '@/libs/web-wallet'
 import qrcode from 'qrcode'
 
 export default {
-  data () {
+  data() {
     return {
       address: webWallet.getWallet().getAddress(),
       amount: '0.0',
       message: '',
-      qr: '',
+      qr: ''
     }
   },
   methods: {
     drawQrCode() {
-      qrcode.toDataURL(`qtum:${this.address}?amount=${this.amount}&message=${this.message}`, (err, url) => {
-        this.qr = url
-      })
+      qrcode.toDataURL(
+        `qtum:${this.address}?amount=${this.amount}&message=${this.message}`,
+        (err, url) => {
+          this.qr = url
+        }
+      )
     }
   },
   mounted: function() {

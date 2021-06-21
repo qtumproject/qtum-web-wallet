@@ -1,4 +1,4 @@
-import aes from  'aes256'
+import aes from 'aes256'
 
 const VERSION = '0.1'
 
@@ -9,8 +9,7 @@ function parse(str) {
             return null
         }
         return res.content
-    }
-    catch (e) {
+    } catch (e) {
         return null
     }
 }

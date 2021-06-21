@@ -20,7 +20,7 @@ function number2Buffer(num) {
   if (top & 0x80) {
     buffer[buffer.length] = neg ? 0x80 : 0x00
   } else if (neg) {
-    buffer[buffer.length - 1] = top | 0x80;
+    buffer[buffer.length - 1] = top | 0x80
   }
   return Buffer.from(buffer)
 }
@@ -39,7 +39,7 @@ export default class Ledger {
   }
 
   static get defaultPath() {
-    return "m/44'/88'/0'/0"
+    return 'm/44\'/88\'/0\'/0'
   }
 
   static async connect() {

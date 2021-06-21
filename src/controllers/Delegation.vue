@@ -1,25 +1,21 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ $t('delegation.title') }}</span>
+      <span class="headline">{{ $t("delegation.title") }}</span>
     </v-card-title>
     <v-card-text>
-      <DelegationHeadAction
-        :wallet="wallet"
-        @notify="notify"
-      />
+      <DelegationHeadAction :wallet="wallet" @notify="notify" />
       <DelegationInfo
-        v-show="wallet && wallet.info.delegateStatus !== 'none' && wallet.info.delegateStatus !== 'delDelegation'"
+        v-show="
+          wallet &&
+            wallet.info.delegateStatus !== 'none' &&
+            wallet.info.delegateStatus !== 'delDelegation'
+        "
         :wallet="wallet"
         @notify="notify"
       />
       <!-- 信息提示 -->
-      <v-snackbar
-        v-model="snackbarShow"
-        top right
-        :color="tip.type"
-        clearable
-      >
+      <v-snackbar v-model="snackbarShow" top right :color="tip.type" clearable>
         <section>
           {{ tip.msg }}
         </section>
@@ -32,10 +28,10 @@
 </template>
 
 <script>
-import webWallet from 'libs/web-wallet'
+import webWallet from '@/libs/web-wallet'
 
-import DelegationInfo from 'components/Delegation/Info'
-import DelegationHeadAction from 'components/Delegation/HeadAction'
+import DelegationInfo from '@/components/Delegation/Info'
+import DelegationHeadAction from '@/components/Delegation/HeadAction'
 
 export default {
   data() {
@@ -45,14 +41,12 @@ export default {
       tip: {
         type: 'error',
         msg: ''
-      },
+      }
     }
   },
-  props: [
-    'view'
-  ],
+  props: ['view'],
   watch: {
-    view: async function (newVal) {
+    view: async function(newVal) {
       if (newVal) {
         this.wallet = webWallet.getWallet()
         this.wallet.setInfo()
@@ -60,7 +54,8 @@ export default {
     }
   },
   components: {
-    DelegationInfo, DelegationHeadAction
+    DelegationInfo,
+    DelegationHeadAction
   },
   methods: {
     notify(message, type) {
