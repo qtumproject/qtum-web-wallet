@@ -23,7 +23,7 @@
               class="nft-item_img"
             ></v-img>
             <div class="nft-item__name">
-              <span>{{ nft.name }}</span>
+              {{ nft.name }}
             </div>
             <div class="nft-item__desc">
               <v-clamp autoresize :max-lines="3">{{ nft.desc }}</v-clamp>
@@ -205,11 +205,11 @@ export default {
   &__name {
     width: 100%;
     height: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-size: 18px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__desc {
     width: 100%;

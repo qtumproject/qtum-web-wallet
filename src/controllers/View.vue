@@ -27,7 +27,7 @@
           </v-btn>
         </v-flex>
       </v-layout>
-      <v-layout v-if="privKey !== null">
+      <v-layout class="view-private" v-if="privKey !== null">
         <v-flex xs3>
           <v-subheader>
             {{ $t("common.info.priv_key") }}
@@ -37,11 +37,15 @@
           <v-text-field
             v-model="privKey"
             disabled
-            @click:append="() => (showPriv = !showPriv)"
-            :append-icon="showPriv ? 'visibility_off' : 'visibility'"
             :type="showPriv ? 'text' : 'password'"
-          ></v-text-field>
+          >
+          </v-text-field>
         </v-flex>
+        <div class="view-private-line__wrapper">
+          <div class="view-private-line">
+            <v-icon @click="showPriv = !showPriv">{{ showPriv ? 'visibility_off' : 'visibility' }}</v-icon>
+          </div>
+        </div>
         <v-flex xs2>
           <v-btn
             small
@@ -129,3 +133,23 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.view-private {
+  position: relative;
+  &-line {
+    display: flex;
+    align-items: center;
+    .theme--dark.v-icon {
+      color: hsla(0,0%,100%,.7);
+    }
+
+    &__wrapper {
+      position: absolute;
+      right: 16%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+}
+</style>

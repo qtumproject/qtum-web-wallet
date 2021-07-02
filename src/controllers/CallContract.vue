@@ -143,7 +143,6 @@ export default {
     },
     async callTo() {
       try {
-        console.log(this.method.info, this.inputParams)
         const encodedData = abi
           .encodeMethod(this.method.info, this.inputParams)
           .substr(2)
