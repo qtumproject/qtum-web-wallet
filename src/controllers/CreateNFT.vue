@@ -5,19 +5,25 @@
     </v-card-title>
     <v-card-text>
       <v-form>
-        <uploader :options="options">
-          <uploader-unsupport></uploader-unsupport>
-          <uploader-btn class="nft-img__upload" :single="false" :attrs="attrs">
+        <uploader class="nft-img__uploader"
+          accept="image/*"
+          :before-upload="beforeAvatarUpload"
+          :on-success="handleFileComplete"
+          :show-file-list="false"
+          action="https://api.qtumwallet.org/picture/upload"
+        >
+          <div class="nft-img__upload" :single="false" :attrs="attrs">
             <div v-if="!isUpload">
-              <v-icon class="nft-img__upload-add">add</v-icon>
+              <v-icon v-if="!isUploading" class="nft-img__upload-add">add</v-icon>
+              <span v-if="isUploading">uploading...</span>
             </div>
             <img
               v-if="isUpload"
-              :src="uploadUrl"
+              :src="showUploadUrl"
               class="nft-img__img"
               alt="img"
             />
-          </uploader-btn>
+          </div>
         </uploader>
         <v-text-field
           :label="$t('nft.create_name')"
@@ -100,16 +106,10 @@ export default {
       confirmSendDialog: false,
       notValid: false,
       isUpload: false,
+      showUploadUrl: '',
       uploadUrl: '',
+      isUploading: false,
       wallet: webWallet.getWallet(),
-      options: {
-        target: 'https://api.qtumwallet.org/picture/upload',
-        testChunks: false,
-        singleFile: true,
-        processResponse: (res) => {
-          this.handleFileComplete(res)
-        }
-      },
       attrs: {
         accept: 'image/*'
       },
@@ -122,7 +122,6 @@ export default {
       }
     }
   },
-
   methods: {
     async handleSend() {
       try {
@@ -147,7 +146,7 @@ export default {
             this.fee
           )
           const txViewUrl = server.currentNode().getTxExplorerUrl(res.txId)
-          if (txViewUrl) {
+          if (txViewUrl && res.txId) {
             this.$root.success(
               `Successful send. You can view wallet into <a href="${txViewUrl}">${txViewUrl}</a>`,
               true,
@@ -161,11 +160,28 @@ export default {
         this.$root.error(`Send Failed : ${error.message}`, true, 0)
       }
     },
+    beforeAvatarUpload(file) {
+      this.isUploading = true
+      this.isUpload = false
+      this.uploadUrl = ''
+      this.showUploadUrl = ''
+      const isImage = file.type.indexOf('image/') !== -1
+      const isLimitSize = file.size / 1024 / 1024 < 10
+      if (!isImage) {
+        this.$root.error('file type is error')
+      }
 
-    handleFileComplete(res) {
-      const url = JSON.parse(res).url
-      this.uploadUrl = url
+      if (!isLimitSize) {
+        this.$root.error('file size is limit 10m')
+      }
+      return isImage && isLimitSize
+    },
+
+    handleFileComplete(res, file) {
+      this.showUploadUrl = URL.createObjectURL(file.raw)
+      this.uploadUrl = res.url
       this.isUpload = true
+      this.isUploading = false
     }
   }
 }
@@ -173,6 +189,13 @@ export default {
 
 <style lang="less" scoped>
 .nft-img {
+  &__uploader {
+    overflow: hidden;
+    cursor: pointer;
+    /deep/ input[type="file"] {
+      display: none;
+    }
+  }
   &__upload {
     border: 2px dashed rgb(204, 204, 204);
     width: 160px;

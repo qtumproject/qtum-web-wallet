@@ -11,17 +11,15 @@
               <v-flex xs12>
                 <v-text-field
                   :label="$t('nft.send_address')"
+                  :rules="[rules.required]"
                   v-model.trim="to"
                   required
                 ></v-text-field>
               </v-flex>
               <v-flex xs10>
-                <v-text-field
-                  type="number"
-                  :label="$t('nft.send_amount')"
-                  v-model.trim="sendCount"
-                  :rules="[rules.required, rules.counter]"
-                ></v-text-field>
+                <div class="nft-send__amount-wrapper">
+                  <input type="number" :placeholder="$t('nft.send_amount')" v-model.number="sendCount" @input="handleInputAmount" class="nft-send__amount" />
+                </div>
               </v-flex>
               <v-flex xs2 class="nft-send__count" error-messages="countMessage">
                 <span>{{ count }}</span>
@@ -85,8 +83,8 @@ export default {
       rules: {
         required: (value) => !!value || 'Required.',
         counter: (value) => {
-          const isValid = value <= 10 && value > 0 && value % 1 === 0
-          return isValid || 'max value 10 and min value 1, must Integer'
+          const isValid = value <= this.count && value > 0 && value % 1 === 0
+          return isValid || `max value ${this.count} and min value 1, must Integer`
         }
       }
     }
@@ -96,6 +94,24 @@ export default {
     handleClose() {
       this.$emit('close')
     },
+    handleInputAmount(e) {
+      const val = parseInt(e.target.value)
+      const oldVal = this.sendCount
+      if (val < 1) {
+        this.sendCount = 1
+        return false
+      }
+      if (!val) {
+        this.sendCount = oldVal
+        return false
+      }
+      if (val > this.count) {
+        this.sendCount = 9
+        this.$emit('input', this.sendCount)
+        return false
+      }
+      this.sendCount = val
+    },
     async handleConfirmSend() {
       this.wallet = webWallet.getWallet()
       const {
@@ -103,6 +119,7 @@ export default {
       } = this.wallet
       if (
         address &&
+        this.wallet.validateAddress(address) &&
         this.to &&
         this.tokenId !== '' &&
         this.count >= this.sendCount > 0 &&
@@ -129,6 +146,8 @@ export default {
         } catch (error) {
           this.$root.error(`Send Failed : ${error.message}`, true, 0)
         }
+      } else {
+        this.$root.error('Send Failed : check params is error', true, 0)
       }
     }
   }
@@ -140,6 +159,36 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  &__amount {
+    &-wrapper {
+      width: 100%;
+      height: 48px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: flex-start;
+
+    }
+    width: 100%;
+    height: 32px;
+    border: none;
+    outline: none;
+    vertical-align: top;
+    border-bottom: thin solid hsla(0, 0%, 100%, .7);
+    transition: all .3s cubic-bezier(.25, .8, .5, 1);
+
+    &:focus {
+      color: #1976d2;
+      border-bottom: thin solid #1976d2;
+      &::placeholder {
+        color: #1976d2;
+        font-size: 16px;
+      }
+    }
+    &::placeholder {
+      color: hsla(0,0%,100%,.7);
+      font-size: 16px;
+    }
   }
 }
 </style>

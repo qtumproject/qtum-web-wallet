@@ -17,7 +17,6 @@ switch (config.getNetwork()) {
         break
     case 'mainnet':
         network = qtum.networks.qtum
-        console.log(qtum.networks.qtum)
         break
 }
 
@@ -214,6 +213,19 @@ export default class Wallet {
 
     async callContract(address, encodedData) {
         return await Wallet.callContract(address, encodedData)
+    }
+
+    validateAddress(address) {
+      let reg
+      switch (config.getNetwork()) {
+        case 'testnet':
+            reg = /^q\w{33}/g
+            return reg.test(address)
+        case 'mainnet':
+            reg = /^Q\w{33}/g
+            return reg.test(address)
+      }
+      return false
     }
 
     static generateCreateTokenTx(
