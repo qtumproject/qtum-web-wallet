@@ -64,7 +64,7 @@ import webWallet from '@/libs/web-wallet'
 import NFTSend from './NFTSend.vue'
 import NFTItem from './NFTItem.vue'
 
-const NFT_LOADCOUNT = 10
+const NFT_LOADCOUNT = 1000
 export default {
   data() {
     return {
