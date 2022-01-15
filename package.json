@@ -48,7 +48,7 @@
         "favicons-webpack-plugin": "^2.1.0",
         "less": "^4.1.1",
         "less-loader": "^7.3.0",
-        "shelljs": "^0.8.4",
+        "shelljs": "^0.8.5",
         "vue-template-compiler": "^2.6.11"
     },
     "browserslist": [
