@@ -4,7 +4,7 @@ export default {
         cancel: 'Batal',
         search: 'Cari',
         copy: 'SALIN',
-        next: 'SELANJUTNYA',
+        next: 'BERIKUTNYA',
         question_mark: '? ',
         testnet: 'Testnet',
         mainnet: 'Fastlane-Mainnet',
