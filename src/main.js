@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueClipboard from 'vue-clipboard2'
 import Vuetify from 'vuetify'
 import { Upload } from 'element-ui'
+import 'babel-polyfill/dist/polyfill'
 import App from './App.vue'
 
 import 'vuetify/dist/vuetify.min.css'
