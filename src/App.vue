@@ -3,21 +3,9 @@
     <v-navigation-drawer permanent clipped app>
       <v-list>
         <template v-for="(item, i) in menu">
-          <v-divider
-            dark
-            v-if="item.divider"
-            class="my-4"
-            :key="i"
-            v-show="!notShow[item.name]"
-          ></v-divider>
-          <v-list-tile
-            :key="i"
-            v-else
-            @click="changeView(item.name)"
-            active-class="grey darken-4"
-            v-model="isCurrent[item.name]"
-            v-show="!notShow[item.name]"
-          >
+          <v-divider dark v-if="item.divider" class="my-4" :key="i" v-show="!notShow[item.name]"></v-divider>
+          <v-list-tile :key="i" v-else @click="changeView(item.name)" active-class="grey darken-4"
+            v-model="isCurrent[item.name]" v-show="!notShow[item.name]">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -31,8 +19,8 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :class="headerClass" app fixed clipped-left>
-      <span class="title">
-        <i class="qtum-icon qtum-icon-logo"></i>
+      <div class="title">
+        <img class="logo" src="./assets/images/logo.png" alt="logo">
         <span class="text">QTUM</span>
         <span @click="changeView('settings')">
           --{{ $t("common." + network) }}
@@ -40,75 +28,34 @@
         <v-btn flat @click="changeView('settings')" v-if="mode !== 'normal'">
           {{ $t("common.mode." + mode) }}
         </v-btn>
-      </span>
+      </div>
     </v-toolbar>
     <main>
       <v-content>
         <v-container fluid fill-height justify-center>
           <v-layout row wrap>
             <v-flex xs10 offset-xs1>
-              <create-wallet
-                :view="isCurrent['create']"
-                @created="setWallet"
-                v-show="isCurrent['create']"
-              ></create-wallet>
-              <create-mnemonic
-                :view="isCurrent['create_from_mnemonic']"
-                @created="setWallet"
-                v-show="isCurrent['create_from_mnemonic']"
-              ></create-mnemonic>
-              <restore-wallet
-                @restored="setWallet"
-                v-show="isCurrent['restore_from_mnemonic']"
-              ></restore-wallet>
-              <restore-wif
-                @restored="setWallet"
-                v-show="isCurrent['restore_from_wif']"
-              ></restore-wif>
-              <restore-mobile
-                @restored="setWallet"
-                v-show="isCurrent['restore_from_mobile']"
-              ></restore-mobile>
-              <restore-key-file
-                @restored="setWallet"
-                v-show="isCurrent['restore_from_key_file']"
-              ></restore-key-file>
-              <restore-ledger
-                @restored="setWallet"
-                v-if="isCurrent['restore_from_ledger']"
-              ></restore-ledger>
-              <view-wallet
-                :view="isCurrent['view']"
-                v-if="isCurrent['view']"
-              ></view-wallet>
-              <view-tx
-                :view="isCurrent['transactions']"
-                v-if="isCurrent['transactions']"
-              ></view-tx>
-              <safe-send
-                @send="setWallet"
-                v-if="isCurrent['safe_send']"
-              ></safe-send>
+              <create-wallet :view="isCurrent['create']" @created="setWallet"
+                v-show="isCurrent['create']"></create-wallet>
+              <create-mnemonic :view="isCurrent['create_from_mnemonic']" @created="setWallet"
+                v-show="isCurrent['create_from_mnemonic']"></create-mnemonic>
+              <restore-wallet @restored="setWallet" v-show="isCurrent['restore_from_mnemonic']"></restore-wallet>
+              <restore-wif @restored="setWallet" v-show="isCurrent['restore_from_wif']"></restore-wif>
+              <restore-mobile @restored="setWallet" v-show="isCurrent['restore_from_mobile']"></restore-mobile>
+              <restore-key-file @restored="setWallet" v-show="isCurrent['restore_from_key_file']"></restore-key-file>
+              <restore-ledger @restored="setWallet" v-if="isCurrent['restore_from_ledger']"></restore-ledger>
+              <view-wallet :view="isCurrent['view']" v-if="isCurrent['view']"></view-wallet>
+              <view-tx :view="isCurrent['transactions']" v-if="isCurrent['transactions']"></view-tx>
+              <safe-send @send="setWallet" v-if="isCurrent['safe_send']"></safe-send>
               <send @send="setWallet" v-if="isCurrent['send']"></send>
-              <request-payment
-                v-if="isCurrent['request_payment']"
-              ></request-payment>
-              <dump-key-file
-                v-if="isCurrent['dump_as_key_file']"
-              ></dump-key-file>
+              <request-payment v-if="isCurrent['request_payment']"></request-payment>
+              <dump-key-file v-if="isCurrent['dump_as_key_file']"></dump-key-file>
               <create-token v-if="isCurrent['create_token']"></create-token>
-              <create-contract
-                v-if="isCurrent['create_contract']"
-              ></create-contract>
-              <send-to-contract
-                v-if="isCurrent['send_to_contract']"
-              ></send-to-contract>
+              <create-contract v-if="isCurrent['create_contract']"></create-contract>
+              <send-to-contract v-if="isCurrent['send_to_contract']"></send-to-contract>
               <call-contract v-if="isCurrent['call_contract']"></call-contract>
               <create-nft v-if="isCurrent['create_NFT']"></create-nft>
-              <delegation
-                :view="isCurrent['delegation']"
-                v-if="isCurrent['delegation']"
-              ></delegation>
+              <delegation :view="isCurrent['delegation']" v-if="isCurrent['delegation']"></delegation>
               <config v-if="isCurrent['settings']"></config>
             </v-flex>
           </v-layout>
@@ -331,3 +278,16 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.title {
+  display: flex;
+  align-items: center;
+
+  .logo {
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+  }
+}
+</style>
