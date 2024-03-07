@@ -1309,16 +1309,6 @@
     "@jimp/utils" "^0.16.1"
     bmp-js "^0.1.0"
 
-"@jimp/bmp@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/bmp/download/@jimp/bmp-0.9.8.tgz?cache=0&sync_timestamp=1621904090911&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fbmp%2Fdownload%2F%40jimp%2Fbmp-0.9.8.tgz#5933ab8fb359889bec380b0f7802163374933624"
-  integrity sha1-WTOrj7NZiJvsOAsPeAIWM3STNiQ=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    bmp-js "^0.1.0"
-    core-js "^3.4.1"
-
 "@jimp/core@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/core/download/@jimp/core-0.16.1.tgz?cache=0&sync_timestamp=1621904094378&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fcore%2Fdownload%2F%40jimp%2Fcore-0.16.1.tgz#68c4288f6ef7f31a0f6b859ba3fb28dae930d39d"
@@ -1336,24 +1326,6 @@
     pixelmatch "^4.0.2"
     tinycolor2 "^1.4.1"
 
-"@jimp/core@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/core/download/@jimp/core-0.9.8.tgz?cache=0&sync_timestamp=1621904094378&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fcore%2Fdownload%2F%40jimp%2Fcore-0.9.8.tgz#b2b74263a80559c0ee244e0f2d1052b36a358b85"
-  integrity sha1-srdCY6gFWcDuJE4PLRBSs2o1i4U=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    any-base "^1.1.0"
-    buffer "^5.2.0"
-    core-js "^3.4.1"
-    exif-parser "^0.1.12"
-    file-type "^9.0.0"
-    load-bmfont "^1.3.1"
-    mkdirp "^0.5.1"
-    phin "^2.9.1"
-    pixelmatch "^4.0.2"
-    tinycolor2 "^1.4.1"
-
 "@jimp/custom@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/custom/download/@jimp/custom-0.16.1.tgz?cache=0&sync_timestamp=1621904094152&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fcustom%2Fdownload%2F%40jimp%2Fcustom-0.16.1.tgz#28b659c59e20a1d75a0c46067bd3f4bd302cf9c5"
@@ -1361,15 +1333,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/core" "^0.16.1"
-
-"@jimp/custom@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/custom/download/@jimp/custom-0.9.8.tgz?cache=0&sync_timestamp=1621904094152&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fcustom%2Fdownload%2F%40jimp%2Fcustom-0.9.8.tgz#1e9d904b1b05aa22b00b899baba2be7c0704a5d1"
-  integrity sha1-Hp2QSxsFqiKwC4mbq6K+fAcEpdE=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/core" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/gif@^0.16.1":
   version "0.16.1"
@@ -1381,16 +1344,6 @@
     gifwrap "^0.9.2"
     omggif "^1.0.9"
 
-"@jimp/gif@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/gif/download/@jimp/gif-0.9.8.tgz?cache=0&sync_timestamp=1621904089822&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fgif%2Fdownload%2F%40jimp%2Fgif-0.9.8.tgz#513aff511634c338d1ab33a7bba1ba3412220b5b"
-  integrity sha1-UTr/URY0wzjRqzOnu6G6NBIiC1s=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-    omggif "^1.0.9"
-
 "@jimp/jpeg@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/jpeg/download/@jimp/jpeg-0.16.1.tgz#3b7bb08a4173f2f6d81f3049b251df3ee2ac8175"
@@ -1400,16 +1353,6 @@
     "@jimp/utils" "^0.16.1"
     jpeg-js "0.4.2"
 
-"@jimp/jpeg@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/jpeg/download/@jimp/jpeg-0.9.8.tgz#8c086f69d0e8c46e43a7db9725576edc30925cb1"
-  integrity sha1-jAhvadDoxG5Dp9uXJVdu3DCSXLE=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-    jpeg-js "^0.3.4"
-
 "@jimp/plugin-blit@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-blit/download/@jimp/plugin-blit-0.16.1.tgz?cache=0&sync_timestamp=1621904099825&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-blit%2Fdownload%2F%40jimp%2Fplugin-blit-0.16.1.tgz#09ea919f9d326de3b9c2826fe4155da37dde8edb"
@@ -1417,15 +1360,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-blit@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-blit/download/@jimp/plugin-blit-0.9.8.tgz?cache=0&sync_timestamp=1621904099825&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-blit%2Fdownload%2F%40jimp%2Fplugin-blit-0.9.8.tgz#916bf6f261e6a91dbecca0ca866b8d9cba563753"
-  integrity sha1-kWv28mHmqR2+zKDKhmuNnLpWN1M=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-blur@^0.16.1":
   version "0.16.1"
@@ -1435,15 +1369,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-blur@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-blur/download/@jimp/plugin-blur-0.9.8.tgz?cache=0&sync_timestamp=1621904090451&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-blur%2Fdownload%2F%40jimp%2Fplugin-blur-0.9.8.tgz#00055d54b90532b7951dae377b3e40352c187f07"
-  integrity sha1-AAVdVLkFMreVHa43ez5ANSwYfwc=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-circle@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-circle/download/@jimp/plugin-circle-0.16.1.tgz#20e3194a67ca29740aba2630fd4d0a89afa27491"
@@ -1451,15 +1376,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-circle@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-circle/download/@jimp/plugin-circle-0.9.8.tgz?cache=0&sync_timestamp=1621904088457&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-circle%2Fdownload%2F%40jimp%2Fplugin-circle-0.9.8.tgz#5de8735f32f931d9160d0f5211e9aab6413a1d4b"
-  integrity sha1-XehzXzL5MdkWDQ9SEemqtkE6HUs=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-color@^0.16.1":
   version "0.16.1"
@@ -1470,16 +1386,6 @@
     "@jimp/utils" "^0.16.1"
     tinycolor2 "^1.4.1"
 
-"@jimp/plugin-color@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-color/download/@jimp/plugin-color-0.9.8.tgz?cache=0&sync_timestamp=1621904091298&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-color%2Fdownload%2F%40jimp%2Fplugin-color-0.9.8.tgz#3c633f22955a4f5013025e9e9e78a267ac4c3a88"
-  integrity sha1-PGM/IpVaT1ATAl6enniiZ6xMOog=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-    tinycolor2 "^1.4.1"
-
 "@jimp/plugin-contain@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-contain/download/@jimp/plugin-contain-0.16.1.tgz?cache=0&sync_timestamp=1621904100160&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-contain%2Fdownload%2F%40jimp%2Fplugin-contain-0.16.1.tgz#3c5f5c495fd9bb08a970739d83694934f58123f2"
@@ -1487,15 +1393,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-contain@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-contain/download/@jimp/plugin-contain-0.9.8.tgz?cache=0&sync_timestamp=1621904100160&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-contain%2Fdownload%2F%40jimp%2Fplugin-contain-0.9.8.tgz#f892fb7fc87134a47b37281f0ff17d608f3e51af"
-  integrity sha1-+JL7f8hxNKR7NygfD/F9YI8+Ua8=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-cover@^0.16.1":
   version "0.16.1"
@@ -1505,15 +1402,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-cover@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-cover/download/@jimp/plugin-cover-0.9.8.tgz#37474b19027ac0155100b71ca17266aab19e50fc"
-  integrity sha1-N0dLGQJ6wBVRALccoXJmqrGeUPw=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-crop@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-crop/download/@jimp/plugin-crop-0.16.1.tgz?cache=0&sync_timestamp=1621904090698&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-crop%2Fdownload%2F%40jimp%2Fplugin-crop-0.16.1.tgz#b362497c873043fe47ba881ab08604bf7226f50f"
@@ -1521,15 +1409,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-crop@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-crop/download/@jimp/plugin-crop-0.9.8.tgz?cache=0&sync_timestamp=1621904090698&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-crop%2Fdownload%2F%40jimp%2Fplugin-crop-0.9.8.tgz#2308696597a8bcb528d09eeebbbadb22248e7c1c"
-  integrity sha1-IwhpZZeovLUo0J7uu7rbIiSOfBw=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-displace@^0.16.1":
   version "0.16.1"
@@ -1539,15 +1418,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-displace@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-displace/download/@jimp/plugin-displace-0.9.8.tgz?cache=0&sync_timestamp=1621904088931&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-displace%2Fdownload%2F%40jimp%2Fplugin-displace-0.9.8.tgz#00331047039cb2d0d9d5f7c3d8ce542e07eea791"
-  integrity sha1-ADMQRwOcstDZ1ffD2M5ULgfup5E=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-dither@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-dither/download/@jimp/plugin-dither-0.16.1.tgz?cache=0&sync_timestamp=1621904088722&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-dither%2Fdownload%2F%40jimp%2Fplugin-dither-0.16.1.tgz#b47de2c0bb09608bed228b41c3cd01a85ec2d45b"
@@ -1555,15 +1425,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-dither@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-dither/download/@jimp/plugin-dither-0.9.8.tgz?cache=0&sync_timestamp=1621904088722&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-dither%2Fdownload%2F%40jimp%2Fplugin-dither-0.9.8.tgz#9cca12997f2917f27d5681275b32affdb3083450"
-  integrity sha1-nMoSmX8pF/J9VoEnWzKv/bMINFA=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-fisheye@^0.16.1":
   version "0.16.1"
@@ -1573,15 +1434,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-fisheye@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-fisheye/download/@jimp/plugin-fisheye-0.9.8.tgz?cache=0&sync_timestamp=1621904091909&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-fisheye%2Fdownload%2F%40jimp%2Fplugin-fisheye-0.9.8.tgz#e3f5f616ec06a9ef99aa268446f0096eac863437"
-  integrity sha1-4/X2FuwGqe+ZqiaERvAJbqyGNDc=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-flip@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-flip/download/@jimp/plugin-flip-0.16.1.tgz?cache=0&sync_timestamp=1621904089355&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-flip%2Fdownload%2F%40jimp%2Fplugin-flip-0.16.1.tgz#7a99ea22bde802641017ed0f2615870c144329bb"
@@ -1589,15 +1441,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-flip@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-flip/download/@jimp/plugin-flip-0.9.8.tgz?cache=0&sync_timestamp=1621904089355&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-flip%2Fdownload%2F%40jimp%2Fplugin-flip-0.9.8.tgz#c00559a8543a684c7cff4d1128b7152e598fbb1c"
-  integrity sha1-wAVZqFQ6aEx8/00RKLcVLlmPuxw=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-gaussian@^0.16.1":
   version "0.16.1"
@@ -1607,15 +1450,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-gaussian@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-gaussian/download/@jimp/plugin-gaussian-0.9.8.tgz?cache=0&sync_timestamp=1621904092097&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-gaussian%2Fdownload%2F%40jimp%2Fplugin-gaussian-0.9.8.tgz#d1666167ce1b947b65db5093bb9a00d319bcfe4d"
-  integrity sha1-0WZhZ84blHtl21CTu5oA0xm8/k0=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-invert@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-invert/download/@jimp/plugin-invert-0.16.1.tgz?cache=0&sync_timestamp=1621904089630&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-invert%2Fdownload%2F%40jimp%2Fplugin-invert-0.16.1.tgz#7e6f5a15707256f3778d06921675bbcf18545c97"
@@ -1623,15 +1457,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-invert@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-invert/download/@jimp/plugin-invert-0.9.8.tgz?cache=0&sync_timestamp=1621904089630&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-invert%2Fdownload%2F%40jimp%2Fplugin-invert-0.9.8.tgz#41d6e87faf01a5d8fe7554e322d2aad25f596ab1"
-  integrity sha1-Qdbof68Bpdj+dVTjItKq0l9ZarE=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-mask@^0.16.1":
   version "0.16.1"
@@ -1641,15 +1466,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-mask@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-mask/download/@jimp/plugin-mask-0.9.8.tgz#fe92132db1a2b9f7718226bc3c37794dd148ce36"
-  integrity sha1-/pITLbGiufdxgia8PDd5TdFIzjY=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-normalize@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-normalize/download/@jimp/plugin-normalize-0.16.1.tgz#032dfd88eefbc4dedc8b1b2d243832e4f3af30c8"
@@ -1657,15 +1473,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-normalize@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-normalize/download/@jimp/plugin-normalize-0.9.8.tgz#05646aa15b6a789c4ba447edcad77c83c1d51f16"
-  integrity sha1-BWRqoVtqeJxLpEftytd8g8HVHxY=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-print@^0.16.1":
   version "0.16.1"
@@ -1676,16 +1483,6 @@
     "@jimp/utils" "^0.16.1"
     load-bmfont "^1.4.0"
 
-"@jimp/plugin-print@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-print/download/@jimp/plugin-print-0.9.8.tgz?cache=0&sync_timestamp=1621904092562&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-print%2Fdownload%2F%40jimp%2Fplugin-print-0.9.8.tgz#808f723176d0a57186d7558290c7e53a7a8bf812"
-  integrity sha1-gI9yMXbQpXGG11WCkMflOnqL+BI=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-    load-bmfont "^1.4.0"
-
 "@jimp/plugin-resize@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-resize/download/@jimp/plugin-resize-0.16.1.tgz?cache=0&sync_timestamp=1621904090200&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-resize%2Fdownload%2F%40jimp%2Fplugin-resize-0.16.1.tgz#65e39d848ed13ba2d6c6faf81d5d590396571d10"
@@ -1693,15 +1490,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-resize@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-resize/download/@jimp/plugin-resize-0.9.8.tgz?cache=0&sync_timestamp=1621904090200&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-resize%2Fdownload%2F%40jimp%2Fplugin-resize-0.9.8.tgz#eef750b77f1cc06e8bcf9b390860c95c489dcc02"
-  integrity sha1-7vdQt38cwG6Lz5s5CGDJXEidzAI=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-rotate@^0.16.1":
   version "0.16.1"
@@ -1711,15 +1499,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-rotate@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-rotate/download/@jimp/plugin-rotate-0.9.8.tgz#5eba01f75a397777c6782b7999c9ac6c7ed8a411"
-  integrity sha1-XroB91o5d3fGeCt5mcmsbH7YpBE=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-scale@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-scale/download/@jimp/plugin-scale-0.16.1.tgz?cache=0&sync_timestamp=1621904089140&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-scale%2Fdownload%2F%40jimp%2Fplugin-scale-0.16.1.tgz#89f6ba59feed3429847ed226aebda33a240cc647"
@@ -1727,15 +1506,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-scale@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-scale/download/@jimp/plugin-scale-0.9.8.tgz?cache=0&sync_timestamp=1621904089140&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugin-scale%2Fdownload%2F%40jimp%2Fplugin-scale-0.9.8.tgz#c875d5e0b377b15b8b398ee402f45e3fc43fea40"
-  integrity sha1-yHXV4LN3sVuLOY7kAvReP8Q/6kA=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugin-shadow@^0.16.1":
   version "0.16.1"
@@ -1745,15 +1515,6 @@
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
 
-"@jimp/plugin-shadow@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-shadow/download/@jimp/plugin-shadow-0.9.8.tgz#ca2d18afa29a1027b77b3e1fb2ce7d4e073a7170"
-  integrity sha1-yi0Yr6KaECe3ez4fss59Tgc6cXA=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-
 "@jimp/plugin-threshold@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/plugin-threshold/download/@jimp/plugin-threshold-0.16.1.tgz#34f3078f9965145b7ae26c53a32ad74b1195bbf5"
@@ -1761,15 +1522,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     "@jimp/utils" "^0.16.1"
-
-"@jimp/plugin-threshold@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugin-threshold/download/@jimp/plugin-threshold-0.9.8.tgz#2d1dde0791f70b2ff2d0b915cab8d40b0e446594"
-  integrity sha1-LR3eB5H3Cy/y0LkVyrjUCw5EZZQ=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
 
 "@jimp/plugins@^0.16.1":
   version "0.16.1"
@@ -1800,36 +1552,6 @@
     "@jimp/plugin-threshold" "^0.16.1"
     timm "^1.6.1"
 
-"@jimp/plugins@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/plugins/download/@jimp/plugins-0.9.8.tgz?cache=0&sync_timestamp=1621904092310&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fplugins%2Fdownload%2F%40jimp%2Fplugins-0.9.8.tgz#5279dfe22d0d27633f4201ab36103e587b32eb85"
-  integrity sha1-Unnf4i0NJ2M/QgGrNhA+WHsy64U=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/plugin-blit" "^0.9.8"
-    "@jimp/plugin-blur" "^0.9.8"
-    "@jimp/plugin-circle" "^0.9.8"
-    "@jimp/plugin-color" "^0.9.8"
-    "@jimp/plugin-contain" "^0.9.8"
-    "@jimp/plugin-cover" "^0.9.8"
-    "@jimp/plugin-crop" "^0.9.8"
-    "@jimp/plugin-displace" "^0.9.8"
-    "@jimp/plugin-dither" "^0.9.8"
-    "@jimp/plugin-fisheye" "^0.9.8"
-    "@jimp/plugin-flip" "^0.9.8"
-    "@jimp/plugin-gaussian" "^0.9.8"
-    "@jimp/plugin-invert" "^0.9.8"
-    "@jimp/plugin-mask" "^0.9.8"
-    "@jimp/plugin-normalize" "^0.9.8"
-    "@jimp/plugin-print" "^0.9.8"
-    "@jimp/plugin-resize" "^0.9.8"
-    "@jimp/plugin-rotate" "^0.9.8"
-    "@jimp/plugin-scale" "^0.9.8"
-    "@jimp/plugin-shadow" "^0.9.8"
-    "@jimp/plugin-threshold" "^0.9.8"
-    core-js "^3.4.1"
-    timm "^1.6.1"
-
 "@jimp/png@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/png/download/@jimp/png-0.16.1.tgz?cache=0&sync_timestamp=1621904094687&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fpng%2Fdownload%2F%40jimp%2Fpng-0.16.1.tgz#f24cfc31529900b13a2dd9d4fdb4460c1e4d814e"
@@ -1839,31 +1561,12 @@
     "@jimp/utils" "^0.16.1"
     pngjs "^3.3.3"
 
-"@jimp/png@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/png/download/@jimp/png-0.9.8.tgz?cache=0&sync_timestamp=1621904094687&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Fpng%2Fdownload%2F%40jimp%2Fpng-0.9.8.tgz#f88dacc9b9da1c2ea8e91026a9530d0fb45c4409"
-  integrity sha1-+I2sybnaHC6o6RAmqVMND7RcRAk=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/utils" "^0.9.8"
-    core-js "^3.4.1"
-    pngjs "^3.3.3"
-
 "@jimp/tiff@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/tiff/download/@jimp/tiff-0.16.1.tgz?cache=0&sync_timestamp=1621904099312&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Ftiff%2Fdownload%2F%40jimp%2Ftiff-0.16.1.tgz#0e8756695687d7574b6bc73efab0acd4260b7a12"
   integrity sha1-DodWaVaH11dLa8c++rCs1CYLehI=
   dependencies:
     "@babel/runtime" "^7.7.2"
-    utif "^2.0.1"
-
-"@jimp/tiff@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/tiff/download/@jimp/tiff-0.9.8.tgz?cache=0&sync_timestamp=1621904099312&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Ftiff%2Fdownload%2F%40jimp%2Ftiff-0.9.8.tgz#91dc3eab2f222e23414f139e917f3407caa73560"
-  integrity sha1-kdw+qy8iLiNBTxOekX80B8qnNWA=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    core-js "^3.4.1"
     utif "^2.0.1"
 
 "@jimp/types@^0.16.1":
@@ -1879,20 +1582,6 @@
     "@jimp/tiff" "^0.16.1"
     timm "^1.6.1"
 
-"@jimp/types@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/types/download/@jimp/types-0.9.8.tgz?cache=0&sync_timestamp=1621904095376&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Ftypes%2Fdownload%2F%40jimp%2Ftypes-0.9.8.tgz#46980a4a7bfcadf2f0484d187c32b4e7d6d61b8e"
-  integrity sha1-RpgKSnv8rfLwSE0YfDK059bWG44=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/bmp" "^0.9.8"
-    "@jimp/gif" "^0.9.8"
-    "@jimp/jpeg" "^0.9.8"
-    "@jimp/png" "^0.9.8"
-    "@jimp/tiff" "^0.9.8"
-    core-js "^3.4.1"
-    timm "^1.6.1"
-
 "@jimp/utils@^0.16.1":
   version "0.16.1"
   resolved "https://registry.nlark.com/@jimp/utils/download/@jimp/utils-0.16.1.tgz?cache=0&sync_timestamp=1621904071912&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Futils%2Fdownload%2F%40jimp%2Futils-0.16.1.tgz#2f51e6f14ff8307c4aa83d5e1a277da14a9fe3f7"
@@ -1900,14 +1589,6 @@
   dependencies:
     "@babel/runtime" "^7.7.2"
     regenerator-runtime "^0.13.3"
-
-"@jimp/utils@^0.9.8":
-  version "0.9.8"
-  resolved "https://registry.nlark.com/@jimp/utils/download/@jimp/utils-0.9.8.tgz?cache=0&sync_timestamp=1621904071912&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40jimp%2Futils%2Fdownload%2F%40jimp%2Futils-0.9.8.tgz#6a6f47158ec6b424f03df0f55f0baff5b4b5e096"
-  integrity sha1-am9HFY7GtCTwPfD1Xwuv9bS14JY=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    core-js "^3.4.1"
 
 "@ledgerhq/devices@^4.78.0":
   version "4.78.0"
@@ -2162,13 +1843,6 @@
     "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
-
-"@types/favicons@5.5.0":
-  version "5.5.0"
-  resolved "https://registry.nlark.com/@types/favicons/download/@types/favicons-5.5.0.tgz#c1cb3d2a14955eedf479f3cc51948630c56e3a64"
-  integrity sha1-wcs9KhSVXu30efPMUZSGMMVuOmQ=
-  dependencies:
-    "@types/node" "*"
 
 "@types/glob@^7.1.1":
   version "7.1.3"
@@ -3058,11 +2732,6 @@ atob@^2.1.2:
   resolved "https://registry.npm.taobao.org/atob/download/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha1-bZUX654DDSQ2ZmZR6GvZ9vE1M8k=
 
-author-regex@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/author-regex/download/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
-  integrity sha1-0IiFvmubv5Q5/gh8dihyRfCoFFA=
-
 autoprefixer@^9.8.6:
   version "9.8.6"
   resolved "https://registry.nlark.com/autoprefixer/download/autoprefixer-9.8.6.tgz?cache=0&sync_timestamp=1622039654812&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fautoprefixer%2Fdownload%2Fautoprefixer-9.8.6.tgz#3b73594ca1bf9266320c5acf1588d74dea74210f"
@@ -3824,7 +3493,7 @@ chokidar@^3.4.1:
   optionalDependencies:
     fsevents "~2.3.1"
 
-chownr@^1.1.1, chownr@^1.1.3:
+chownr@^1.1.1:
   version "1.1.4"
   resolved "https://registry.npm.taobao.org/chownr/download/chownr-1.1.4.tgz#6fc9d7b42d32a583596337666e7d08084da2cc6b"
   integrity sha1-b8nXtC0ypYNZYzdmbn0ICE2izGs=
@@ -4070,7 +3739,7 @@ color-string@^1.5.4:
     color-name "^1.0.0"
     simple-swizzle "^0.2.2"
 
-color@^3.0.0, color@^3.1.2, color@^3.1.3:
+color@^3.0.0, color@^3.1.3:
   version "3.1.3"
   resolved "https://registry.nlark.com/color/download/color-3.1.3.tgz#ca67fb4e7b97d611dcde39eceed422067d91596e"
   integrity sha1-ymf7TnuX1hHc3jns7tQiBn2RWW4=
@@ -4279,7 +3948,7 @@ core-js@^2.4.0:
   resolved "https://registry.nlark.com/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1624966012065&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
 
-core-js@^3.4.1, core-js@^3.4.5, core-js@^3.6.5:
+core-js@^3.6.5:
   version "3.13.1"
   resolved "https://registry.nlark.com/core-js/download/core-js-3.13.1.tgz?cache=0&sync_timestamp=1622278867523&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.13.1.tgz#30303fabd53638892062d8b4e802cac7599e9fb7"
   integrity sha1-MDA/q9U2OIkgYti06ALKx1men7c=
@@ -5471,40 +5140,6 @@ fast-levenshtein@~2.0.6:
   resolved "https://registry.npm.taobao.org/fast-levenshtein/download/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-favicons-webpack-plugin@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/favicons-webpack-plugin/download/favicons-webpack-plugin-2.1.0.tgz#a95e88dc234cd8589e16018b3f9f3a518b305f86"
-  integrity sha1-qV6I3CNM2FieFgGLP586UYswX4Y=
-  dependencies:
-    "@types/favicons" "5.5.0"
-    cache-loader "^4.1.0"
-    camelcase "^5.3.1"
-    favicons "5.5.0"
-    find-cache-dir "^3.2.0"
-    find-root "^1.1.0"
-    loader-utils "^1.2.3"
-    parse-author "^2.0.0"
-
-favicons@5.5.0:
-  version "5.5.0"
-  resolved "https://registry.nlark.com/favicons/download/favicons-5.5.0.tgz?cache=0&sync_timestamp=1620744813476&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffavicons%2Fdownload%2Ffavicons-5.5.0.tgz#4badbecac81ddf2793b8149d0823d97c2077445b"
-  integrity sha1-S62+ysgd3yeTuBSdCCPZfCB3RFs=
-  dependencies:
-    clone "^2.1.2"
-    colors "^1.4.0"
-    core-js "^3.4.5"
-    image-size "^0.8.3"
-    jimp "^0.9.3"
-    jsontoxml "^1.0.1"
-    lodash.defaultsdeep "^4.6.1"
-    require-directory "^2.1.1"
-    sharp "^0.23.3"
-    through2 "^3.0.1"
-    tinycolor2 "^1.4.1"
-    to-ico "^1.1.5"
-    vinyl "^2.2.0"
-    xml2js "^0.4.22"
-
 favicons@^6.2.2:
   version "6.2.2"
   resolved "https://registry.nlark.com/favicons/download/favicons-6.2.2.tgz?cache=0&sync_timestamp=1620744813476&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffavicons%2Fdownload%2Ffavicons-6.2.2.tgz#8d9316647cfe202afda9020f0c47ec2d8f64eaad"
@@ -5631,7 +5266,7 @@ find-cache-dir@^2.1.0:
     make-dir "^2.0.0"
     pkg-dir "^3.0.0"
 
-find-cache-dir@^3.0.0, find-cache-dir@^3.2.0, find-cache-dir@^3.3.1:
+find-cache-dir@^3.0.0, find-cache-dir@^3.3.1:
   version "3.3.1"
   resolved "https://registry.nlark.com/find-cache-dir/download/find-cache-dir-3.3.1.tgz?cache=0&sync_timestamp=1618847023946&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ffind-cache-dir%2Fdownload%2Ffind-cache-dir-3.3.1.tgz#89b33fad4a4670daa94f855f7fbe31d6d84fe880"
   integrity sha1-ibM/rUpGcNqpT4Vff74x1thP6IA=
@@ -5639,11 +5274,6 @@ find-cache-dir@^3.0.0, find-cache-dir@^3.2.0, find-cache-dir@^3.3.1:
     commondir "^1.0.1"
     make-dir "^3.0.2"
     pkg-dir "^4.1.0"
-
-find-root@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npm.taobao.org/find-root/download/find-root-1.1.0.tgz#abcfc8ba76f708c42a97b3d685b7e9450bfb9ce4"
-  integrity sha1-q8/Iunb3CMQql7PWhbfpRQv7nOQ=
 
 find-up@^1.0.0:
   version "1.1.2"
@@ -6976,18 +6606,6 @@ jimp@^0.2.21:
     tinycolor2 "^1.1.2"
     url-regex "^3.0.0"
 
-jimp@^0.9.3:
-  version "0.9.8"
-  resolved "https://registry.nlark.com/jimp/download/jimp-0.9.8.tgz?cache=0&sync_timestamp=1621904070785&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fjimp%2Fdownload%2Fjimp-0.9.8.tgz#2ee87b81b42e723ad74c73b8012f879c0abe5b04"
-  integrity sha1-Luh7gbQucjrXTHO4AS+HnAq+WwQ=
-  dependencies:
-    "@babel/runtime" "^7.7.2"
-    "@jimp/custom" "^0.9.8"
-    "@jimp/plugins" "^0.9.8"
-    "@jimp/types" "^0.9.8"
-    core-js "^3.4.1"
-    regenerator-runtime "^0.13.3"
-
 jpeg-js@0.4.2:
   version "0.4.2"
   resolved "https://registry.npm.taobao.org/jpeg-js/download/jpeg-js-0.4.2.tgz#8b345b1ae4abde64c2da2fe67ea216a114ac279d"
@@ -7002,11 +6620,6 @@ jpeg-js@^0.2.0:
   version "0.2.0"
   resolved "https://registry.npm.taobao.org/jpeg-js/download/jpeg-js-0.2.0.tgz#53e448ec9d263e683266467e9442d2c5a2ef5482"
   integrity sha1-U+RI7J0mPmgyZkZ+lELSxaLvVII=
-
-jpeg-js@^0.3.4:
-  version "0.3.7"
-  resolved "https://registry.nlark.com/jpeg-js/download/jpeg-js-0.3.7.tgz#471a89d06011640592d314158608690172b1028d"
-  integrity sha1-RxqJ0GARZAWS0xQVhghpAXKxAo0=
 
 js-message@1.0.7:
   version "1.0.7"
@@ -7806,7 +7419,7 @@ minipass@^3.0.0, minipass@^3.1.0, minipass@^3.1.1, minipass@^3.1.3:
   dependencies:
     yallist "^4.0.0"
 
-minizlib@^2.0.0, minizlib@^2.1.0, minizlib@^2.1.1:
+minizlib@^2.0.0, minizlib@^2.1.1:
   version "2.1.2"
   resolved "https://registry.npm.taobao.org/minizlib/download/minizlib-2.1.2.tgz#e90d3466ba209b932451508a11ce3d3632145931"
   integrity sha1-6Q00Zrogm5MkUVCKEc49NjIUWTE=
@@ -7859,7 +7472,7 @@ mkdirp@0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.5, mkdirp@~0.5.1:
+mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@^0.5.5, mkdirp@~0.5.1:
   version "0.5.5"
   resolved "https://registry.nlark.com/mkdirp/download/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
   integrity sha1-2Rzv1i0UNsoPQWIOJRKI1CAJne8=
@@ -7993,7 +7606,7 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-node-abi@^2.21.0, node-abi@^2.7.0:
+node-abi@^2.21.0:
   version "2.30.0"
   resolved "https://registry.nlark.com/node-abi/download/node-abi-2.30.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnode-abi%2Fdownload%2Fnode-abi-2.30.0.tgz#8be53bf3e7945a34eea10e0fc9a5982776cf550b"
   integrity sha1-i+U78+eUWjTuoQ4PyaWYJ3bPVQs=
@@ -8651,13 +8264,6 @@ parse-asn1@^5.0.0, parse-asn1@^5.1.5:
     pbkdf2 "^3.0.3"
     safe-buffer "^5.1.1"
 
-parse-author@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/parse-author/download/parse-author-2.0.0.tgz#d3460bf1ddd0dfaeed42da754242e65fb684a81f"
-  integrity sha1-00YL8d3Q367tQtp1QkLmX7aEqB8=
-  dependencies:
-    author-regex "^1.0.0"
-
 parse-bmfont-ascii@^1.0.3:
   version "1.0.6"
   resolved "https://registry.npm.taobao.org/parse-bmfont-ascii/download/parse-bmfont-ascii-1.0.6.tgz#11ac3c3ff58f7c2020ab22769079108d4dfa0285"
@@ -9256,27 +8862,6 @@ postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.27, postcss@^7.0.3
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-prebuild-install@^5.3.3:
-  version "5.3.6"
-  resolved "https://registry.nlark.com/prebuild-install/download/prebuild-install-5.3.6.tgz?cache=0&sync_timestamp=1619257717756&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fprebuild-install%2Fdownload%2Fprebuild-install-5.3.6.tgz#7c225568d864c71d89d07f8796042733a3f54291"
-  integrity sha1-fCJVaNhkxx2J0H+HlgQnM6P1QpE=
-  dependencies:
-    detect-libc "^1.0.3"
-    expand-template "^2.0.3"
-    github-from-package "0.0.0"
-    minimist "^1.2.3"
-    mkdirp-classic "^0.5.3"
-    napi-build-utils "^1.0.1"
-    node-abi "^2.7.0"
-    noop-logger "^0.1.1"
-    npmlog "^4.0.1"
-    pump "^3.0.0"
-    rc "^1.2.7"
-    simple-get "^3.0.3"
-    tar-fs "^2.0.0"
-    tunnel-agent "^0.6.0"
-    which-pm-runs "^1.0.0"
-
 prebuild-install@^6.1.2:
   version "6.1.2"
   resolved "https://registry.nlark.com/prebuild-install/download/prebuild-install-6.1.2.tgz#6ce5fc5978feba5d3cbffedca0682b136a0b5bff"
@@ -9625,7 +9210,7 @@ read@1, read@^1.0.7, read@~1.0.1, read@~1.0.7:
     string_decoder "~1.1.1"
     util-deprecate "~1.0.1"
 
-"readable-stream@2 || 3", readable-stream@3, readable-stream@^3.0.6, readable-stream@^3.1.1, readable-stream@^3.4.0, readable-stream@^3.6.0:
+readable-stream@3, readable-stream@^3.0.6, readable-stream@^3.1.1, readable-stream@^3.4.0, readable-stream@^3.6.0:
   version "3.6.0"
   resolved "https://registry.npm.taobao.org/readable-stream/download/readable-stream-3.6.0.tgz#337bbda3adc0706bd3e024426a286d4b4b2c9198"
   integrity sha1-M3u9o63AcGvT4CRCaihtS0sskZg=
@@ -10152,21 +9737,6 @@ sha.js@^2.4.0, sha.js@^2.4.8:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
-
-sharp@^0.23.3:
-  version "0.23.4"
-  resolved "https://registry.nlark.com/sharp/download/sharp-0.23.4.tgz?cache=0&sync_timestamp=1621876609161&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fsharp%2Fdownload%2Fsharp-0.23.4.tgz#ca36067cb6ff7067fa6c77b01651cb9a890f8eb3"
-  integrity sha1-yjYGfLb/cGf6bHewFlHLmokPjrM=
-  dependencies:
-    color "^3.1.2"
-    detect-libc "^1.0.3"
-    nan "^2.14.0"
-    npmlog "^4.1.2"
-    prebuild-install "^5.3.3"
-    semver "^6.3.0"
-    simple-get "^3.1.0"
-    tar "^5.0.5"
-    tunnel-agent "^0.6.0"
 
 sharp@^0.28.2:
   version "0.28.3"
@@ -10776,18 +10346,6 @@ tar-stream@^2.1.4:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
-tar@^5.0.5:
-  version "5.0.5"
-  resolved "https://registry.nlark.com/tar/download/tar-5.0.5.tgz#03fcdb7105bc8ea3ce6c86642b9c942495b04f93"
-  integrity sha1-A/zbcQW8jqPObIZkK5yUJJWwT5M=
-  dependencies:
-    chownr "^1.1.3"
-    fs-minipass "^2.0.0"
-    minipass "^3.0.0"
-    minizlib "^2.1.0"
-    mkdirp "^0.5.0"
-    yallist "^4.0.0"
-
 tar@^6.0.2, tar@^6.1.0:
   version "6.1.0"
   resolved "https://registry.nlark.com/tar/download/tar-6.1.0.tgz#d1724e9bcc04b977b18d5c573b333a2207229a83"
@@ -10864,14 +10422,6 @@ through2@^2.0.0:
   dependencies:
     readable-stream "~2.3.6"
     xtend "~4.0.1"
-
-through2@^3.0.1:
-  version "3.0.2"
-  resolved "https://registry.nlark.com/through2/download/through2-3.0.2.tgz#99f88931cfc761ec7678b41d5d7336b5b6a07bf4"
-  integrity sha1-mfiJMc/HYex2eLQdXXM2tbage/Q=
-  dependencies:
-    inherits "^2.0.4"
-    readable-stream "2 || 3"
 
 through2@^4.0.2:
   version "4.0.2"
@@ -11356,7 +10906,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vinyl@^2.2.0, vinyl@^2.2.1:
+vinyl@^2.2.1:
   version "2.2.1"
   resolved "https://registry.nlark.com/vinyl/download/vinyl-2.2.1.tgz#23cfb8bbab5ece3803aa2c0a1eb28af7cbba1974"
   integrity sha1-I8+4u6tezjgDqiwKHrKK98u6GXQ=
@@ -11658,11 +11208,6 @@ which-module@^2.0.0:
   resolved "https://registry.nlark.com/which-module/download/which-module-2.0.0.tgz#d9ef07dce77b9902b8a3a8fa4b31c3e3f7e6e87a"
   integrity sha1-2e8H3Od7mQK4o6j6SzHD4/fm6Ho=
 
-which-pm-runs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/which-pm-runs/download/which-pm-runs-1.0.0.tgz#670b3afbc552e0b55df6b7780ca74615f23ad1cb"
-  integrity sha1-Zws6+8VS4LVd9rd4DKdGFfI60cs=
-
 which@^1.2.9:
   version "1.3.1"
   resolved "https://registry.nlark.com/which/download/which-1.3.1.tgz#a45043d54f5805316da8d62f9f50918d3da70b0a"
@@ -11779,7 +11324,7 @@ xml-parse-from-string@^1.0.0:
   resolved "https://registry.npm.taobao.org/xml-parse-from-string/download/xml-parse-from-string-1.0.1.tgz#a9029e929d3dbcded169f3c6e28238d95a5d5a28"
   integrity sha1-qQKekp09vN7RafPG4oI42VpdWig=
 
-xml2js@^0.4.22, xml2js@^0.4.23, xml2js@^0.4.5:
+xml2js@^0.4.23, xml2js@^0.4.5:
   version "0.4.23"
   resolved "https://registry.nlark.com/xml2js/download/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
   integrity sha1-oMaVFnUkIesqx1juTUzPWIQ+rGY=

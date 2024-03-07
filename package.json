@@ -45,7 +45,6 @@
         "eslint-plugin-vue": "^6.2.2",
         "eventsource-polyfill": "^0.9.6",
         "favicons": "^6.2.2",
-        "favicons-webpack-plugin": "^2.1.0",
         "less": "^4.1.1",
         "less-loader": "^7.3.0",
         "shelljs": "^0.8.4",
