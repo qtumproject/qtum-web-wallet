@@ -7,7 +7,7 @@ export default {
         next: '下一步',
         question_mark: '？',
         testnet: '测试网络',
-        mainnet: '主网',
+        mainnet: '钱包',
         menu: {
             create: '创建新钱包',
             create_from_mnemonic: '创建密语钱包',

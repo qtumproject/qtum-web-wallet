@@ -7,7 +7,7 @@ export default {
         next: 'NEXT',
         question_mark: '? ',
         testnet: 'Testnet',
-        mainnet: 'Fastlane-Mainnet',
+        mainnet: 'Web Wallet',
         menu: {
             create: 'Generate new Wallet',
             create_from_mnemonic: 'Create From Mnemonic',
